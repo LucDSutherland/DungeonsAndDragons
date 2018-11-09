@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[function loadMap(){
+	var world = '';
+	var size = '';
+	var worldGR = new GlideRecord('x_262366_wld_bldr_world');
+	worldGR.addQuery('activated','true');
+	worldGR.query();
+	if(worldGR.next()){
+		world = worldGR.sys_id;
+		size = worldGR.size;
+	}
+	var dimensions = size.split('x');
+	var row = 0;
+	var col = 0;
+	var rowMax = parseInt(dimensions[0]) - 1;
+	var colMax = parseInt(dimensions[1]) - 1;
+	var terrainGR = new GlideRecord('x_262366_wld_bldr_terrain');
+	terrainGR.addQuery('world', world);
+	terrainGR.addQuery('scale', '54f25675db00230049ac7e7dbf9619cd'); //continent
+	terrainGR.query();
+	while(terrainGR.next()){
+		var terrainType = '';	
+		var terrainTypeId = terrainGR.terrain_type;
+		var terrainTypeGR = new GlideRecord('x_262366_wld_bldr_terrain_type');
+		terrainTypeGR.addQuery('sys_id', terrainTypeId);
+		terrainTypeGR.query();
+		if(terrainTypeGR.next()){
+			terrainType = terrainTypeGR.name;
+		}
+		var element = document.createElement("div");
+		element.className = terrainType;
+		document.getElementById("map").appendChild(element);
+		
+		
+		if(col == colMax){
+			col = 0;
+			++row;
+		}
+		else{
+			++col;
+		}
+	}
+	
+	
+	
+}
+/*
+<head>
+		<style>
+			.map {
+			display: grid;
+			grid-template-columns: auto;
+			background-color: #2196F3;
+			padding: 10px;
+			}
+			.Lake {
+			background-color: rgba(255, 255, 255, 0.8);
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			font-size: 30px;
+			text-align: center;
+			}
+		</style>
+	</head>
+*/
+//<link href="711ab6e4dbcc230049ac7e7dbf961964.cssdbx" rel="stylesheet" type="text/css"></link>]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_262366_wld_bldr_World Map.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<head>
+		<style>
+			.map {
+			display: grid;
+			grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+			
+			}
+			.Lake {
+			background-color: blue;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Desert {
+			background-color: brown;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Forest {
+			background-color: green;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Grassland {
+			background-color: lightgreen;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Artic {
+			background-color: white;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.City {
+			background-color: black;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Coast {
+			background-color: lightbrown;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Hill {
+			background-color: forestgreen;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Mountain {
+			background-color: darkbrown;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Ocean {
+			background-color: darkblue;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Pond {
+			background-color: lightblue;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Underdark {
+			background-color: navyblue;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Underwater {
+			background-color: teal;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+			.Village {
+			background-color: red;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			padding: 20px;
+			}
+		</style>
+	</head>
+	
+	<body onload="loadMap()">
+		<div id='map' class="map">
+		</div>
+	</body>
+</j:jelly>]]></html>
+        <name>World Map</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-17 21:51:08</sys_created_on>
+        <sys_id>1bc966acdb8c230049ac7e7dbf96196b</sys_id>
+        <sys_mod_count>34</sys_mod_count>
+        <sys_name>World Map</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_ui_page_1bc966acdb8c230049ac7e7dbf96196b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-08-21 18:30:31</sys_updated_on>
+    </sys_ui_page>
+</record_update>

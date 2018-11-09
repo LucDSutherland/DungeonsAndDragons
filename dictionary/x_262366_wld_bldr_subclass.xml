@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Subclass" max_length="40" name="x_262366_wld_bldr_subclass" type="collection">
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Armor Proficiencies" max_length="1024" name="armor_proficiencies" reference="x_262366_wld_bldr_armor_type" type="glide_list"/>
+        <element label="Automatic Cantrip" max_length="32" name="automatic_cantrip" reference="x_262366_wld_bldr_spell" type="reference"/>
+        <element label="Cantrip Choice" max_length="32" name="cantrip_choice" reference="x_262366_wld_bldr_class" type="reference"/>
+        <element label="Class" max_length="32" name="class" reference="x_262366_wld_bldr_class" type="reference"/>
+        <element label="Doubled Skill Proficiencies" max_length="40" name="doubled_skill_proficiencies" type="integer"/>
+        <element label="HP Increase" max_length="40" name="hp_increase" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="50" name="name" type="string"/>
+        <element label="New Languages" max_length="40" name="new_languages" type="integer"/>
+        <element label="Skill Proficiencies" max_length="40" name="skill_proficiencies" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Skill Proficiency Options" max_length="1024" name="skill_proficiency_options" reference="x_262366_wld_bldr_skills" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Proficiencies" max_length="1024" name="weapon_proficiencies" reference="x_262366_wld_bldr_weapon_type" type="glide_list"/>
+        <index name="index">
+            <element name="automatic_cantrip"/>
+        </index>
+        <index name="index2">
+            <element name="cantrip_choice"/>
+        </index>
+        <index name="index3">
+            <element name="class"/>
+        </index>
+    </element>
+</database>

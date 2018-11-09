@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="range_ft" label="Range (ft)" language="en" table="x_262366_wld_bldr_spell">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>range_ft</element>
+            <help/>
+            <hint/>
+            <label>Range (ft)</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_spell</name>
+            <plural>Range (ft)</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2018-08-31 15:39:37</sys_created_on>
+            <sys_id>8e01754ddbd8230049ac7e7dbf961929</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Range (ft)</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_documentation_x_262366_wld_bldr_spell_range_ft_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2018-08-31 15:39:37</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

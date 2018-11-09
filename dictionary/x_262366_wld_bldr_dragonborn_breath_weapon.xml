@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Dragonborn Breath Weapon" max_length="40" name="x_262366_wld_bldr_dragonborn_breath_weapon" type="collection">
+        <element label="Damage Type" max_length="32" name="damage_type" reference="x_262366_wld_bldr_damage_type" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Saving Throw" max_length="32" name="saving_throw" reference="x_262366_wld_bldr_ability_score" type="reference"/>
+        <element label="Shape" max_length="32" name="shape" reference="x_262366_wld_bldr_spell_shape" type="reference"/>
+        <index name="index">
+            <element name="damage_type"/>
+        </index>
+        <index name="index2">
+            <element name="saving_throw"/>
+        </index>
+        <index name="index3">
+            <element name="shape"/>
+        </index>
+    </element>
+</database>

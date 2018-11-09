@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Tools" max_length="40" name="x_262366_wld_bldr_tools" type="collection">
+        <element label="Cost" max_length="40" name="cost" type="integer"/>
+        <element label="Currency" max_length="32" name="currency" reference="x_262366_wld_bldr_currency" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Details" max_length="1000" name="details" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element attributes="edge_encryption_enabled=true" calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return current.cost + ' ' + current.currency.abbreviation;&#13;&#10;&#13;&#10;})(current);" label="Price" max_length="40" name="price" read_only="true" type="string" virtual="true"/>
+        <element label="Weight" max_length="40" name="weight" type="float"/>
+        <index name="index">
+            <element name="currency"/>
+        </index>
+    </element>
+</database>

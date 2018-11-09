@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Spell Level" max_length="40" name="x_262366_wld_bldr_spell_level" type="collection">
+        <element label="Level" max_length="40" name="level" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+    </element>
+</database>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Terrain" max_length="40" name="x_262366_wld_bldr_terrain" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Scale" max_length="32" name="scale" reference="x_262366_wld_bldr_map_scale" type="reference"/>
+        <element label="Terrain Type" max_length="32" name="terrain_type" reference="x_262366_wld_bldr_terrain_type" type="reference"/>
+        <element label="World" max_length="32" name="world" reference="x_262366_wld_bldr_world" type="reference"/>
+        <index name="index">
+            <element name="world"/>
+        </index>
+        <index name="index2">
+            <element name="scale"/>
+        </index>
+        <index name="index3">
+            <element name="terrain_type"/>
+        </index>
+    </element>
+</database>

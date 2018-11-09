@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Currency" max_length="40" name="x_262366_wld_bldr_currency" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Abbreviation" max_length="40" name="abbreviation" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Worth (cp)" max_length="40" name="worth_cp" type="integer"/>
+    </element>
+</database>

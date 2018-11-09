@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Class Table" max_length="40" name="x_262366_wld_bldr_class_table" type="collection">
+        <element label="Cantrips Known" max_length="40" name="cantrips_known" type="integer"/>
+        <element label="Invocations Known" max_length="40" name="invocations_known" type="integer"/>
+        <element label="Ki Points" max_length="40" name="ki_points" type="integer"/>
+        <element label="Level" max_length="40" name="level" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Martial Arts" max_length="40" name="martial_arts" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Rages" max_length="40" name="rages" type="string"/>
+        <element label="Rage Damage" max_length="40" name="rage_damage" type="integer"/>
+        <element label="Slot Level" max_length="40" name="slot_level" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Sneak Attack" max_length="40" name="sneak_attack" type="string"/>
+        <element label="Sorcery Points" max_length="40" name="sorcery_points" type="integer"/>
+        <element label="Spells Known" max_length="40" name="spells_known" type="integer"/>
+        <element label="Spell Slots" max_length="40" name="spell_slots" type="integer"/>
+        <element label="Unarmored Movement" max_length="40" name="unarmored_movement" type="integer"/>
+        <element label="1st Level Spell Slots" max_length="40" name="u_1st_level_spell_slots" type="integer"/>
+        <element label="2nd Level Spell Slots" max_length="40" name="u_2nd_level_spell_slots" type="integer"/>
+        <element label="3rd Level Spell Slots" max_length="40" name="u_3rd_level_spell_slots" type="integer"/>
+        <element label="4th Level Spell Slots" max_length="40" name="u_4th_level_spell_slots" type="integer"/>
+        <element label="5th Level Spell Slots" max_length="40" name="u_5th_level_spell_slots" type="integer"/>
+        <element label="6th Level Spell Slots" max_length="40" name="u_6th_level_spell_slots" type="integer"/>
+        <element label="7th Level Spell Slots" max_length="40" name="u_7th_level_spell_slots" type="integer"/>
+        <element label="8th Level Spell Slots" max_length="40" name="u_8th_level_spell_slots" type="integer"/>
+        <element label="9th Level Spell Slots" max_length="40" name="u_9th_level_spell_slots" type="integer"/>
+        <element label="Class" max_length="32" name="u_class" reference="x_262366_wld_bldr_class" type="reference"/>
+        <index name="index">
+            <element name="u_class"/>
+        </index>
+    </element>
+</database>

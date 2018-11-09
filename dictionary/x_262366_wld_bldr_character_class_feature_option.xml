@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Character Class Feature Option" max_length="40" name="x_262366_wld_bldr_character_class_feature_option" type="collection">
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element label="Class Feature Option" max_length="32" name="class_feature_option" reference="x_262366_wld_bldr_class_feature_option" type="reference"/>
+        <element label="Level Obtained" max_length="40" name="level_obtained" type="integer"/>
+        <index name="index">
+            <element name="character"/>
+        </index>
+        <index name="index2">
+            <element name="class_feature_option"/>
+        </index>
+    </element>
+</database>

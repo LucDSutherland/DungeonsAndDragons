@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Character Advancement" max_length="40" name="x_262366_wld_bldr_character_advancement" type="collection">
+        <element label="Experience Points" max_length="40" name="experience_points" type="integer"/>
+        <element label="Level" max_length="40" name="level" type="integer"/>
+        <element label="Proficiency Bonus" max_length="40" name="proficiency_bonus" type="integer"/>
+    </element>
+</database>

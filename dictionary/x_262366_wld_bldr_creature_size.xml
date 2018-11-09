@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Creature Size" max_length="40" name="x_262366_wld_bldr_creature_size" type="collection">
+        <element label="Hit Die" max_length="40" name="hit_die" type="integer"/>
+        <element label="Max Size" max_length="40" name="max_size" type="float"/>
+        <element label="Min Size" max_length="40" name="min_size" type="float"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+    </element>
+</database>

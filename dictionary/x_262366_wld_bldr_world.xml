@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="World" max_length="40" name="x_262366_wld_bldr_world" type="collection">
+        <element label="Activated" max_length="40" name="activated" read_only="true" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="100" name="name" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Size" max_length="40" name="size" type="string"/>
+    </element>
+</database>

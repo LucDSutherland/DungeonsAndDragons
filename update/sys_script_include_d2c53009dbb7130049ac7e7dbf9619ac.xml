@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_262366_wld_bldr.GenerateRandomNPC</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>GenerateRandomNPC</name>
+        <script><![CDATA[var GenerateRandomNPC = Class.create();
+GenerateRandomNPC.prototype = {
+    initialize: function() {
+    },
+
+	GenerateRandomNPC: function(){
+		var npc = new GlideRecord('x_262366_wld_bldr_character');
+		npc.initialize();
+		
+		npc.race = this.GetRandomRecordInTable('x_262366_wld_bldr_race');
+		npc.subrace = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subrace', 'race', npc.race);
+		npc.u_class = this.GetRandomRecordInTable('x_262366_wld_bldr_class');
+		npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class);
+		
+		if(true){ //TODO: check for races that do not have genders (ex war forged, I think)
+			var genderFlag = Math.floor(Math.random() * 2);
+			npc.gender =  genderFlag == 0?'Male':'Female';
+			npc.name = new GenerateName().GenerateName(npc.race, genderFlag);
+		}
+		else{
+			//TODO: generate genderless name
+		}
+		
+		npc.alignment = this.GetRandomRecordInTable('x_262366_wld_bldr_alignment');
+		
+		//TODO: add functionality to put the highest numbers in the most important stats
+		//however, a case can be made for keeping it random, for authenticity and laughs
+		npc.strength = this.CalculateAbilityScore();
+		npc.dexterity = this.CalculateAbilityScore();
+		npc.constitution = this.CalculateAbilityScore();
+		npc.intelligence = this.CalculateAbilityScore();
+		npc.wisdom = this.CalculateAbilityScore();
+		npc.charisma = this.CalculateAbilityScore();
+		npc.proficiency_bonus = 2;
+		
+		var strBonus = npc.race.base_strength_modifier?npc.race.base_strength_modifier:0;
+		var dexBonus = npc.race.base_dexterity_modifier?npc.race.base_dexterity_modifier:0;
+		var conBonus = npc.race.base_constitution_modifier?npc.race.base_constitution_modifier:0;
+		var intBonus = npc.race.base_intelligence_modifier?npc.race.base_intelligence_modifier:0;
+		var wisBonus = npc.race.base_wisdom_modifier?npc.race.base_wisdom_modifier:0;
+		var chaBonus = npc.race.base_charisma_modifier?npc.race.base_charisma_modifier:0;
+		
+		if(strBonus && strBonus < 10){
+			npc.strength += strBonus;
+		}
+		if(dexBonus && dexBonus < 10){
+			npc.dexterity += dexBonus;
+		}
+		if(conBonus && conBonus < 10){
+			npc.constitution += conBonus;
+		}
+		if(intBonus && intBonus < 10){
+			npc.intelligence += intBonus;
+		}
+		if(wisBonus && wisBonus < 10){
+			npc.wisdom += wisBonus;
+		}
+		if(chaBonus && chaBonus < 10){
+			npc.charisma += chaBonus;
+		}
+		
+		if(npc.subrace){
+			var strBonusSub = npc.subrace.base_strength_modifier?npc.subrace.base_strength_modifier:0;
+			var dexBonusSub = npc.subrace.base_dexterity_modifier?npc.subrace.base_dexterity_modifier:0;
+			var conBonusSub = npc.subrace.base_constitution_modifier?npc.subrace.base_constitution_modifier:0;
+			var intBonusSub = npc.subrace.base_intelligence_modifier?npc.subrace.base_intelligence_modifier:0;
+			var wisBonusSub = npc.subrace.base_wisdom_modifier?npc.subrace.base_wisdom_modifier:0;
+			var chaBonusSub = npc.subrace.base_charisma_modifier?npc.subrace.base_charisma_modifier:0;
+
+			if(strBonusSub && strBonusSub < 10){
+				npc.strength += strBonusSub;
+			}
+			if(dexBonusSub && dexBonusSub < 10){
+				npc.dexterity += dexBonusSub;
+			}
+			if(conBonusSub && conBonusSub < 10){
+				npc.constitution += conBonusSub;
+			}
+			if(intBonusSub && intBonusSub < 10){
+				npc.intelligence += intBonusSub;
+			}
+			if(wisBonusSub && wisBonusSub < 10){
+				npc.wisdom += wisBonusSub;
+			}
+			if(chaBonusSub && chaBonusSub < 10){
+				npc.charisma += chaBonusSub;
+			}
+		}
+		
+		
+		//This is all code to determine which fields are randomly increased for races that give players an option
+		//The number in the tens place is the amount the random ability score is increased by, the ones place is the number of ability scores that get that increase
+		//However, only Half Elves are like this for vanilla races, so I don't need to bother with this yet
+		//TODO: use this code for random stat increases
+		/*
+		var intToAdd = 0;
+		var abilitiesToAddTo = 0;
+		var optArray = [strBonus,dexBonus,conBonus,intBonus,wisBonus,chaBonus];
+		var randCount = 0;
+		for(var i = 0; i < optArray.length; ++i){
+			if(optArray[i] < 10){
+				optArray[i] = 0;
+			}
+			else{
+				++randCount;
+				//TODO: update this so that there can be multiple combinations for non PHB races
+				intToAdd = Math.floor(optArray[i]/10%10);
+				abilitiesToAddTo = Math.floor(optArray[i]%10);
+			}
+		}
+		
+		var randArray = [];
+		
+		for(var j = 0; j < abilitiesToAddTo; ++j){
+			var randInt = -1;
+			if(j == 0){
+				randArray.push(Math.floor(Math.random()*randCount));
+			}
+			else{
+				var stay = false;
+				do{
+					stay = false;
+					randInt = Math.floor(Math.random()*randCount);
+					for(var k = 0; k < randArray.length; ++k){
+						if(randArray[k] == randInt){
+							stay = true;
+						}
+					}
+				}
+				while(stay);
+				randArray.push(randInt);
+			}
+		}
+		
+		if(randArray.length && randArray.length > 0){
+			var randCounter = 0;
+			for(var n = 0; n < optArray.length; ++n){
+				if(optArray[n] >= 10){
+					for(var m = 0; m < randArray.length; ++m){
+						if(randArray[m] == randCounter){
+							optArray[n] = intToAdd;
+						}
+					}
+					
+					++randCounter;
+				}
+				
+				if(optArray[n] >= 10){
+					optArray[n] = 0;
+				}
+				
+			}
+			
+			npc.strength += optArray[0];
+			//and so on...
+		}
+		*/
+		if(npc.race == '2f12910cdbf3130049ac7e7dbf961972'){ //Half Elf
+			var increase1 = Math.floor(Math.random()*5);
+			var increase2 = Math.floor(Math.random()*5);
+			while(increase1 == increase2){
+				increase2 = Math.floor(Math.random()*5);
+			}
+			
+			if(increase1 == 0 || increase2 == 0){
+				npc.strength += 1;
+			}
+			if(increase1 == 1 || increase2 == 1){
+				npc.dexterity += 1;
+			}
+			if(increase1 == 2 || increase2 == 2){
+				npc.constitution += 1;
+			}
+			if(increase1 == 3 || increase2 == 3){
+				npc.intelligence += 1;
+			}
+			if(increase1 == 4 || increase2 == 4){
+				npc.wisdom += 1;
+			}
+		}
+		
+		npc.strength_modifier = Math.floor((npc.strength-10)/2);
+		npc.dexterity_modifier = Math.floor((npc.dexterity-10)/2);
+		npc.constitution_modifier = Math.floor((npc.constitution-10)/2);
+		npc.intelligence_modifier = Math.floor((npc.intelligence-10)/2);
+		npc.wisdom_modifier = Math.floor((npc.wisdom-10)/2);
+		npc.charisma_modifier = Math.floor((npc.charisma-10)/2);
+		
+		npc.speed = npc.race.speed;
+		npc.vision = npc.race.vision;
+		npc.saving_throws_advantage = npc.race.saving_throws_advantage;
+		npc.skill_proficiencies = npc.race.skill_proficiencies;
+		if(npc.race.skill_proficiencies_random && npc.race.skill_proficiencies_random > 0){
+			//TODO: make this work with more than two skills
+			//right now only the half elf qualifies
+			var skill1 = this.GetRandomRecordInTable('x_262366_wld_bldr_skills');
+			var skill2 = this.GetRandomRecordInTable('x_262366_wld_bldr_skills');
+			while(skill1 == skill2){
+				skill2 = this.GetRandomRecordInTable('x_262366_wld_bldr_skills');
+			}
+			npc.skill_proficiencies = skill1 + ',' + skill2;
+		}
+		npc.weapon_proficiencies = npc.race.weapon_proficiencies;
+		
+		//TODO: make this work for non PHB races
+		if(npc.race.tool_proficiencies && npc.race.tool_proficiencies > 0){
+			var randTool = Math.floor(Math.random()*3);
+			var toolArrayDwarf = npc.race.tool_proficiency_options.split(',');//only for Dwarves
+			npc.tool_proficiencies = toolArrayDwarf[randTool];
+		}
+		
+		npc.languages = npc.race.languages;
+		
+		if(npc.race.extra_languages_random && npc.race.extra_languages_random > 0){
+			var extraLanguage = '';
+			var languages = npc.languages.split(',');
+			var langLoop = false;
+			do{
+				langLoop = false;
+				extraLanguage = this.GetRandomRecordInTable('x_262366_wld_bldr_languages');
+				for(var o = 0; o < languages.length; ++o){
+					if(extraLanguage == languages[o]){
+						langLoop = true;
+					}
+				}
+			}
+			while(langLoop);
+			
+			npc.languages += ',' + extraLanguage;
+		}
+		
+		
+		npc.features = npc.race.additional_features;
+		
+		
+		if(npc.subrace){
+			npc.armor_proficiencies = npc.subrace.armor_proficiencies;
+			npc.weapon_proficiencies += (npc.weapon_proficiencies? ',':'') + npc.subrace.weapon_proficiencies;
+			if(npc.subrace.extra_languages_random && npc.subrace.extra_languages_random > 0){
+				var extraLanguage2 = '';
+				var languages2 = npc.languages.split(',');
+				var langLoop2 = false;
+				do{
+					langLoop2 = false;
+					extraLanguage2 = this.GetRandomRecordInTable('x_262366_wld_bldr_languages');
+					for(var p = 0; p < languages2.length; ++p){
+						if(extraLanguage2 == languages2[p]){
+							langLoop2 = true;
+						}
+					}
+				}
+				while(langLoop2);
+
+				npc.languages += ',' + extraLanguage2;
+			}
+			npc.speed += npc.subrace.speed_boost;
+			npc.saving_throws_advantage += (npc.saving_throws_advantage? ',':'') + npc.subrace.saving_throws_advantage;
+			npc.damage_resistance += (npc.damage_resistance? ',':'') + npc.subrace.damage_resistance;
+			npc.tool_proficiencies += (npc.tool_proficiencies? ',':'') + npc.subrace.tool_proficiencies;
+		}
+		
+		npc.armor_proficiencies += (npc.armor_proficiencies? ',':'') + npc.u_class.armor_proficiencies;
+		npc.weapon_type_proficiencies = npc.u_class.weapon_type_proficiencies;
+		npc.weapon_proficiencies += (npc.weapon_proficiencies? ',':'') + npc.u_class.weapon_proficiencies;
+		npc.saving_throws_proficiency = npc.u_class.saving_throw_proficiencies;
+		
+		npc.strength_save_modifier = npc.strength_modifier + (npc.saving_throws_proficiency.indexOf('cc08f67edb04a30049ac7e7dbf961919')>-1?2:0);
+		npc.dexterity_save_modifier = npc.dexterity_modifier + (npc.saving_throws_proficiency.indexOf('8a183a7edb04a30049ac7e7dbf96196c')>-1?2:0);
+		npc.constitution_save_modifier = npc.constitution_modifier + (npc.saving_throws_proficiency.indexOf('b0283a7edb04a30049ac7e7dbf961953')>-1?2:0);
+		npc.intelligence_save_modifier = npc.intelligence_modifier + (npc.saving_throws_proficiency.indexOf('ee28f67edb04a30049ac7e7dbf9619f5')>-1?2:0);
+		npc.wisdom_save_modifier = npc.wisdom_modifier + (npc.saving_throws_proficiency.indexOf('e438f67edb04a30049ac7e7dbf96194b')>-1?2:0);
+		npc.charisma_save_modifier = npc.charisma_modifier + (npc.saving_throws_proficiency.indexOf('0638f67edb04a30049ac7e7dbf9619a1')>-1?2:0);
+		
+		//TODO: Prevent duplicate skills from race
+		
+		if(npc.u_class.skill_proficiencies && npc.u_class.skill_proficiencies > 0){
+			var skillCount = npc.u_class.skill_proficiencies;
+			var skillArray = npc.u_class.skill_proficiency_options.split(',');
+			var randSkillArray = [];
+			while(randSkillArray.length < skillCount){
+				var randNum = Math.floor(Math.random()*(skillArray.length));
+				if(randSkillArray.indexOf(randNum) > -1) continue;
+				randSkillArray[randSkillArray.length] = randNum;
+			}
+			
+			for(var s = 0; s < skillCount; ++s){
+				npc.skill_proficiencies += (npc.skill_proficiencies?',':'') + skillArray[randSkillArray[s]];
+			}
+		}
+		
+		
+		if(npc.u_class.tool_proficiencies && npc.u_class.tool_proficiencies > 0){
+			var toolCount = npc.u_class.tool_proficiencies;
+			var toolArray = npc.u_class.tool_proficiency_options.split(',');
+			var randToolArray = [];
+			while(randToolArray.length < toolCount){
+				var randNum2 = Math.floor(Math.random()*(toolArray.length));
+				if(randToolArray.indexOf(randNum2) > -1) continue;
+				randToolArray[randToolArray.length] = randNum2;
+			}
+			
+			for(var t = 0; t < toolCount; ++t){
+				npc.tool_proficiencies += (npc.tool_proficiencies?',':'') + toolArray[randToolArray[t]];
+			}
+		}
+		
+		var classFeatureOptionsChosen = [];
+		var classFeatures = new GlideRecord('x_262366_wld_bldr_class_feature');
+		classFeatures.addQuery('u_class', npc.u_class);
+		classFeatures.addQuery('level', 1);
+		classFeatures.query();
+		while(classFeatures.next()){
+			npc.features += (npc.features?"\r\n\r\n":"") + classFeatures.name + ":\r\n" + classFeatures.description;
+			var featureOptions = new GlideRecord('x_262366_wld_bldr_class_feature_option');
+			featureOptions.addQuery('class_features', 'CONTAINS', classFeatures.sys_id);
+			featureOptions.query();
+			var featureOptionsLength = featureOptions.getRowCount();
+			if(featureOptionsLength > 0){
+				var randFeatureOption = Math.floor(Math.random()*(featureOptionsLength));
+				var randFeatureOptionCount = 0;
+				while(featureOptions.next()){
+					if(randFeatureOptionCount == randFeatureOption){
+						npc.features += '\r\n' + featureOptions.name + ':\r\n' + featureOptions.description;
+						classFeatureOptionsChosen[classFeatureOptionsChosen.length] = featureOptions.sys_id;
+					}
+					++randFeatureOptionCount;
+				}
+			}
+		}
+		
+		var subClassFeatures = new GlideRecord('x_262366_wld_bldr_subclass_feature');
+		subClassFeatures.addQuery('subclass', npc.subclass);
+		subClassFeatures.addQuery('level', 1);
+		subClassFeatures.query();
+		while(subClassFeatures.next()){
+			npc.features += (npc.features?"\r\n\r\n":"") + subClassFeatures.name + ":\r\n" + subClassFeatures.description;
+		}
+		
+		if(npc.subclass.new_languages && npc.subclass.new_languages > 0){
+			for(var l = 0; l < npc.subclass.new_languages; ++l){
+				var keepLooping = true;
+				do{
+					var randLang = this.GetRandomRecordInTable('x_262366_wld_bldr_languages');
+					var currentLanguagesKnown = npc.languages.split(',');
+					if(currentLanguagesKnown.indexOf(randLang) > -1) continue;
+					npc.languages += ',' + randLang;
+					keepLooping = false;
+				}
+				while(keepLooping);
+			}
+		}
+		
+		if(npc.subclass.skill_proficiencies && npc.subclass.skill_proficiencies > 0){
+			var skillCount2 = npc.subclass.skill_proficiencies;
+			var skillArray2 = npc.subclass.skill_proficiency_options.split(',');
+			var randSkillArray2 = [];
+			while(randSkillArray2.length < skillCount2){
+				var randNum3 = Math.floor(Math.random()*(skillArray2.length));
+				if(randSkillArray2.indexOf(randNum3) > -1) continue;
+				randSkillArray2[randSkillArray2.length] = randNum3;
+			}
+			
+			for(var s2 = 0; s2 < skillCount2; ++s2){
+				npc.skill_proficiencies += (npc.skill_proficiencies?',':'') + skillArray2[randSkillArray2[s2]];
+			}
+		}
+		
+		if(npc.subclass.doubled_skill_proficiencies && npc.subclass.doubled_skill_proficiencies > 0){
+			var skillCount3 = npc.subclass.doubled_skill_proficiencies;
+			var skillArray3 = npc.subclass.skill_proficiency_options.split(',');
+			var randSkillArray3 = [];
+			while(randSkillArray3.length < skillCount3){
+				var randNum4 = Math.floor(Math.random()*(skillArray3.length));
+				if(randSkillArray3.indexOf(randNum4) > -1) continue;
+				randSkillArray3[randSkillArray3.length] = randNum4;
+			}
+			
+			for(var s3 = 0; s3 < skillCount3; ++s3){
+				npc.doubled_skill_proficiencies += (npc.doubled_skill_proficiencies?',':'') + skillArray3[randSkillArray3[s3]];
+			}
+		}
+		
+		npc.armor_proficiencies += (npc.armor_proficiencies? ',':'') + npc.subclass.armor_proficiencies;
+		npc.weapon_type_proficiencies += (npc.weapon_type_proficiencies? ',':'') + npc.subclass.weapon_proficiencies;
+		
+		npc.hit_points_max = npc.u_class.hit_dice + Math.floor((npc.constitution -10)/2) + (npc.subrace.additional_hp_modifier?npc.subrace.additional_hp_modifier:0) + (npc.subclass.hp_increase?npc.subclass.hp_increase:0);
+		npc.hit_points = npc.hit_points_max;
+		
+		var npcID = npc.insert();
+		
+		/*********************************************************************************************************/
+		
+		if(npc.race.u_1st_level_cantrip){
+			var characterSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+			characterSpell.initialize();
+			characterSpell.character = npcID;
+			characterSpell.spell = npc.race.u_1st_level_cantrip;
+			characterSpell.spellcasting_ability = npc.race.race_spellcasting_ability;
+			//characterSpell.save_dc = //only one is Teifling, which gets Thurmaturgy
+			//TODO: finish this script
+			characterSpell.insert();
+			npc.spells = npc.race.u_1st_level_cantrip;
+		}
+		
+		if(npc.subrace.u_1st_level_cantrip){
+			var characterSpell2 = new GlideRecord('x_262366_wld_bldr_character_spell');
+			characterSpell2.initialize();
+			characterSpell2.character = npcID;
+			characterSpell2.spell = npc.subrace.u_1st_level_cantrip;
+			characterSpell2.spellcasting_ability = npc.subrace.subrace_spellcasting_ability;
+			//characterSpell.save_dc = //only ones are forest gnome and drow, which get Minor Illusion & dancing Lights, respectively
+			//TODO: finish this script
+			characterSpell2.insert();
+			npc.spells = npc.subrace.u_1st_level_cantrip;
+		}
+		
+		
+		if(npc.subrace.cantrip_choice){
+			var characterSpell3 = new GlideRecord('x_262366_wld_bldr_character_spell');
+			characterSpell3.initialize();
+			characterSpell3.character = npcID;
+			
+			var cantrip = new GlideRecord('x_262366_wld_bldr_spell');
+			cantrip.addQuery('classes','CONTAINS', npc.subrace.cantrip_choice);
+			cantrip.addQuery('level', '7d794748db90230049ac7e7dbf9619d0'); //cantrip
+			cantrip.query();
+			var randCantrip = Math.floor(Math.random()*(cantrip.getRowCount()));
+			var cantripCounter = 0;
+			while(cantrip.next()){
+				if(randCantrip == cantripCounter){
+					characterSpell3.spell = cantrip.sys_id;
+					npc.spells = cantrip.sys_id;
+				}
+				++cantripCounter;
+			}
+			//TODO: make it so this works for non high elves
+			characterSpell3.spellcasting_ability = 'ee28f67edb04a30049ac7e7dbf9619f5'; //Int
+			characterSpell3.save_dc = 10 + Math.floor((npc.intelligence -10)/2); //only high elves have this, so int is guarenteed
+			characterSpell3.insert();
+		}
+		
+		var characterClassTable = new GlideRecord('x_262366_wld_bldr_class_table');
+		characterClassTable.addQuery('u_class', npc.u_class);
+		characterClassTable.addQuery('level', 1);
+		characterClassTable.query();
+		if(characterClassTable.next()){
+			if(characterClassTable.cantrips_known && characterClassTable.cantrips_known > 0){
+				var cantripsKnown = npc.spells; //.split(',');
+				var cantripsToLearn = [];
+				var additionalCantrip = 0;
+				if(cantripsKnown != ''){
+					cantripsToLearn[0] = cantripsKnown; //can only have learned one cantrip based on race
+					additionalCantrip = 1;
+				}
+				
+				var cantripsString = '';
+				while(cantripsToLearn.length < characterClassTable.cantrips_known + additionalCantrip){
+					var newCantrip = this.GetLevelSpell(npc.u_class,'7d794748db90230049ac7e7dbf9619d0', cantripsToLearn);
+					cantripsToLearn[cantripsToLearn.length] = newCantrip;
+					cantripsString += (cantripsString?",":"") + newCantrip;
+					var newCantripRecord = new GlideRecord('x_262366_wld_bldr_character_spell');
+					newCantripRecord.initialize();
+					newCantripRecord.character = npcID;
+					newCantripRecord.spell = newCantrip;
+					//newCantripRecord.spellcasting_ability = npc.race.race_spellcasting_ability;
+					//newCantripRecord.save_dc = 
+					//TODO: finish this script
+					newCantripRecord.insert();
+				}
+				npc.spells += (npc.spells?',':'') + cantripsString;
+			}
+			
+			if(characterClassTable.spells_known && characterClassTable.spells_known > 0){
+				var prepare = false;
+				if(npc.u_class == '40939d4cdbf3130049ac7e7dbf96193a'){ //wizard
+					prepare = true;
+				}
+				var spellLoopCount = 0;
+				var intelligenceModifier = Math.floor((npc.intelligence-10)/2);
+				var possibleSpellsPrepared = (intelligenceModifier>0?intelligenceModifier:0) + 1;
+				var randomPreparedSpells = [];
+				if(prepare){
+					while(randomPreparedSpells.length < possibleSpellsPrepared){
+						var randomNumber = Math.floor(Math.random()*characterClassTable.spells_known);
+						if(randomPreparedSpells.indexOf(randomNumber) > -1)continue;
+						randomPreparedSpells[randomPreparedSpells.length] = randomNumber;
+					}
+				}
+				
+				var spellsToLearn = [];
+				var spellsString = '';
+				while(spellsToLearn.length < characterClassTable.spells_known){
+					var newSpell = this.GetLevelSpell(npc.u_class,'95a41e81db5c230049ac7e7dbf961939', spellsToLearn);
+					spellsToLearn[spellsToLearn.length] = newSpell;
+					spellsString += (spellsString?",":"") + newSpell;
+					var newSpellRecord = new GlideRecord('x_262366_wld_bldr_character_spell');
+					newSpellRecord.initialize();
+					newSpellRecord.character = npcID;
+					newSpellRecord.spell = newSpell;
+					//newCantripRecord.spellcasting_ability = npc.race.race_spellcasting_ability;
+					//newCantripRecord.save_dc = 
+					//TODO: finish this script
+					if(prepare && randomPreparedSpells.indexOf(spellLoopCount) > -1){
+						newSpellRecord.prepared = 'true';
+					}
+					newSpellRecord.insert();
+					++spellLoopCount;
+				}
+				npc.spells += (npc.spells?',':'') + spellsString;	
+			}
+			else if(characterClassTable.u_1st_level_spell_slots && characterClassTable.u_1st_level_spell_slots > 0){
+				//cleric or druid; both use wisdom for prepared spells
+				var wisModifier = Math.floor((npc.wisdom-10)/2);
+				
+				var spellsPrepared = (wisModifier>0?wisModifier:0) + 1;
+				
+				var spellsToLearn2 = [];
+				var spellsString2 = '';
+				while(spellsToLearn2.length < spellsPrepared){
+					var newSpell2 = this.GetLevelSpell(npc.u_class,'95a41e81db5c230049ac7e7dbf961939', spellsToLearn2);
+					spellsToLearn2[spellsToLearn2.length] = newSpell2;
+					spellsString2 += (spellsString2?",":"") + newSpell2;
+					var newSpellRecord2 = new GlideRecord('x_262366_wld_bldr_character_spell');
+					newSpellRecord2.initialize();
+					newSpellRecord2.character = npcID;
+					newSpellRecord2.spell = newSpell2;
+					//newCantripRecord.spellcasting_ability = npc.race.race_spellcasting_ability;
+					//newCantripRecord.save_dc = 
+					//TODO: finish this script
+					newSpellRecord2.insert();
+				}
+				npc.spells += (npc.spells?',':'') + spellsString2;
+			}
+		}
+		
+		for(var cfoc = 0; cfoc < classFeatureOptionsChosen.length; ++cfoc){
+			var characterClassFeature = new GlideRecord('x_262366_wld_bldr_character_class_feature_option');
+			characterClassFeature.character = npcID;
+			characterClassFeature.class_feature_option = classFeatureOptionsChosen[cfoc];
+			characterClassFeature.level_obtained = 1;
+			characterClassFeature.insert();
+		}
+		
+		
+		npc.update();
+	},
+	
+	GetLevelSpell: function(npcClass, npcLevel, currentSpells){
+		var spellTable = new GlideRecord('x_262366_wld_bldr_spell');
+		spellTable.addQuery('classes', 'CONTAINS', npcClass);
+		spellTable.addQuery('level', npcLevel);
+		for(var spells = 0; spells < currentSpells.length; ++ spells){
+			spellTable.addQuery('sys_id', '!=', currentSpells[spells]);
+		}
+		
+		spellTable.query();
+		var randomSpell = Math.floor(Math.random()*spellTable.getRowCount());
+		var randomSpellCount = 0;
+		while(spellTable.next()){
+			if(randomSpellCount == randomSpell){
+				return spellTable.sys_id;
+			}
+			++randomSpellCount;
+		}
+		return '';
+	},
+	
+	GetRecordCountInTable: function(table){
+		var tableQuery = new GlideRecord(table);
+		tableQuery.query();
+		return tableQuery.getRowCount();
+	},
+	
+	GetSpecificRecordCountInTable: function(table, column, value){
+		var tableQuery = new GlideRecord(table);
+		tableQuery.addQuery(column, value);
+		tableQuery.query();
+		return tableQuery.getRowCount();
+	},
+	
+	GetRandomRecordInTable: function(table){
+		var count = this.GetRecordCountInTable(table);
+		var randInt = Math.floor(Math.random()*count);
+		
+		var tableQuery = new GlideRecord(table);
+		tableQuery.chooseWindow(randInt, randInt+1);
+		tableQuery.query();
+		if(tableQuery.next()){
+			return tableQuery.sys_id;
+		}
+		//TODO: set up email alert for DM for failure
+		return '';
+	},
+	
+	GetSpecificRandomRecordInTable: function(table, column, value){
+		var count = this.GetSpecificRecordCountInTable(table, column, value);
+		var randInt = Math.floor(Math.random()*count);
+		
+		var tableQuery = new GlideRecord(table);
+		tableQuery.addQuery(column, value);
+		tableQuery.chooseWindow(randInt, randInt+1);
+		tableQuery.query();
+		if(tableQuery.next()){
+			return tableQuery.sys_id;
+		}
+		//TODO: set up alert for DM for failure
+		return '';
+	},
+	
+	CalculateAbilityScore: function(){
+		var results = new RollDice().RollDice(4,6,'array');
+		results.sort(function(a, b){return b - a;});
+		var sum = 0;
+		for(var i = 0; i < 3; ++i){
+			sum += results[i];
+		}
+		return sum;
+	},
+	
+    type: 'GenerateRandomNPC'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-06 14:49:59</sys_created_on>
+        <sys_id>d2c53009dbb7130049ac7e7dbf9619ac</sys_id>
+        <sys_mod_count>80</sys_mod_count>
+        <sys_name>GenerateRandomNPC</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_include_d2c53009dbb7130049ac7e7dbf9619ac</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-10-31 21:58:39</sys_updated_on>
+    </sys_script_include>
+</record_update>

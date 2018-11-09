@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="content_css">
+    <content_css action="INSERT_OR_UPDATE">
+        <name>world_map</name>
+        <style>.map{&#13;
+	display: grid;&#13;
+	grid-template-columns: auto;&#13;
+}&#13;
+&#13;
+.Lake{&#13;
+	background-color: blue;&#13;
+}&#13;
+&#13;
+.Forest{&#13;
+	background-color: green;&#13;
+}&#13;
+&#13;
+.Desert{&#13;
+	background-color: brown;&#13;
+}&#13;
+&#13;
+.Grassland{&#13;
+	background-color: lightgreen;&#13;
+}</style>
+        <sys_class_name>content_css</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-17 21:48:39</sys_created_on>
+        <sys_id>711ab6e4dbcc230049ac7e7dbf961964</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>world_map</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>content_css_711ab6e4dbcc230049ac7e7dbf961964</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-08-17 22:08:31</sys_updated_on>
+        <type>local</type>
+        <url/>
+    </content_css>
+</record_update>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Armor" max_length="40" name="x_262366_wld_bldr_armor" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Armor Class" max_length="100" name="armor_class" type="string"/>
+        <element label="Armor Type" max_length="32" name="armor_type" reference="x_262366_wld_bldr_armor_type" type="reference"/>
+        <element label="Cost" max_length="40" name="cost" type="integer"/>
+        <element label="Currency" max_length="32" name="currency" reference="x_262366_wld_bldr_currency" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Details" max_length="1000" name="details" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element attributes="edge_encryption_enabled=true" calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return current.cost + ' ' + current.currency.abbreviation;&#13;&#10;&#13;&#10;})(current);" label="Price" max_length="40" name="price" read_only="true" type="string" virtual="true"/>
+        <element label="Stealth Disadvantage" max_length="40" name="stealth_disadvantage" type="boolean"/>
+        <element label="Strength Prerequisite" max_length="40" name="strength_prerequisite" type="integer"/>
+        <element label="Weight" max_length="40" name="weight" type="float"/>
+        <index name="index">
+            <element name="armor_type"/>
+        </index>
+        <index name="index2">
+            <element name="currency"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Languages" max_length="40" name="x_262366_wld_bldr_languages" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Script" max_length="40" name="script" type="string"/>
+    </element>
+</database>

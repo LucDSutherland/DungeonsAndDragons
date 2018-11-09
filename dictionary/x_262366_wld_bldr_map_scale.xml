@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Map Scale" max_length="40" name="x_262366_wld_bldr_map_scale" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Unit Distance (Miles)" max_length="40" name="unit_distance_miles" type="integer"/>
+    </element>
+</database>

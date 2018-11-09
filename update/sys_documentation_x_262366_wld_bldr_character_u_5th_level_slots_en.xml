@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="u_5th_level_slots" label="5th Level Slots" language="en" table="x_262366_wld_bldr_character">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>u_5th_level_slots</element>
+            <help/>
+            <hint/>
+            <label>5th Level Slots</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_character</name>
+            <plural>5th Level Slots</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2018-11-02 19:15:23</sys_created_on>
+            <sys_id>349e3699db69a70049ac7e7dbf96197b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>5th Level Slots</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_documentation_x_262366_wld_bldr_character_u_5th_level_slots_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2018-11-02 19:15:23</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

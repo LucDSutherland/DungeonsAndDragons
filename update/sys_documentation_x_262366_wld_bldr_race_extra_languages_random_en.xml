@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="extra_languages_random" label="Extra Languages (random)" language="en" table="x_262366_wld_bldr_race">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>extra_languages_random</element>
+            <help/>
+            <hint/>
+            <label>Extra Languages (random)</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_race</name>
+            <plural>Extra Languages (random)</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2018-09-05 14:22:38</sys_created_on>
+            <sys_id>db5f83eedbd8230049ac7e7dbf9619b7</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Extra Languages (random)</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_documentation_x_262366_wld_bldr_race_extra_languages_random_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2018-09-05 14:22:38</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="creature_type" label="Creature Type" language="en" table="x_262366_wld_bldr_class_feature_option">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>creature_type</element>
+            <help/>
+            <hint/>
+            <label>Creature Type</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_class_feature_option</name>
+            <plural>Creature Types</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2018-11-01 16:12:38</sys_created_on>
+            <sys_id>ce2b4d89db2d670049ac7e7dbf961950</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Creature Type</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_documentation_x_262366_wld_bldr_class_feature_option_creature_type_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2018-11-01 16:12:38</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

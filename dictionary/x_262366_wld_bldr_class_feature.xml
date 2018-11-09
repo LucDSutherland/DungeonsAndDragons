@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Class Feature" max_length="40" name="x_262366_wld_bldr_class_feature" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Description" max_length="4000" name="description" type="string"/>
+        <element label="Level" max_length="40" name="level" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="100" name="name" type="string"/>
+        <element label="Class" max_length="32" name="u_class" reference="x_262366_wld_bldr_class" type="reference"/>
+        <index name="index">
+            <element name="u_class"/>
+        </index>
+    </element>
+</database>

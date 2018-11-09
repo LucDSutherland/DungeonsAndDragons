@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_262366_wld_bldr.GenerateName</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>GenerateName</name>
+        <script><![CDATA[var GenerateName = Class.create();
+GenerateName.prototype = {
+    initialize: function() {
+    },
+
+	GenerateName: function(type, gender){
+		type = type + "";
+		switch(type){
+			case '0eb0510cdbf3130049ac7e7dbf96195d': //Human
+				var humanName = new GenerateHumanName();
+				return humanName.GenerateHumanName(gender).replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1);});
+			case 'bb02990cdbf3130049ac7e7dbf9619f4': //Dragonborn
+				var dragonbornName = new GenerateDragonbornName();
+				return dragonbornName.GenerateDragonbornName(gender);
+			case '0b915d48dbf3130049ac7e7dbf961929': //Dwarf
+				var dwarfName = new GenerateDwarfName();
+				return dwarfName.GenerateDwarfName(gender);
+			case '11a15d48dbf3130049ac7e7dbf96192c': //Elf
+				var elfName = new GenerateElfName();
+				return elfName.GenerateElfName(gender);
+			case 'b912990cdbf3130049ac7e7dbf9619e9': //Gnome
+				var gnomeName = new GenerateGnomeName();
+				return gnomeName.GenerateGnomeName(gender);
+			case '2f12910cdbf3130049ac7e7dbf961972': //Half Elf
+				var halfElfName = new GenerateHalfElfName();
+				return halfElfName.GenerateHalfElfName(gender);
+			case 'e522990cdbf3130049ac7e7dbf961962': //Half Orc
+				var halfOrcName = new GenerateHalfOrcName();
+				return halfOrcName.GenerateHalfOrcName(gender);
+			case '83a1150cdbf3130049ac7e7dbf961998': //Halfling
+				var halflingName = new GenerateHalflingName();
+				return halflingName.GenerateHalflingName(gender);
+			case '7322150cdbf3130049ac7e7dbf96198f': //Tiefling
+				var tieflingName = new GenerateTieflingName();
+				return tieflingName.GenerateTieflingName(gender);
+			default:
+				return 'John Doe';
+				//TODO: Add error message in script log or something
+		}
+					
+	},
+
+    type: 'GenerateName'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-10 16:13:20</sys_created_on>
+        <sys_id>bccb2dd2db73130049ac7e7dbf961982</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>GenerateName</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_include_bccb2dd2db73130049ac7e7dbf961982</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-08-10 19:52:00</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Subrace" max_length="40" name="x_262366_wld_bldr_subrace" type="collection">
+        <element label="Additional HP Modifier" max_length="40" name="additional_hp_modifier" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Armor Proficiencies" max_length="1024" name="armor_proficiencies" reference="x_262366_wld_bldr_armor_type" type="glide_list"/>
+        <element label="Base Charisma Modifier" max_length="40" name="base_charisma_modifier" type="integer"/>
+        <element label="Base Constitution Modifier" max_length="40" name="base_constitution_modifier" type="integer"/>
+        <element label="Base Dexterity Modifier" max_length="40" name="base_dexterity_modifier" type="integer"/>
+        <element label="Base Intelligence Modifier" max_length="40" name="base_intelligence_modifier" type="integer"/>
+        <element label="Base Strength Modifier" max_length="40" name="base_strength_modifier" type="integer"/>
+        <element label="Base Wisdom Modifier" max_length="40" name="base_wisdom_modifier" type="integer"/>
+        <element label="Breath Attack" max_length="32" name="breath_attack" reference="x_262366_wld_bldr_dragonborn_breath_weapon" type="reference"/>
+        <element label="Cantrip Choice" max_length="32" name="cantrip_choice" reference="x_262366_wld_bldr_class" type="reference"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Damage Resistance" max_length="1024" name="damage_resistance" reference="x_262366_wld_bldr_damage_type" type="glide_list"/>
+        <element label="Extra Languages (Random)" max_length="40" name="extra_languages_random" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Features" max_length="1000" name="features" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Race" max_length="32" name="race" reference="x_262366_wld_bldr_race" type="reference"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Saving Throws Advantage" max_length="1024" name="saving_throws_advantage" reference="x_262366_wld_bldr_damage_type" type="glide_list"/>
+        <element label="Speed Boost" max_length="40" name="speed_boost" type="integer"/>
+        <element label="Subrace Spellcasting Ability" max_length="32" name="subrace_spellcasting_ability" reference="x_262366_wld_bldr_ability_score" type="reference"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiencies" max_length="1024" name="tool_proficiencies" reference="x_262366_wld_bldr_tools" type="glide_list"/>
+        <element label="1st Level Cantrip" max_length="32" name="u_1st_level_cantrip" reference="x_262366_wld_bldr_spell" type="reference"/>
+        <element label="3rd Level Spell" max_length="32" name="u_3rd_level_spell" reference="x_262366_wld_bldr_spell" type="reference"/>
+        <element label="5th Level Spell" max_length="32" name="u_5th_level_spell" reference="x_262366_wld_bldr_spell" type="reference"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Proficiencies" max_length="1024" name="weapon_proficiencies" reference="x_262366_wld_bldr_weapons" type="glide_list"/>
+        <index name="index">
+            <element name="subrace_spellcasting_ability"/>
+        </index>
+        <index name="index2">
+            <element name="race"/>
+        </index>
+        <index name="index3">
+            <element name="u_5th_level_spell"/>
+        </index>
+        <index name="index4">
+            <element name="breath_attack"/>
+        </index>
+        <index name="index5">
+            <element name="u_1st_level_cantrip"/>
+        </index>
+        <index name="index6">
+            <element name="cantrip_choice"/>
+        </index>
+        <index name="index7">
+            <element name="u_3rd_level_spell"/>
+        </index>
+    </element>
+</database>

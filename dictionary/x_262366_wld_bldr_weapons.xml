@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Weapons" max_length="40" name="x_262366_wld_bldr_weapons" type="collection">
+        <element label="Cost" max_length="40" name="cost" type="integer"/>
+        <element label="Currency" max_length="32" name="currency" reference="x_262366_wld_bldr_currency" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Damage" max_length="40" name="damage" type="string"/>
+        <element label="Damage Type" max_length="32" name="damage_type" reference="x_262366_wld_bldr_damage_type" type="reference"/>
+        <element label="Max Range" max_length="40" name="max_range" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element attributes="edge_encryption_enabled=true" calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;&#13;&#10;&#9;return current.cost + ' ' + current.currency.abbreviation;  // return the calculated value&#13;&#10;&#13;&#10;})(current);" label="Price" max_length="40" name="price" read_only="true" type="string" virtual="true"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Properties" max_length="1024" name="properties" reference="x_262366_wld_bldr_weapon_property" type="glide_list"/>
+        <element label="Range" max_length="40" name="range" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Special Effect" max_length="1000" name="special_effect" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Versatile Damage" max_length="40" name="versatile_damage" type="string"/>
+        <element label="Weight" max_length="40" name="weight" type="float"/>
+        <index name="index">
+            <element name="damage_type"/>
+        </index>
+        <index name="index2">
+            <element name="currency"/>
+        </index>
+    </element>
+</database>

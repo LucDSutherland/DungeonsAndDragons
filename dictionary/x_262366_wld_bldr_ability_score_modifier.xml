@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Ability Score Modifier" max_length="40" name="x_262366_wld_bldr_ability_score_modifier" type="collection">
+        <element label="Modifier" max_length="40" name="modifier" type="integer"/>
+        <element label="Score" max_length="40" name="score" type="integer"/>
+    </element>
+</database>

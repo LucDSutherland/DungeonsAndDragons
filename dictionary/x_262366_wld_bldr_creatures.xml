@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Creatures" max_length="40" name="x_262366_wld_bldr_creatures" type="collection">
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Alignment" max_length="1024" name="alignment" reference="x_262366_wld_bldr_alignment" type="glide_list"/>
+        <element label="Armor Class" max_length="40" name="armor_class" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Biomes" max_length="1024" name="biomes" reference="x_262366_wld_bldr_terrain_type" type="glide_list"/>
+        <element label="Challenge Rating" max_length="40" name="challenge_rating" type="float"/>
+        <element label="Hit Points" max_length="40" name="hit_points" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Size" max_length="32" name="size" reference="x_262366_wld_bldr_creature_size" type="reference"/>
+        <element label="Type" max_length="32" name="type" reference="x_262366_wld_bldr_creature_type" type="reference"/>
+        <index name="index">
+            <element name="size"/>
+        </index>
+        <index name="index2">
+            <element name="type"/>
+        </index>
+    </element>
+</database>
