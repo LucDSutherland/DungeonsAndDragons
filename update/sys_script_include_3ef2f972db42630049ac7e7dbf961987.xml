@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_262366_wld_bldr.PrepareSpells</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>PrepareSpells</name>
+        <script><![CDATA[var PrepareSpells = Class.create();
+PrepareSpells.prototype = {
+    initialize: function() {
+    },
+	
+	Prepare: function(characterId){
+		var character = new GlideRecord('x_262366_wld_bldr_character');
+		character.addQuery('sys_id', characterId);
+		character.query();
+		if(character.next()){
+			var characterClass = new GlideRecord('x_262366_wld_bldr_character_class');
+			characterClass.addQuery('character', characterId);
+			characterClass.query();
+			while(characterClass.next()){
+				var ct = new GlideRecord('x_262366_wld_bldr_class_table');
+				ct.addQuery('u_class', characterClass.u_class);
+				ct.addQuery('level', characterClass.level);
+				ct.query();
+				if(ct.next()){
+					if(ct.u_1st_level_spell_slots && ct.u_1st_level_spell_slots > 0 && (!ct.spells_known || ct.spells_known == 0)){
+						//delete old prepared spells
+						var oldSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+						oldSpell.addQuery('character', characterId);
+						oldSpell.addQuery('prepared', true);
+						oldSpell.query();
+						oldSpell.deleteMultiple();
+						
+						var spellCastAbility = characterClass.u_class.spellcasting_ability;
+						
+						//determine modifer
+						var spellCastModifier = 0;
+						if(spellCastAbility == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+							spellCastModifier = Math.floor((character.intelligence-10)/2);
+						}
+						else if(spellCastAbility == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+							spellCastModifier = Math.floor((character.wisdom-10)/2);
+						}
+						else if(spellCastAbility == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+							spellCastModifier = Math.floor((character.charisma-10)/2);
+						}
+						var spellsToPrepare = (spellCastModifier > 0 ? spellCastModifier:0) + Math.floor(parseFloat(characterClass.level)*characterClass.u_class.prepared_spell_modifier);
+						
+						//determine highest available spell slot
+						var highestLevelSpellSlot = 1;
+						if(ct.u_9th_level_spell_slots && ct.u_9th_level_spell_slots > 0){
+							highestLevelSpellSlot = 9;
+						}
+						else if(ct.u_8th_level_spell_slots && ct.u_8th_level_spell_slots > 0){
+							highestLevelSpellSlot = 8;
+						}
+						else if(ct.u_7th_level_spell_slots && ct.u_7th_level_spell_slots > 0){
+							highestLevelSpellSlot = 7;
+						}
+						else if(ct.u_6th_level_spell_slots && ct.u_6th_level_spell_slots > 0){
+							highestLevelSpellSlot = 6;
+						}
+						else if(ct.u_5th_level_spell_slots && ct.u_5th_level_spell_slots > 0){
+							highestLevelSpellSlot = 5;
+						}
+						else if(ct.u_4th_level_spell_slots && ct.u_4th_level_spell_slots > 0){
+							highestLevelSpellSlot = 4;
+						}
+						else if(ct.u_3rd_level_spell_slots && ct.u_3rd_level_spell_slots > 0){
+							highestLevelSpellSlot = 3;
+						}
+						else if(ct.u_2nd_level_spell_slots && ct.u_2nd_level_spell_slots > 0){
+							highestLevelSpellSlot = 2;
+						}
+						
+						
+						var spellsPreparedNow = '';
+						
+						//create new character spell records
+						for(var i = 0; i < spellsToPrepare; ++i){
+							var newSpell = '';
+							do{
+								newSpell = '';
+								var spellLevel = Math.floor(Math.random()*highestLevelSpellSlot) + 1;
+								var spellLevelId = '';
+								var spellLevelGR = new GlideRecord('x_262366_wld_bldr_spell_level');
+								spellLevelGR.addQuery('level', spellLevel);
+								spellLevelGR.query();
+								if(spellLevelGR.next()){
+									spellLevelId = spellLevelGR.sys_id;
+								}
+
+								newSpell = new GenerateRandomNPC().GetLevelSpell(characterClass.u_class, spellLevelId, spellsPreparedNow.split(','));
+							}
+							while(newSpell == '');
+							spellsPreparedNow += (spellsPreparedNow==''?'':',') + newSpell;
+							var newSpellRecord = new GlideRecord('x_262366_wld_bldr_character_spell');
+							newSpellRecord.initialize();
+							newSpellRecord.character = characterId;
+							newSpellRecord.spell = newSpell;
+							newSpellRecord.prepared = 'true';
+							
+							newSpellRecord.spellcasting_ability = spellCastAbility;
+							
+							newSpellRecord.save_dc = 8 + character.proficiency_bonus + spellCastModifier;
+							newSpellRecord.attack_modifier = spellCastModifier + character.proficiency_bonus;
+							newSpellRecord.castable = 'true';
+							newSpellRecord.insert();
+						}
+					}
+					
+					//make sure all the modifiers are correct
+					var existingSpells = new GlideRecord('x_262366_wld_bldr_character_spell');
+					existingSpells.addQuery('character', characterId);
+					existingSpells.addQuery('prepared', false);
+					existingSpells.query();
+					while(existingSpells.next()){
+						//determine modifer
+						var existingSpellModifier = 0;
+						if(existingSpells.spellcasting_ability == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+							existingSpellModifier = Math.floor((character.intelligence-10)/2);
+						}
+						else if(existingSpells.spellcasting_ability == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+							existingSpellModifier = Math.floor((character.wisdom-10)/2);
+						}
+						else if(existingSpells.spellcasting_ability == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+							existingSpellModifier = Math.floor((character.charisma-10)/2);
+						}
+						existingSpells.attack_modifier = existingSpellModifier + character.proficiency_bonus;
+						existingSpells.save_dc = 8 + existingSpellModifier + character.proficiency_bonus;
+						existingSpells.update();
+					}
+					
+				}
+			}
+		}
+		
+	},
+
+    type: 'PrepareSpells'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-12-02 02:38:15</sys_created_on>
+        <sys_id>3ef2f972db42630049ac7e7dbf961987</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>PrepareSpells</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_include_3ef2f972db42630049ac7e7dbf961987</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-12-17 05:29:26</sys_updated_on>
+    </sys_script_include>
+</record_update>

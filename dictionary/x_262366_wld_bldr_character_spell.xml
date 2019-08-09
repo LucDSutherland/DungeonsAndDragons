@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Character Spell" max_length="40" name="x_262366_wld_bldr_character_spell" type="collection">
         <element label="Attack Modifier" max_length="40" name="attack_modifier" type="integer"/>
+        <element label="Castable" max_length="40" name="castable" type="boolean"/>
         <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
         <element label="Prepared" max_length="40" name="prepared" type="boolean"/>
         <element label="Save DC" max_length="40" name="save_dc" type="integer"/>

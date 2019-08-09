@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_fix">
+    <sys_script_fix action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <before>false</before>
+        <description/>
+        <flush_cache>false</flush_cache>
+        <name>Find Out What On Earth Is Going On</name>
+        <record_for_rollback>false</record_for_rollback>
+        <run_once>true</run_once>
+        <script><![CDATA[var cfoPrereqs = new GlideRecord('x_262366_wld_bldr_class_feature_option');
+cfoPrereqs.addEncodedQuery('class_feature_option_prerequisiteISNOTEMPTY');
+cfoPrereqs.orderBy('class_feature_option_prerequisite');
+cfoPrereqs.query();
+var cfoPrereqArray = [];
+while(cfoPrereqs.next()){
+	cfoPrereqArray[cfoPrereqArray.length] = cfoPrereqs.class_feature_option_prerequisite;
+	//current.equipment = current.equipment + cfoPrereqs.class_feature_option_prerequisite + ', ';
+}
+//var uniqueCfoPrereqArray = cfoPrereqArray.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+for(var n = 0; n < cfoPrereqArray.length; ++n){
+	//current.equipment = current.equipment + cfoPrereqArray[n] + ', ';
+	gs.info(cfoPrereqArray[n]);
+}
+//current.equipment = current.equipment + " Unique: ";
+
+//var uniqueCfoPrereqArray = new GenerateRandomNPC().GetUniqueArrayValues(cfoPrereqArray);
+
+var uniqueCfoPrereqArray = [];
+var l = cfoPrereqArray.length;
+for (var k = 0; k < l; k++) {
+	for (var j = k + 1; j < l; j++) {
+		if (cfoPrereqArray[k] === cfoPrereqArray[j]) 
+			j = ++k;
+	}
+	uniqueCfoPrereqArray.push(cfoPrereqArray[k]);
+}
+gs.info('Unique');
+
+for(var m = 0; m < uniqueCfoPrereqArray.length; ++m){
+	//current.equipment = current.equipment + uniqueCfoPrereqArray[m] + ', ';
+	gs.info('uniqueCfoPrereqArray[m]');
+}]]></script>
+        <sys_class_name>sys_script_fix</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-23 05:56:41</sys_created_on>
+        <sys_id>0bb054c8db8e630049ac7e7dbf9619ea</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Find Out What On Earth Is Going On</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_fix_0bb054c8db8e630049ac7e7dbf9619ea</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-23 05:58:03</sys_updated_on>
+        <unloadable>false</unloadable>
+    </sys_script_fix>
+</record_update>

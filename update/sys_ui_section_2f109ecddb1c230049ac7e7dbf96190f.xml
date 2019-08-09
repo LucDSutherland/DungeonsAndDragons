@@ -4,13 +4,13 @@
             <element>character</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-26 23:14:15</sys_created_on>
-            <sys_id>23123343dbd9630049ac7e7dbf961956</sys_id>
+            <sys_created_on>2018-12-17 04:47:01</sys_created_on>
+            <sys_id>ab57efefdb12230049ac7e7dbf961920</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_character_spell" sys_domain="global" view="Default view">2f109ecddb1c230049ac7e7dbf96190f</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-26 23:14:15</sys_updated_on>
+            <sys_updated_on>2018-12-17 04:47:01</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -18,13 +18,13 @@
             <element>spell</element>
             <position>1</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-26 23:14:15</sys_created_on>
-            <sys_id>a7123343dbd9630049ac7e7dbf961956</sys_id>
+            <sys_created_on>2018-12-17 04:47:01</sys_created_on>
+            <sys_id>a357efefdb12230049ac7e7dbf961921</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_character_spell" sys_domain="global" view="Default view">2f109ecddb1c230049ac7e7dbf96190f</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-26 23:14:15</sys_updated_on>
+            <sys_updated_on>2018-12-17 04:47:01</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -32,13 +32,13 @@
             <element>spellcasting_ability</element>
             <position>2</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-26 23:14:15</sys_created_on>
-            <sys_id>2b123343dbd9630049ac7e7dbf961956</sys_id>
+            <sys_created_on>2018-12-17 04:47:01</sys_created_on>
+            <sys_id>2757efefdb12230049ac7e7dbf961921</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_character_spell" sys_domain="global" view="Default view">2f109ecddb1c230049ac7e7dbf96190f</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-26 23:14:15</sys_updated_on>
+            <sys_updated_on>2018-12-17 04:47:01</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -46,13 +46,13 @@
             <element>save_dc</element>
             <position>3</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-26 23:14:15</sys_created_on>
-            <sys_id>ab123343dbd9630049ac7e7dbf961956</sys_id>
+            <sys_created_on>2018-12-17 04:47:01</sys_created_on>
+            <sys_id>a757efefdb12230049ac7e7dbf961921</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_character_spell" sys_domain="global" view="Default view">2f109ecddb1c230049ac7e7dbf96190f</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-26 23:14:15</sys_updated_on>
+            <sys_updated_on>2018-12-17 04:47:01</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -60,13 +60,13 @@
             <element>attack_modifier</element>
             <position>4</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-26 23:14:15</sys_created_on>
-            <sys_id>2f123343dbd9630049ac7e7dbf961956</sys_id>
+            <sys_created_on>2018-12-17 04:47:01</sys_created_on>
+            <sys_id>2b57efefdb12230049ac7e7dbf961921</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_character_spell" sys_domain="global" view="Default view">2f109ecddb1c230049ac7e7dbf96190f</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-26 23:14:15</sys_updated_on>
+            <sys_updated_on>2018-12-17 04:47:01</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -74,13 +74,27 @@
             <element>prepared</element>
             <position>5</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-26 23:14:15</sys_created_on>
-            <sys_id>af123343dbd9630049ac7e7dbf961956</sys_id>
+            <sys_created_on>2018-12-17 04:47:01</sys_created_on>
+            <sys_id>ab57efefdb12230049ac7e7dbf961921</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_character_spell" sys_domain="global" view="Default view">2f109ecddb1c230049ac7e7dbf96190f</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-26 23:14:15</sys_updated_on>
+            <sys_updated_on>2018-12-17 04:47:01</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>castable</element>
+            <position>6</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2018-12-17 04:47:01</sys_created_on>
+            <sys_id>2f57efefdb12230049ac7e7dbf961921</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_character_spell" sys_domain="global" view="Default view">2f109ecddb1c230049ac7e7dbf96190f</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2018-12-17 04:47:01</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

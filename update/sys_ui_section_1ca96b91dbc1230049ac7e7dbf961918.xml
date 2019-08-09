@@ -4,13 +4,13 @@
             <element>name</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-09 01:52:58</sys_created_on>
-            <sys_id>4dd9af91dbc1230049ac7e7dbf961982</sys_id>
+            <sys_created_on>2018-11-12 15:51:58</sys_created_on>
+            <sys_id>feef65a8db31230049ac7e7dbf961969</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass_feature" sys_domain="global" view="Default view">1ca96b91dbc1230049ac7e7dbf961918</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-09 01:52:58</sys_updated_on>
+            <sys_updated_on>2018-11-12 15:51:58</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -18,13 +18,13 @@
             <element>subclass</element>
             <position>1</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-09 01:52:58</sys_created_on>
-            <sys_id>45d9af91dbc1230049ac7e7dbf961983</sys_id>
+            <sys_created_on>2018-11-12 15:51:58</sys_created_on>
+            <sys_id>b6ef65a8db31230049ac7e7dbf96196a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass_feature" sys_domain="global" view="Default view">1ca96b91dbc1230049ac7e7dbf961918</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-09 01:52:58</sys_updated_on>
+            <sys_updated_on>2018-11-12 15:51:58</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -32,13 +32,13 @@
             <element>level</element>
             <position>2</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-09 01:52:58</sys_created_on>
-            <sys_id>c5d9af91dbc1230049ac7e7dbf961983</sys_id>
+            <sys_created_on>2018-11-12 15:51:58</sys_created_on>
+            <sys_id>3aef65a8db31230049ac7e7dbf96196a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass_feature" sys_domain="global" view="Default view">1ca96b91dbc1230049ac7e7dbf961918</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-09 01:52:58</sys_updated_on>
+            <sys_updated_on>2018-11-12 15:51:58</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -46,13 +46,27 @@
             <element>description</element>
             <position>3</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-09 01:52:58</sys_created_on>
-            <sys_id>49d9af91dbc1230049ac7e7dbf961983</sys_id>
+            <sys_created_on>2018-11-12 15:51:58</sys_created_on>
+            <sys_id>baef65a8db31230049ac7e7dbf96196a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass_feature" sys_domain="global" view="Default view">1ca96b91dbc1230049ac7e7dbf961918</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-09 01:52:58</sys_updated_on>
+            <sys_updated_on>2018-11-12 15:51:58</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>subclass_feature_options</element>
+            <position>4</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2018-11-12 15:51:58</sys_created_on>
+            <sys_id>3eef65a8db31230049ac7e7dbf96196a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass_feature" sys_domain="global" view="Default view">1ca96b91dbc1230049ac7e7dbf961918</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2018-11-12 15:51:58</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Ability Score Increase" max_length="40" name="x_262366_wld_bldr_ability_score_increase" type="collection">
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element label="Character Class" max_length="32" name="character_class" reference="x_262366_wld_bldr_character_class" type="reference"/>
+        <element label="Charisma Increase" max_length="40" name="charisma_increase" type="integer"/>
+        <element label="Constitution Increase" max_length="40" name="constitution_increase" type="integer"/>
+        <element label="Dexterity Increase" max_length="40" name="dexterity_increase" type="integer"/>
+        <element label="Hit Points Increase" max_length="40" name="hit_points_increase" type="integer"/>
+        <element label="Intelligence Increase" max_length="40" name="intelligence_increase" type="integer"/>
+        <element label="Level" max_length="40" name="level" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Strength Increase" max_length="40" name="strength_increase" type="integer"/>
+        <element label="Wisdom Increase" max_length="40" name="wisdom_increase" type="integer"/>
+        <index name="index">
+            <element name="character"/>
+        </index>
+        <index name="index2">
+            <element name="character_class"/>
+        </index>
+    </element>
+</database>

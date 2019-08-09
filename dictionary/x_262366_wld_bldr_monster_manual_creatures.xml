@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element extends="sys_import_set_row" label="Monster Manual Creatures" max_length="40" name="x_262366_wld_bldr_monster_manual_creatures" type="collection">
+        <element attributes="import_attribute_name=Alignment,edge_encryption_enabled=true" label="Alignment" max_length="122" name="u_alignment" type="string"/>
+        <element attributes="import_attribute_name=Arctic,edge_encryption_enabled=true" label="Arctic" max_length="40" name="u_arctic" type="string"/>
+        <element attributes="import_attribute_name=Armor Class" label="Armor Class" max_length="40" name="u_armor_class" type="integer"/>
+        <element attributes="import_attribute_name=Attack 1 damage,edge_encryption_enabled=true" label="Attack 1 damage" max_length="40" name="u_attack_1_damage" type="string"/>
+        <element attributes="import_attribute_name=Attack 2 Damage,edge_encryption_enabled=true" label="Attack 2 Damage" max_length="40" name="u_attack_2_damage" type="string"/>
+        <element attributes="import_attribute_name=Biome,edge_encryption_enabled=true" label="Biome" max_length="66" name="u_biome" type="string"/>
+        <element attributes="import_attribute_name=Challenge Rating" label="Challenge Rating" max_length="15" name="u_challenge_rating" type="decimal"/>
+        <element attributes="import_attribute_name=Charisma" label="Charisma" max_length="40" name="u_charisma" type="integer"/>
+        <element attributes="import_attribute_name=Coast,edge_encryption_enabled=true" label="Coast" max_length="40" name="u_coast" type="string"/>
+        <element attributes="import_attribute_name=Constitution" label="Constitution" max_length="40" name="u_constitution" type="integer"/>
+        <element attributes="import_attribute_name=Desert,edge_encryption_enabled=true" label="Desert" max_length="40" name="u_desert" type="string"/>
+        <element attributes="import_attribute_name=Dexterity" label="Dexterity" max_length="40" name="u_dexterity" type="integer"/>
+        <element attributes="import_attribute_name=Forest,edge_encryption_enabled=true" label="Forest" max_length="40" name="u_forest" type="string"/>
+        <element attributes="import_attribute_name=Grassland,edge_encryption_enabled=true" label="Grassland" max_length="40" name="u_grassland" type="string"/>
+        <element attributes="import_attribute_name=Hill,edge_encryption_enabled=true" label="Hill" max_length="40" name="u_hill" type="string"/>
+        <element attributes="import_attribute_name=Hit Points" label="Hit Points" max_length="40" name="u_hit_points" type="integer"/>
+        <element attributes="import_attribute_name=Intelligence" label="Intelligence" max_length="40" name="u_intelligence" type="integer"/>
+        <element attributes="import_attribute_name=Mountain,edge_encryption_enabled=true" label="Mountain" max_length="40" name="u_mountain" type="string"/>
+        <element attributes="import_attribute_name=Name,edge_encryption_enabled=true" label="Name" max_length="40" name="u_name" type="string"/>
+        <element attributes="import_attribute_name=Size,edge_encryption_enabled=true" label="Size" max_length="40" name="u_size" type="string"/>
+        <element attributes="import_attribute_name=Spellcasting?,edge_encryption_enabled=true" label="Spellcasting?" max_length="40" name="u_spellcasting_" type="string"/>
+        <element attributes="import_attribute_name=Strength" label="Strength" max_length="40" name="u_strength" type="integer"/>
+        <element attributes="import_attribute_name=Swamp,edge_encryption_enabled=true" label="Swamp" max_length="40" name="u_swamp" type="string"/>
+        <element attributes="import_attribute_name=Type,edge_encryption_enabled=true" label="Type" max_length="40" name="u_type" type="string"/>
+        <element attributes="import_attribute_name=Underdark,edge_encryption_enabled=true" label="Underdark" max_length="40" name="u_underdark" type="string"/>
+        <element attributes="import_attribute_name=Underwater,edge_encryption_enabled=true" label="Underwater" max_length="40" name="u_underwater" type="string"/>
+        <element attributes="import_attribute_name=Urban,edge_encryption_enabled=true" label="Urban" max_length="40" name="u_urban" type="string"/>
+        <element attributes="import_attribute_name=Wisdom" label="Wisdom" max_length="40" name="u_wisdom" type="integer"/>
+    </element>
+</database>

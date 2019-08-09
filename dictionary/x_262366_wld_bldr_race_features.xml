@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Race Features" max_length="40" name="x_262366_wld_bldr_race_features" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Feature" max_length="4000" name="feature" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Race" max_length="32" name="race" reference="x_262366_wld_bldr_race" type="reference"/>
+        <index name="index">
+            <element name="race"/>
+        </index>
+    </element>
+</database>

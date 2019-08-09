@@ -4,6 +4,8 @@
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Armor Proficiencies" max_length="1024" name="armor_proficiencies" reference="x_262366_wld_bldr_armor_type" type="glide_list"/>
         <element label="Hit Dice" max_length="40" name="hit_dice" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Prepared Spell Modifier" max_length="40" name="prepared_spell_modifier" type="float"/>
+        <element label="Prepare Spells" max_length="40" name="prepare_spells" type="boolean"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Saving Throw Proficiencies" max_length="1024" name="saving_throw_proficiencies" reference="x_262366_wld_bldr_ability_score" type="glide_list"/>
         <element label="Skill Proficiencies" max_length="40" name="skill_proficiencies" type="integer"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Skill Proficiency Options" max_length="1024" name="skill_proficiency_options" reference="x_262366_wld_bldr_skills" type="glide_list"/>

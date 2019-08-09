@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Character Class" max_length="40" name="x_262366_wld_bldr_character_class" type="collection">
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element label="Level" max_length="40" name="level" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return current.u_class.getDisplayValue() + &quot; &quot; + current.level;&#13;&#10;&#13;&#10;})(current);" label="Name" max_length="40" name="name" type="string" virtual="true"/>
+        <element label="Subclass" max_length="32" name="subclass" reference="x_262366_wld_bldr_subclass" type="reference"/>
+        <element label="Class" max_length="32" name="u_class" reference="x_262366_wld_bldr_class" type="reference"/>
+        <index name="index">
+            <element name="character"/>
+        </index>
+        <index name="index2">
+            <element name="u_class"/>
+        </index>
+        <index name="index3">
+            <element name="subclass"/>
+        </index>
+    </element>
+</database>

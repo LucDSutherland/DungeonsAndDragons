@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Character Subclass Feature Option" max_length="40" name="x_262366_wld_bldr_character_subclass_feature_option" type="collection">
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element label="Level Obtained" max_length="40" name="level_obtained" type="integer"/>
+        <element label="Subclass Feature Option" max_length="32" name="subclass_feature_option" reference="x_262366_wld_bldr_subclass_feature_option" type="reference"/>
+        <index name="index">
+            <element name="character"/>
+        </index>
+        <index name="index2">
+            <element name="subclass_feature_option"/>
+        </index>
+    </element>
+</database>

@@ -10,6 +10,7 @@
         <element label="Slot Level" max_length="40" name="slot_level" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Sneak Attack" max_length="40" name="sneak_attack" type="string"/>
         <element label="Sorcery Points" max_length="40" name="sorcery_points" type="integer"/>
+        <element label="Spellcasting Subclass Prerequisite" max_length="32" name="spellcasting_subclass_prerequisite" reference="x_262366_wld_bldr_subclass" type="reference"/>
         <element label="Spells Known" max_length="40" name="spells_known" type="integer"/>
         <element label="Spell Slots" max_length="40" name="spell_slots" type="integer"/>
         <element label="Unarmored Movement" max_length="40" name="unarmored_movement" type="integer"/>

@@ -3,16 +3,19 @@
         <element label="Alignment" max_length="32" name="alignment" reference="x_262366_wld_bldr_alignment" type="reference"/>
         <element label="Armor Class" max_length="40" name="armor_class" type="integer"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Armor Proficiencies" max_length="1024" name="armor_proficiencies" reference="x_262366_wld_bldr_armor_type" type="glide_list"/>
+        <element label="Bonus HP Per Level" max_length="40" name="bonus_hp_per_level" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Cantrips" max_length="1024" name="cantrips" reference="x_262366_wld_bldr_spell" type="glide_list"/>
         <element label="Charisma" max_length="40" name="charisma" type="integer"/>
         <element label="Charisma Modifier" max_length="40" name="charisma_modifier" type="integer"/>
-        <element label="Charisma Save Modifier" max_length="40" name="charisma_save_modifier" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.charisma - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Charisma Save Modifier" max_length="40" name="charisma_save_modifier" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Classes" max_length="1024" name="classes" reference="x_262366_wld_bldr_class" type="glide_list"/>
         <element label="Constitution" max_length="40" name="constitution" type="integer"/>
         <element label="Constitution Modifier" max_length="40" name="constitution_modifier" type="integer"/>
-        <element label="Constitution Save Modifier" max_length="40" name="constitution_save_modifier" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.constitution - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Constitution Save Modifier" max_length="40" name="constitution_save_modifier" type="integer"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Damage Resistance" max_length="1024" name="damage_resistance" reference="x_262366_wld_bldr_damage_type" type="glide_list"/>
         <element label="Dexterity" max_length="40" name="dexterity" type="integer"/>
         <element label="Dexterity Modifier" max_length="40" name="dexterity_modifier" type="integer"/>
-        <element label="Dexterity Save Modifier" max_length="40" name="dexterity_save_modifier" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.dexterity - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Dexterity Save Modifier" max_length="40" name="dexterity_save_modifier" type="integer"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Doubled Skill Proficiencies" max_length="1024" name="doubled_skill_proficiencies" reference="x_262366_wld_bldr_skills" type="glide_list"/>
         <element attributes="edge_encryption_enabled=true" label="Equipment" max_length="4000" name="equipment" type="string"/>
         <element label="Experience Points" max_length="40" name="experience_points" type="integer"/>
@@ -28,7 +31,7 @@
         <element label="Initiative" max_length="40" name="initiative" type="integer"/>
         <element label="Intelligence" max_length="40" name="intelligence" type="integer"/>
         <element label="Intelligence Modifier" max_length="40" name="intelligence_modifier" type="integer"/>
-        <element label="Intelligence Save Modifier" max_length="40" name="intelligence_save_modifier" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.intelligence - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Intelligence Save Modifier" max_length="40" name="intelligence_save_modifier" type="integer"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Languages" max_length="1024" name="languages" reference="x_262366_wld_bldr_languages" type="glide_list"/>
         <element label="Level" max_length="40" name="level" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="100" name="name" type="string"/>
@@ -41,7 +44,7 @@
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Spells" max_length="1024" name="spells" reference="x_262366_wld_bldr_spell" type="glide_list"/>
         <element label="Strength" max_length="40" name="strength" type="integer"/>
         <element label="Strength Modifier" max_length="40" name="strength_modifier" type="integer"/>
-        <element label="Strength Save Modifier" max_length="40" name="strength_save_modifier" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.strength - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Strength Save Modifier" max_length="40" name="strength_save_modifier" type="integer"/>
         <element dependent="u_class" dependent_on_field="u_class" label="Subclass" max_length="32" name="subclass" reference="x_262366_wld_bldr_subclass" type="reference" use_dependent_field="true"/>
         <element dependent="race" dependent_on_field="race" label="Subrace" max_length="32" name="subrace" reference="x_262366_wld_bldr_subrace" type="reference" use_dependent_field="true"/>
         <element label="Temporary Hit Points" max_length="40" name="temporary_hit_points" type="integer"/>
@@ -62,7 +65,7 @@
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Type Proficiencies" max_length="1024" name="weapon_type_proficiencies" reference="x_262366_wld_bldr_weapon_type" type="glide_list"/>
         <element label="Wisdom" max_length="40" name="wisdom" type="integer"/>
         <element label="Wisdom Modifier" max_length="40" name="wisdom_modifier" type="integer"/>
-        <element label="Wisdom Save Modifier" max_length="40" name="wisdom_save_modifier" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.wisdom - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Wisdom Save Modifier" max_length="40" name="wisdom_save_modifier" type="integer"/>
         <element label="World" max_length="32" name="world" reference="x_262366_wld_bldr_world" type="reference"/>
         <index name="index">
             <element name="vision"/>

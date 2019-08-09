@@ -17,8 +17,19 @@ GenerateRandomNPC.prototype = {
 		
 		npc.race = this.GetRandomRecordInTable('x_262366_wld_bldr_race');
 		npc.subrace = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subrace', 'race', npc.race);
-		npc.u_class = this.GetRandomRecordInTable('x_262366_wld_bldr_class');
-		npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class);
+		npc.u_class = this.GetRandomRecordInTable('x_262366_wld_bldr_class'); //'2563994cdbf3130049ac7e7dbf961933'; //fighter //
+		npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class); //'8ed5c141dbf7130049ac7e7dbf961972'; //
+		
+		var multiClassed = 'no';
+		if(npc.u_class == '246cc942dbb5230049ac7e7dbf96195b'){ //multiclassed
+			npc.classes = this.GetMultipleClasses();
+			multiClassed = 'yes';
+			var classOptionsArray = npc.classes.split(',');
+			var randClass = Math.floor(Math.random()*classOptionsArray.length);
+			npc.u_class = classOptionsArray[randClass];
+			npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class);
+		}
+		
 		
 		if(true){ //TODO: check for races that do not have genders (ex war forged, I think)
 			var genderFlag = Math.floor(Math.random() * 2);
@@ -236,11 +247,7 @@ GenerateRandomNPC.prototype = {
 			
 			npc.languages += ',' + extraLanguage;
 		}
-		
-		
-		npc.features = npc.race.additional_features;
-		
-		
+				
 		if(npc.subrace){
 			npc.armor_proficiencies = npc.subrace.armor_proficiencies;
 			npc.weapon_proficiencies += (npc.weapon_proficiencies? ',':'') + npc.subrace.weapon_proficiencies;
@@ -312,37 +319,7 @@ GenerateRandomNPC.prototype = {
 			}
 		}
 		
-		var classFeatureOptionsChosen = [];
-		var classFeatures = new GlideRecord('x_262366_wld_bldr_class_feature');
-		classFeatures.addQuery('u_class', npc.u_class);
-		classFeatures.addQuery('level', 1);
-		classFeatures.query();
-		while(classFeatures.next()){
-			npc.features += (npc.features?"\r\n\r\n":"") + classFeatures.name + ":\r\n" + classFeatures.description;
-			var featureOptions = new GlideRecord('x_262366_wld_bldr_class_feature_option');
-			featureOptions.addQuery('class_features', 'CONTAINS', classFeatures.sys_id);
-			featureOptions.query();
-			var featureOptionsLength = featureOptions.getRowCount();
-			if(featureOptionsLength > 0){
-				var randFeatureOption = Math.floor(Math.random()*(featureOptionsLength));
-				var randFeatureOptionCount = 0;
-				while(featureOptions.next()){
-					if(randFeatureOptionCount == randFeatureOption){
-						npc.features += '\r\n' + featureOptions.name + ':\r\n' + featureOptions.description;
-						classFeatureOptionsChosen[classFeatureOptionsChosen.length] = featureOptions.sys_id;
-					}
-					++randFeatureOptionCount;
-				}
-			}
-		}
 		
-		var subClassFeatures = new GlideRecord('x_262366_wld_bldr_subclass_feature');
-		subClassFeatures.addQuery('subclass', npc.subclass);
-		subClassFeatures.addQuery('level', 1);
-		subClassFeatures.query();
-		while(subClassFeatures.next()){
-			npc.features += (npc.features?"\r\n\r\n":"") + subClassFeatures.name + ":\r\n" + subClassFeatures.description;
-		}
 		
 		if(npc.subclass.new_languages && npc.subclass.new_languages > 0){
 			for(var l = 0; l < npc.subclass.new_languages; ++l){
@@ -391,23 +368,129 @@ GenerateRandomNPC.prototype = {
 		npc.armor_proficiencies += (npc.armor_proficiencies? ',':'') + npc.subclass.armor_proficiencies;
 		npc.weapon_type_proficiencies += (npc.weapon_type_proficiencies? ',':'') + npc.subclass.weapon_proficiencies;
 		
-		npc.hit_points_max = npc.u_class.hit_dice + Math.floor((npc.constitution -10)/2) + (npc.subrace.additional_hp_modifier?npc.subrace.additional_hp_modifier:0) + (npc.subclass.hp_increase?npc.subclass.hp_increase:0);
+		npc.bonus_hp_per_level = (npc.subrace.additional_hp_modifier?npc.subrace.additional_hp_modifier:0) + (npc.subclass.hp_increase?npc.subclass.hp_increase:0);
+		npc.hit_points_max = npc.u_class.hit_dice + Math.floor((npc.constitution -10)/2) + npc.bonus_hp_per_level;
 		npc.hit_points = npc.hit_points_max;
+		npc.level = 1;
+		npc.experience_points = 0;
 		
 		var npcID = npc.insert();
 		
 		/*********************************************************************************************************/
+		/*********************************************************************************************************/
+		/*********************************************************************************************************/
+		/*********************************************************************************************************/
+		/*********************************************************************************************************/
+		/*********************************************************************************************************/
+		/*********************************************************************************************************/
+		/*********************************************************************************************************/
+		
+		var raceFeature = new GlideRecord('x_262366_wld_bldr_race_features');
+		raceFeature.addQuery('race', npc.race);
+		raceFeature.query();
+		while(raceFeature.next()){
+			var rcf = new GlideRecord('x_262366_wld_bldr_character_feature');
+			rcf.initialize();
+			rcf.character = npcID;
+			rcf.source = npc.race.getDisplayValue();
+			rcf.feature = raceFeature.feature;
+			rcf.name = raceFeature.name;
+			rcf.active = 'true';
+			rcf.insert();
+		}
+		var subraceFeature = new GlideRecord('x_262366_wld_bldr_subrace_features');
+		subraceFeature.addQuery('subrace', npc.subrace);
+		subraceFeature.query();
+		while(subraceFeature.next()){
+			var scf = new GlideRecord('x_262366_wld_bldr_character_feature');
+			scf.initialize();
+			scf.character = npcID;
+			scf.source = npc.subrace.getDisplayValue();
+			scf.feature = subraceFeature.feature;
+			scf.name = subraceFeature.name;
+			scf.active = 'true';
+			scf.insert();
+		}
+		
+		var classFeatureOptionsChosen = [];
+		var classFeatures = new GlideRecord('x_262366_wld_bldr_class_feature');
+		classFeatures.addQuery('u_class', npc.u_class);
+		classFeatures.addQuery('level', 1);
+		classFeatures.query();
+		while(classFeatures.next()){
+			var featureOptions = new GlideRecord('x_262366_wld_bldr_class_feature_option');
+			featureOptions.addQuery('class_features', 'CONTAINS', classFeatures.sys_id);
+			featureOptions.query();
+			var featureOptionsLength = featureOptions.getRowCount();
+			if(featureOptionsLength > 0){
+				var randFeatureOption = Math.floor(Math.random()*(featureOptionsLength));
+				var randFeatureOptionCount = 0;
+				while(featureOptions.next()){
+					if(randFeatureOptionCount == randFeatureOption){
+						var cocf = new GlideRecord('x_262366_wld_bldr_character_feature');
+						cocf.initialize();
+						cocf.character = npcID;
+						cocf.source = npc.u_class.getDisplayValue() + ' Level 1';
+						cocf.feature = featureOptions.description;
+						cocf.name = featureOptions.name;
+						cocf.active = 'true';
+						cocf.insert();
+						
+						classFeatureOptionsChosen[classFeatureOptionsChosen.length] = featureOptions.sys_id;
+					}
+					++randFeatureOptionCount;
+				}
+			}
+			else{
+				var ccf = new GlideRecord('x_262366_wld_bldr_character_feature');
+				ccf.initialize();
+				ccf.character = npcID;
+				ccf.source = npc.u_class.getDisplayValue() + ' Level 1';
+				ccf.feature = classFeatures.description;
+				ccf.name = classFeatures.name;
+				ccf.active = 'true';
+				ccf.insert();
+			}
+		}
+		
+		var subClassFeatures = new GlideRecord('x_262366_wld_bldr_subclass_feature');
+		subClassFeatures.addQuery('subclass', npc.subclass);
+		subClassFeatures.addQuery('level', 1);
+		subClassFeatures.query();
+		while(subClassFeatures.next()){
+			var sccf = new GlideRecord('x_262366_wld_bldr_character_feature');
+			sccf.initialize();
+			sccf.character = npcID;
+			sccf.source = npc.subclass.getDisplayValue();
+			sccf.feature = subClassFeatures.description;
+			sccf.name = subClassFeatures.name;
+			sccf.active = 'true';
+			sccf.insert();
+		}
+		
 		
 		if(npc.race.u_1st_level_cantrip){
 			var characterSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
 			characterSpell.initialize();
 			characterSpell.character = npcID;
 			characterSpell.spell = npc.race.u_1st_level_cantrip;
-			characterSpell.spellcasting_ability = npc.race.race_spellcasting_ability;
-			//characterSpell.save_dc = //only one is Teifling, which gets Thurmaturgy
-			//TODO: finish this script
+			characterSpell.castable = 'true';
+			var cantripAbilityScore = npc.race.race_spellcasting_ability;
+			characterSpell.spellcasting_ability = cantripAbilityScore;
+			var cantripModifier = 0;
+			if(cantripAbilityScore == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+				cantripModifier = Math.floor((npc.intelligence-10)/2);
+			}
+			else if(cantripAbilityScore == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+				cantripModifier = Math.floor((npc.wisdom-10)/2);
+			}
+			else if(cantripAbilityScore == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+				cantripModifier = Math.floor((npc.charisma-10)/2);
+			}
+			characterSpell.save_dc = 10 + cantripModifier;
+			characterSpell.attack_modifier = cantripModifier + 2;
 			characterSpell.insert();
-			npc.spells = npc.race.u_1st_level_cantrip;
+			npc.cantrips = npc.race.u_1st_level_cantrip;
 		}
 		
 		if(npc.subrace.u_1st_level_cantrip){
@@ -415,11 +498,23 @@ GenerateRandomNPC.prototype = {
 			characterSpell2.initialize();
 			characterSpell2.character = npcID;
 			characterSpell2.spell = npc.subrace.u_1st_level_cantrip;
-			characterSpell2.spellcasting_ability = npc.subrace.subrace_spellcasting_ability;
-			//characterSpell.save_dc = //only ones are forest gnome and drow, which get Minor Illusion & dancing Lights, respectively
-			//TODO: finish this script
+			characterSpell2.castable = 'true';
+			var cantripAbilityScore2 = npc.subrace.subrace_spellcasting_ability;
+			characterSpell2.spellcasting_ability = cantripAbilityScore2;
+			var cantripModifier2 = 0;
+			if(cantripAbilityScore2 == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+				cantripModifier2 = Math.floor((npc.intelligence-10)/2);
+			}
+			else if(cantripAbilityScore2 == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+				cantripModifier2 = Math.floor((npc.wisdom-10)/2);
+			}
+			else if(cantripAbilityScore2 == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+				cantripModifier2 = Math.floor((npc.charisma-10)/2);
+			}
+			characterSpell2.save_dc = 10 + cantripModifier2;
+			characterSpell2.attack_modifier = cantripModifier2 + 2;
 			characterSpell2.insert();
-			npc.spells = npc.subrace.u_1st_level_cantrip;
+			npc.cantrips = npc.subrace.u_1st_level_cantrip;
 		}
 		
 		
@@ -437,13 +532,25 @@ GenerateRandomNPC.prototype = {
 			while(cantrip.next()){
 				if(randCantrip == cantripCounter){
 					characterSpell3.spell = cantrip.sys_id;
-					npc.spells = cantrip.sys_id;
+					npc.cantrips = cantrip.sys_id;
 				}
 				++cantripCounter;
 			}
-			//TODO: make it so this works for non high elves
-			characterSpell3.spellcasting_ability = 'ee28f67edb04a30049ac7e7dbf9619f5'; //Int
-			characterSpell3.save_dc = 10 + Math.floor((npc.intelligence -10)/2); //only high elves have this, so int is guarenteed
+			var cantripAbilityScore3 = npc.subrace.subrace_spellcasting_ability;
+			characterSpell3.spellcasting_ability = cantripAbilityScore3;
+			var cantripModifier3 = 0;
+			if(cantripAbilityScore3 == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+				cantripModifier3 = Math.floor((npc.intelligence-10)/2);
+			}
+			else if(cantripAbilityScore3 == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+				cantripModifier3 = Math.floor((npc.wisdom-10)/2);
+			}
+			else if(cantripAbilityScore3 == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+				cantripModifier3 = Math.floor((npc.charisma-10)/2);
+			}
+			characterSpell3.save_dc = 10 + cantripModifier3;
+			characterSpell3.attack_modifier = cantripModifier3 + 2;
+			characterSpell3.castable = 'true';
 			characterSpell3.insert();
 		}
 		
@@ -453,7 +560,7 @@ GenerateRandomNPC.prototype = {
 		characterClassTable.query();
 		if(characterClassTable.next()){
 			if(characterClassTable.cantrips_known && characterClassTable.cantrips_known > 0){
-				var cantripsKnown = npc.spells; //.split(',');
+				var cantripsKnown = npc.cantrips;
 				var cantripsToLearn = [];
 				var additionalCantrip = 0;
 				if(cantripsKnown != ''){
@@ -463,24 +570,36 @@ GenerateRandomNPC.prototype = {
 				
 				var cantripsString = '';
 				while(cantripsToLearn.length < characterClassTable.cantrips_known + additionalCantrip){
-					var newCantrip = this.GetLevelSpell(npc.u_class,'7d794748db90230049ac7e7dbf9619d0', cantripsToLearn);
+					var newCantrip = this.GetLevelSpell(npc.u_class,'7d794748db90230049ac7e7dbf9619d0', cantripsToLearn, '');
 					cantripsToLearn[cantripsToLearn.length] = newCantrip;
 					cantripsString += (cantripsString?",":"") + newCantrip;
 					var newCantripRecord = new GlideRecord('x_262366_wld_bldr_character_spell');
 					newCantripRecord.initialize();
 					newCantripRecord.character = npcID;
 					newCantripRecord.spell = newCantrip;
-					//newCantripRecord.spellcasting_ability = npc.race.race_spellcasting_ability;
-					//newCantripRecord.save_dc = 
-					//TODO: finish this script
+					newCantripRecord.castable = 'true';
+					var cantripAbilityScore4 = npc.u_class.spellcasting_ability;
+					newCantripRecord.spellcasting_ability = cantripAbilityScore4;
+					var cantripModifier4 = 0;
+					if(cantripAbilityScore4 == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+						cantripModifier4 = Math.floor((npc.intelligence-10)/2);
+					}
+					else if(cantripAbilityScore4 == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+						cantripModifier4 = Math.floor((npc.wisdom-10)/2);
+					}
+					else if(cantripAbilityScore4 == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+						cantripModifier4 = Math.floor((npc.charisma-10)/2);
+					}
+					newCantripRecord.save_dc = 10 + cantripModifier4;
+					newCantripRecord.attack_modifier = cantripModifier4 + 2;
 					newCantripRecord.insert();
 				}
-				npc.spells += (npc.spells?',':'') + cantripsString;
+				npc.cantrips += (npc.cantrips?',':'') + cantripsString;
 			}
 			
 			if(characterClassTable.spells_known && characterClassTable.spells_known > 0){
 				var prepare = false;
-				if(npc.u_class == '40939d4cdbf3130049ac7e7dbf96193a'){ //wizard
+				if(npc.u_class.prepare_spells){ //only wizard
 					prepare = true;
 				}
 				var spellLoopCount = 0;
@@ -498,43 +617,84 @@ GenerateRandomNPC.prototype = {
 				var spellsToLearn = [];
 				var spellsString = '';
 				while(spellsToLearn.length < characterClassTable.spells_known){
-					var newSpell = this.GetLevelSpell(npc.u_class,'95a41e81db5c230049ac7e7dbf961939', spellsToLearn);
+					var newSpell = this.GetLevelSpell(npc.u_class,'95a41e81db5c230049ac7e7dbf961939', spellsToLearn,'');
 					spellsToLearn[spellsToLearn.length] = newSpell;
 					spellsString += (spellsString?",":"") + newSpell;
 					var newSpellRecord = new GlideRecord('x_262366_wld_bldr_character_spell');
 					newSpellRecord.initialize();
 					newSpellRecord.character = npcID;
 					newSpellRecord.spell = newSpell;
-					//newCantripRecord.spellcasting_ability = npc.race.race_spellcasting_ability;
-					//newCantripRecord.save_dc = 
-					//TODO: finish this script
-					if(prepare && randomPreparedSpells.indexOf(spellLoopCount) > -1){
-						newSpellRecord.prepared = 'true';
+					
+					var spellAbilityScore = npc.u_class.spellcasting_ability;
+					newSpellRecord.spellcasting_ability = spellAbilityScore;
+					var spellModifier = 0;
+					if(spellAbilityScore == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+						spellModifier = Math.floor((npc.intelligence-10)/2);
 					}
+					else if(spellAbilityScore == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+						spellModifier = Math.floor((npc.wisdom-10)/2);
+					}
+					else if(spellAbilityScore == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+						spellModifier = Math.floor((npc.charisma-10)/2);
+					}
+					newSpellRecord.save_dc = 10 + spellModifier;
+					newSpellRecord.attack_modifier = spellModifier + 2;
+					
+					
+					if(prepare && randomPreparedSpells.indexOf(spellLoopCount) > -1){
+						newSpellRecord.castable = 'true';
+					}
+					else if(!prepare){
+						newSpellRecord.castable = 'true';
+					}
+					
 					newSpellRecord.insert();
+					
 					++spellLoopCount;
 				}
-				npc.spells += (npc.spells?',':'') + spellsString;	
+				npc.spells += (npc.spells?',':'') + spellsString;
 			}
 			else if(characterClassTable.u_1st_level_spell_slots && characterClassTable.u_1st_level_spell_slots > 0){
-				//cleric or druid; both use wisdom for prepared spells
-				var wisModifier = Math.floor((npc.wisdom-10)/2);
-				
-				var spellsPrepared = (wisModifier>0?wisModifier:0) + 1;
+				var spellPrepareAbilityScore = npc.u_class.spellcasting_ability;
+				var spellsPrepareModifier = 0;
+				if(spellPrepareAbilityScore == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+					spellsPrepareModifier = Math.floor((npc.intelligence-10)/2);
+				}
+				else if(spellPrepareAbilityScore == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+					spellsPrepareModifier = Math.floor((npc.wisdom-10)/2);
+				}
+				else if(spellPrepareAbilityScore == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+					spellsPrepareModifier = Math.floor((npc.charisma-10)/2);
+				}
+				var spellsPrepared = (spellsPrepareModifier>0?spellsPrepareModifier:0) + 1;
 				
 				var spellsToLearn2 = [];
 				var spellsString2 = '';
 				while(spellsToLearn2.length < spellsPrepared){
-					var newSpell2 = this.GetLevelSpell(npc.u_class,'95a41e81db5c230049ac7e7dbf961939', spellsToLearn2);
+					var newSpell2 = this.GetLevelSpell(npc.u_class,'95a41e81db5c230049ac7e7dbf961939', spellsToLearn2,'');
 					spellsToLearn2[spellsToLearn2.length] = newSpell2;
 					spellsString2 += (spellsString2?",":"") + newSpell2;
 					var newSpellRecord2 = new GlideRecord('x_262366_wld_bldr_character_spell');
 					newSpellRecord2.initialize();
 					newSpellRecord2.character = npcID;
 					newSpellRecord2.spell = newSpell2;
-					//newCantripRecord.spellcasting_ability = npc.race.race_spellcasting_ability;
-					//newCantripRecord.save_dc = 
-					//TODO: finish this script
+					newSpellRecord2.prepared = 'true';
+					newSpellRecord2.castable = 'true';
+					
+					var spellAbilityScore2 = npc.u_class.spellcasting_ability;
+					newSpellRecord2.spellcasting_ability = spellAbilityScore2;
+					var spellModifier2 = 0;
+					if(spellAbilityScore2 == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+						spellModifier2 = Math.floor((npc.intelligence-10)/2);
+					}
+					else if(spellAbilityScore2 == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+						spellModifier2 = Math.floor((npc.wisdom-10)/2);
+					}
+					else if(spellAbilityScore2 == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+						spellModifier2 = Math.floor((npc.charisma-10)/2);
+					}
+					newSpellRecord2.save_dc = 10 + spellModifier2;
+					newSpellRecord2.attack_modifier = spellModifier2 + 2;
 					newSpellRecord2.insert();
 				}
 				npc.spells += (npc.spells?',':'') + spellsString2;
@@ -549,16 +709,51 @@ GenerateRandomNPC.prototype = {
 			characterClassFeature.insert();
 		}
 		
+		var ccTable = new GlideRecord('x_262366_wld_bldr_character_class');
+		ccTable.initialize();
+		ccTable.character = npcID;
+		ccTable.u_class = npc.u_class;
+		ccTable.subclass = npc.subclass;
+		ccTable.level = 1;
+		ccTable.insert();
+		
+		if(multiClassed == 'yes'){
+			var multiClasses = npc.classes.split(',');
+			for(var cc = 0; cc < multiClasses.length; ++cc){
+				if(multiClasses[cc] != npc.u_class){
+					var ccTable2 = new GlideRecord('x_262366_wld_bldr_character_class');
+					ccTable2.initialize();
+					ccTable2.character = npcID;
+					ccTable2.u_class = multiClasses[cc];
+					ccTable2.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', multiClasses[cc]);
+					ccTable2.level = 0;
+					ccTable2.insert();
+				}
+			}
+			
+			npc.u_class = '246cc942dbb5230049ac7e7dbf96195b';
+			npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class);
+		}
 		
 		npc.update();
 	},
 	
-	GetLevelSpell: function(npcClass, npcLevel, currentSpells){
+	GetLevelSpell: function(npcClass, npcLevel, currentSpells, spellTypes){
+		if(npcClass == '2563994cdbf3130049ac7e7dbf961933' || npcClass == 'df739d4cdbf3130049ac7e7dbf9619e1'){ //Fighter or Rogue
+			npcClass = '40939d4cdbf3130049ac7e7dbf96193a'; //switch to wizard
+		}
+		
 		var spellTable = new GlideRecord('x_262366_wld_bldr_spell');
 		spellTable.addQuery('classes', 'CONTAINS', npcClass);
 		spellTable.addQuery('level', npcLevel);
-		for(var spells = 0; spells < currentSpells.length; ++ spells){
+		for(var spells = 0; spells < currentSpells.length; ++spells){
 			spellTable.addQuery('sys_id', '!=', currentSpells[spells]);
+		}
+		
+		if(spellTypes){
+			for(var spTypes = 0; spTypes < spellTypes.length; ++spTypes){
+				spellTable.addQuery('type', spellTypes[spTypes]);
+			}
 		}
 		
 		spellTable.query();
@@ -625,19 +820,50 @@ GenerateRandomNPC.prototype = {
 		return sum;
 	},
 	
+	GetMultipleClasses: function(){
+		var classCount = Math.floor(Math.random()*4) + 2;
+		
+		var classes = new GlideRecord('x_262366_wld_bldr_class');
+		classes.addQuery('sys_id','!=', '246cc942dbb5230049ac7e7dbf96195b');
+		classes.query();
+		
+		var randClassArray = [];
+		for(var cc = 0; cc < classes.getRowCount(); ++cc){
+			randClassArray[cc] = -1;
+		}
+		
+		var randNumberArray = [];
+		while(randNumberArray.length < classCount){
+			var randNum5 = Math.floor(Math.random()*(classes.getRowCount()));
+			if(randNumberArray.indexOf(randNum5) > -1) continue;
+			randNumberArray[randNumberArray.length] = randNum5;
+			randClassArray[randNum5] = 1;
+		}
+		
+		var returnString = '';
+		var loopCounter = 0;
+		while(classes.next()){
+			if(randClassArray[loopCounter] == 1){
+				returnString += (returnString == ''?'':',') + classes.sys_id;
+			}
+			++loopCounter;
+		}
+		return returnString;
+	},
+	
     type: 'GenerateRandomNPC'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-08-06 14:49:59</sys_created_on>
         <sys_id>d2c53009dbb7130049ac7e7dbf9619ac</sys_id>
-        <sys_mod_count>80</sys_mod_count>
+        <sys_mod_count>128</sys_mod_count>
         <sys_name>GenerateRandomNPC</sys_name>
         <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
         <sys_update_name>sys_script_include_d2c53009dbb7130049ac7e7dbf9619ac</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-10-31 21:58:39</sys_updated_on>
+        <sys_updated_on>2019-08-07 21:57:34</sys_updated_on>
     </sys_script_include>
 </record_update>
