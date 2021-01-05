@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Class Feature" max_length="40" name="x_262366_wld_bldr_class_feature" type="collection">
+        <element label="Ability Option" max_length="32" name="ability_option" reference="x_262366_wld_bldr_class_feature" type="reference"/>
+        <element label="Ability Upgrade" max_length="32" name="ability_upgrade" reference="x_262366_wld_bldr_class_feature" type="reference"/>
+        <element label="Action" max_length="40" name="action" type="boolean"/>
+        <element label="Bonus Action" max_length="40" name="bonus_action" type="boolean"/>
         <element label="Class Feature Options" max_length="40" name="class_feature_options" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Description" max_length="4000" name="description" type="string"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Expertise Type" max_length="40" name="expertise_type" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Artificer" sequence="0" value="Artificer"/>
+                <element inactive_on_update="false" label="Bard" sequence="1" value="Bard"/>
+                <element inactive_on_update="false" label="Rogue" sequence="2" value="Rogue"/>
+            </choice>
+        </element>
         <element label="Level" max_length="40" name="level" type="integer"/>
+        <element label="Limited Use" max_length="40" name="limited_use" type="boolean"/>
+        <element label="Limited Use Ability Base Use Limit" max_length="40" name="limited_use_ability_base_use_limit" type="integer"/>
+        <element label="Limited Use Ability Die Count" max_length="40" name="limited_use_ability_die_count" type="integer"/>
+        <element label="Limited Use Ability Die Size" max_length="40" name="limited_use_ability_die_size" type="integer"/>
+        <element label="Limited Use Ability Modifier" max_length="32" name="limited_use_ability_modifier" reference="x_262366_wld_bldr_ability_score" type="reference"/>
+        <element label="Limited Use Ability Refresh" max_length="32" name="limited_use_ability_refresh" reference="x_262366_wld_bldr_rest_type" type="reference"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="100" name="name" type="string"/>
+        <element label="Parent Class Feature" max_length="32" name="parent_class_feature" reference="x_262366_wld_bldr_class_feature" type="reference"/>
+        <element label="Reaction" max_length="40" name="reaction" type="boolean"/>
         <element label="Class" max_length="32" name="u_class" reference="x_262366_wld_bldr_class" type="reference"/>
         <index name="index">
+            <element name="limited_use_ability_refresh"/>
+        </index>
+        <index name="index2">
             <element name="u_class"/>
+        </index>
+        <index name="index3">
+            <element name="ability_upgrade"/>
+        </index>
+        <index name="index4">
+            <element name="limited_use_ability_modifier"/>
+        </index>
+        <index name="index5">
+            <element name="parent_class_feature"/>
+        </index>
+        <index name="index6">
+            <element name="ability_option"/>
         </index>
     </element>
 </database>

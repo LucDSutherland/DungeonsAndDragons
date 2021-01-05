@@ -3,7 +3,7 @@
         <active>true</active>
         <array>false</array>
         <array_denormalized>false</array_denormalized>
-        <attributes>no_sort=true,slushbucket_ref_no_expand=true</attributes>
+        <attributes/>
         <audit>false</audit>
         <calculation/>
         <choice>0</choice>
@@ -27,9 +27,9 @@
         <foreign_database/>
         <function_definition/>
         <function_field>false</function_field>
-        <internal_type display_value="">glide_list</internal_type>
+        <internal_type display_value="Reference">reference</internal_type>
         <mandatory>false</mandatory>
-        <max_length>1024</max_length>
+        <max_length>32</max_length>
         <name>x_262366_wld_bldr_creatures</name>
         <next_element/>
         <primary>false</primary>
@@ -47,8 +47,8 @@
         <staged>false</staged>
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-08-05 01:40:29</sys_created_on>
-        <sys_id>fca774e0db77530049ac7e7dbf961941</sys_id>
+        <sys_created_on>2019-08-15 16:52:52</sys_created_on>
+        <sys_id>f9a413d5db17778049ac7e7dbf961926</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Alignment</sys_name>
         <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
@@ -56,7 +56,7 @@
         <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
         <sys_update_name>sys_dictionary_x_262366_wld_bldr_creatures_alignment</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-05 01:40:29</sys_updated_on>
+        <sys_updated_on>2019-08-15 16:52:52</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

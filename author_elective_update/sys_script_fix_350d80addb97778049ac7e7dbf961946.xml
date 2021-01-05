@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_fix">
+    <sys_script_fix action="DELETE">
+        <active>true</active>
+        <before>false</before>
+        <description/>
+        <flush_cache>false</flush_cache>
+        <name>copy hp</name>
+        <record_for_rollback>false</record_for_rollback>
+        <run_once>true</run_once>
+        <script><![CDATA[var toon = new GlideRecord('x_262366_wld_bldr_character');
+toon.query();
+while(toon.next()){
+	toon.max_hit_points = toon.hit_points_max;
+	toon.current_hit_points = toon.hit_points;
+	toon.update();
+}]]></script>
+        <sys_class_name>sys_script_fix</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-15 21:00:37</sys_created_on>
+        <sys_id>350d80addb97778049ac7e7dbf961946</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>copy hp</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_fix_350d80addb97778049ac7e7dbf961946</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-15 21:00:37</sys_updated_on>
+        <unloadable>false</unloadable>
+    </sys_script_fix>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>sys_script_fix_350d80addb97778049ac7e7dbf961946</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_fix"&gt;&lt;sys_script_fix action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;before&gt;false&lt;/before&gt;&lt;description/&gt;&lt;flush_cache&gt;false&lt;/flush_cache&gt;&lt;name&gt;copy hp&lt;/name&gt;&lt;record_for_rollback&gt;false&lt;/record_for_rollback&gt;&lt;run_once&gt;true&lt;/run_once&gt;&lt;script&gt;&lt;![CDATA[var toon = new GlideRecord('x_262366_wld_bldr_character');
+toon.query();
+while(toon.next()){
+	toon.max_hit_points = toon.hit_points_max;
+	toon.current_hit_points = toon.hit_points;
+	toon.update();
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_fix&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2019-08-15 21:00:37&lt;/sys_created_on&gt;&lt;sys_id&gt;350d80addb97778049ac7e7dbf961946&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;copy hp&lt;/sys_name&gt;&lt;sys_package display_value="World Builder" source="x_262366_wld_bldr"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="World Builder"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_fix_350d80addb97778049ac7e7dbf961946&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2019-08-15 21:00:37&lt;/sys_updated_on&gt;&lt;unloadable&gt;false&lt;/unloadable&gt;&lt;/sys_script_fix&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-872592398</payload_hash>
+        <record_name>copy hp</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-15 21:00:37</sys_created_on>
+        <sys_id>8b5dc86ddb97778049ac7e7dbf961995</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16c9715181d0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-15 21:00:37</sys_updated_on>
+        <type>Fix Script</type>
+        <update_guid>c35dc86dba977780264f73e3d1cd5195</update_guid>
+        <update_guid_history>c35dc86dba977780264f73e3d1cd5195:-872592398</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-15 21:01:01</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_fix">sys_script_fix</sys_db_object>
+        <sys_id>0fb735e618fe41a88f63628c7195d684</sys_id>
+        <sys_metadata>350d80addb97778049ac7e7dbf961946</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>copy hp</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>sys_script_fix_350d80addb97778049ac7e7dbf961946</sys_update_name>
+        <sys_update_version display_value="sys_script_fix_350d80addb97778049ac7e7dbf961946">8b5dc86ddb97778049ac7e7dbf961995</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-15 21:01:01</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

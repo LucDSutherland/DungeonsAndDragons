@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Class Table" max_length="40" name="x_262366_wld_bldr_class_table" type="collection">
         <element label="Cantrips Known" max_length="40" name="cantrips_known" type="integer"/>
+        <element label="Infused Items" max_length="40" name="infused_items" type="integer"/>
+        <element label="Infusions Known" max_length="40" name="infusions_known" type="integer"/>
         <element label="Invocations Known" max_length="40" name="invocations_known" type="integer"/>
         <element label="Ki Points" max_length="40" name="ki_points" type="integer"/>
         <element label="Level" max_length="40" name="level" type="integer"/>

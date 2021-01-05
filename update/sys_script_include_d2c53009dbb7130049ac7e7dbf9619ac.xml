@@ -3,6 +3,7 @@
         <access>package_private</access>
         <active>true</active>
         <api_name>x_262366_wld_bldr.GenerateRandomNPC</api_name>
+        <caller_access/>
         <client_callable>false</client_callable>
         <description/>
         <name>GenerateRandomNPC</name>
@@ -15,19 +16,19 @@ GenerateRandomNPC.prototype = {
 		var npc = new GlideRecord('x_262366_wld_bldr_character');
 		npc.initialize();
 		
-		npc.race = this.GetRandomRecordInTable('x_262366_wld_bldr_race');
+		npc.race = 'bb02990cdbf3130049ac7e7dbf9619f4'; //this.GetRandomRecordInTable('x_262366_wld_bldr_race'); //comment
 		npc.subrace = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subrace', 'race', npc.race);
-		npc.u_class = this.GetRandomRecordInTable('x_262366_wld_bldr_class'); //'2563994cdbf3130049ac7e7dbf961933'; //fighter //
-		npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class); //'8ed5c141dbf7130049ac7e7dbf961972'; //
+		npc.u_class = '40939d4cdbf3130049ac7e7dbf96193a'; //this.GetRandomRecordInTable('x_262366_wld_bldr_class');
+		npc.subclass = 'b866314ddb3b130049ac7e7dbf961994'; //this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'u_class', npc.u_class);
 		
 		var multiClassed = 'no';
-		if(npc.u_class == '246cc942dbb5230049ac7e7dbf96195b'){ //multiclassed
+		if(npc.u_class == '246cc942dbb5230049ac7e7dbf96195b'){ //multi-classed
 			npc.classes = this.GetMultipleClasses();
 			multiClassed = 'yes';
 			var classOptionsArray = npc.classes.split(',');
 			var randClass = Math.floor(Math.random()*classOptionsArray.length);
 			npc.u_class = classOptionsArray[randClass];
-			npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class);
+			npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'u_class', npc.u_class);
 		}
 		
 		
@@ -277,14 +278,14 @@ GenerateRandomNPC.prototype = {
 		npc.armor_proficiencies += (npc.armor_proficiencies? ',':'') + npc.u_class.armor_proficiencies;
 		npc.weapon_type_proficiencies = npc.u_class.weapon_type_proficiencies;
 		npc.weapon_proficiencies += (npc.weapon_proficiencies? ',':'') + npc.u_class.weapon_proficiencies;
-		npc.saving_throws_proficiency = npc.u_class.saving_throw_proficiencies;
+		npc.saving_throw_proficiencies = npc.u_class.saving_throw_proficiencies;
 		
-		npc.strength_save_modifier = npc.strength_modifier + (npc.saving_throws_proficiency.indexOf('cc08f67edb04a30049ac7e7dbf961919')>-1?2:0);
-		npc.dexterity_save_modifier = npc.dexterity_modifier + (npc.saving_throws_proficiency.indexOf('8a183a7edb04a30049ac7e7dbf96196c')>-1?2:0);
-		npc.constitution_save_modifier = npc.constitution_modifier + (npc.saving_throws_proficiency.indexOf('b0283a7edb04a30049ac7e7dbf961953')>-1?2:0);
-		npc.intelligence_save_modifier = npc.intelligence_modifier + (npc.saving_throws_proficiency.indexOf('ee28f67edb04a30049ac7e7dbf9619f5')>-1?2:0);
-		npc.wisdom_save_modifier = npc.wisdom_modifier + (npc.saving_throws_proficiency.indexOf('e438f67edb04a30049ac7e7dbf96194b')>-1?2:0);
-		npc.charisma_save_modifier = npc.charisma_modifier + (npc.saving_throws_proficiency.indexOf('0638f67edb04a30049ac7e7dbf9619a1')>-1?2:0);
+		npc.strength_save_modifier = npc.strength_modifier + (npc.saving_throw_proficiencies.indexOf('cc08f67edb04a30049ac7e7dbf961919')>-1?2:0);
+		npc.dexterity_save_modifier = npc.dexterity_modifier + (npc.saving_throw_proficiencies.indexOf('8a183a7edb04a30049ac7e7dbf96196c')>-1?2:0);
+		npc.constitution_save_modifier = npc.constitution_modifier + (npc.saving_throw_proficiencies.indexOf('b0283a7edb04a30049ac7e7dbf961953')>-1?2:0);
+		npc.intelligence_save_modifier = npc.intelligence_modifier + (npc.saving_throw_proficiencies.indexOf('ee28f67edb04a30049ac7e7dbf9619f5')>-1?2:0);
+		npc.wisdom_save_modifier = npc.wisdom_modifier + (npc.saving_throw_proficiencies.indexOf('e438f67edb04a30049ac7e7dbf96194b')>-1?2:0);
+		npc.charisma_save_modifier = npc.charisma_modifier + (npc.saving_throw_proficiencies.indexOf('0638f67edb04a30049ac7e7dbf9619a1')>-1?2:0);
 		
 		//TODO: Prevent duplicate skills from race
 		
@@ -366,11 +367,12 @@ GenerateRandomNPC.prototype = {
 		}
 		
 		npc.armor_proficiencies += (npc.armor_proficiencies? ',':'') + npc.subclass.armor_proficiencies;
-		npc.weapon_type_proficiencies += (npc.weapon_type_proficiencies? ',':'') + npc.subclass.weapon_proficiencies;
+		npc.weapon_type_proficiencies += (npc.weapon_type_proficiencies? ',':'') + npc.subclass.weapon_type_proficiencies;
 		
 		npc.bonus_hp_per_level = (npc.subrace.additional_hp_modifier?npc.subrace.additional_hp_modifier:0) + (npc.subclass.hp_increase?npc.subclass.hp_increase:0);
-		npc.hit_points_max = npc.u_class.hit_dice + Math.floor((npc.constitution -10)/2) + npc.bonus_hp_per_level;
-		npc.hit_points = npc.hit_points_max;
+		npc.max_hit_points = npc.u_class.hit_dice + Math.floor((npc.constitution -10)/2) + npc.bonus_hp_per_level;
+		npc.temporary_max_hit_points = npc.max_hit_points;
+		npc.current_hit_points = npc.max_hit_points;
 		npc.level = 1;
 		npc.experience_points = 0;
 		
@@ -391,8 +393,14 @@ GenerateRandomNPC.prototype = {
 		while(raceFeature.next()){
 			var rcf = new GlideRecord('x_262366_wld_bldr_character_feature');
 			rcf.initialize();
+			if(raceFeature.limited_use){
+				rcf.total_uses = raceFeature.getValue('limited_use_ability_base_limit');
+				rcf.uses = 0;
+				rcf.refresh = raceFeature.getValue('limited_use_ability_refresh');
+			}
+			
 			rcf.character = npcID;
-			rcf.source = npc.race.getDisplayValue();
+			rcf.source = npc.getUniqueValue('race');
 			rcf.feature = raceFeature.feature;
 			rcf.name = raceFeature.name;
 			rcf.active = 'true';
@@ -405,7 +413,7 @@ GenerateRandomNPC.prototype = {
 			var scf = new GlideRecord('x_262366_wld_bldr_character_feature');
 			scf.initialize();
 			scf.character = npcID;
-			scf.source = npc.subrace.getDisplayValue();
+			scf.source = npc.getUniqueValue('subrace');
 			scf.feature = subraceFeature.feature;
 			scf.name = subraceFeature.name;
 			scf.active = 'true';
@@ -427,45 +435,193 @@ GenerateRandomNPC.prototype = {
 				var randFeatureOptionCount = 0;
 				while(featureOptions.next()){
 					if(randFeatureOptionCount == randFeatureOption){
+						
 						var cocf = new GlideRecord('x_262366_wld_bldr_character_feature');
 						cocf.initialize();
+						
+						if(featureOptions.getValue('limited_use') == true){
+							var cocfluaStat = featureOptions.getValue('limited_use_ability_modifer');
+							var cocfluaTotalStatUses = 0;
+
+							if(cocfluaStat){
+								if(cocfluaStat == 'cc08f67edb04a30049ac7e7dbf961919'){ //strength
+									cocfluaTotalStatUses = npc.strength_modifier;
+								}
+								else if(cocfluaStat == '8a183a7edb04a30049ac7e7dbf96196c'){ //dexterity
+									cocfluaTotalStatUses = npc.dexterity_modifier;
+								}
+								else if(cocfluaStat == 'b0283a7edb04a30049ac7e7dbf961953'){ //constitution
+									cocfluaTotalStatUses = npc.constitution_modifier;
+								}
+								else if(cocfluaStat == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //intelligence
+									cocfluaTotalStatUses = npc.intelligence_modifier;
+								}
+								else if(cocfluaStat == 'e438f67edb04a30049ac7e7dbf96194b'){ //wisdom
+									cocfluaTotalStatUses = npc.wisdom_modifier;
+								}
+								else if(cocfluaStat == '0638f67edb04a30049ac7e7dbf9619a1'){ //charisma
+									cocfluaTotalStatUses = npc.charisma_modifier;
+								}
+
+								cocfluaTotalStatUses = (cocfluaTotalStatUses > 0 ? cocfluaTotalStatUses : 1);
+							}
+
+							var cocfluaTotalUses = parseFloat(cocfluaTotalStatUses) + parseFloat(featureOptions.getValue('limited_use_ability_base_use_limit') ? featureOptions.getValue('limited_use_ability_base_use_limit') : 0);
+
+
+
+							cocf.die_size = featureOptions.getValue('limited_use_ability_die_size');
+							cocf.total_uses = cocfluaTotalUses;
+							cocf.uses = 0;
+							cocf.refresh = featureOptions.getValue('x_262366_wld_bldr_rest_type');
+						}
+						if(featureOptions.getValue('action') == true){
+							cocf.action = true;
+						}
+						if(featureOptions.getValue('bonus_action') == true){
+							cocf.bonus_action = true;
+						}
+						if(featureOptions.getValue('reaction') == true){
+							cocf.reaction = true;
+						}
 						cocf.character = npcID;
-						cocf.source = npc.u_class.getDisplayValue() + ' Level 1';
-						cocf.feature = featureOptions.description;
-						cocf.name = featureOptions.name;
+						cocf.source = featureOptions.getValue('sys_id');
+						cocf.feature = featureOptions.getValue('description');
+						cocf.name = featureOptions.getValue('name');
 						cocf.active = 'true';
 						cocf.insert();
 						
-						classFeatureOptionsChosen[classFeatureOptionsChosen.length] = featureOptions.sys_id;
+						classFeatureOptionsChosen[classFeatureOptionsChosen.length] = featureOptions.getValue('sys_id');
 					}
 					++randFeatureOptionCount;
 				}
 			}
 			else{
+
 				var ccf = new GlideRecord('x_262366_wld_bldr_character_feature');
 				ccf.initialize();
+				
+				if(classFeatures.getValue('limited_use') == true){
+					var luaStat = classFeatures.getValue('limited_use_ability_modifier');
+					var luaTotalStatUses = 0;
+
+					if(luaStat){
+						if(luaStat == 'cc08f67edb04a30049ac7e7dbf961919'){ //strength
+							luaTotalStatUses = npc.strength_modifier;
+						}
+						else if(luaStat == '8a183a7edb04a30049ac7e7dbf96196c'){ //dexterity
+							luaTotalStatUses = npc.dexterity_modifier;
+						}
+						else if(luaStat == 'b0283a7edb04a30049ac7e7dbf961953'){ //constitution
+							luaTotalStatUses = npc.constitution_modifier;
+						}
+						else if(luaStat == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //intelligence
+							luaTotalStatUses = npc.intelligence_modifier;
+						}
+						else if(luaStat == 'e438f67edb04a30049ac7e7dbf96194b'){ //wisdom
+							luaTotalStatUses = npc.wisdom_modifier;
+						}
+						else if(luaStat == '0638f67edb04a30049ac7e7dbf9619a1'){ //charisma
+							luaTotalStatUses = npc.charisma_modifier;
+						}
+
+						luaTotalStatUses = (luaTotalStatUses > 0 ? luaTotalStatUses : 1);
+					}
+
+
+					var luaTotalUses = parseFloat(luaTotalStatUses) + parseFloat(classFeatures.limited_use_ability_base_use_limit ? classFeatures.limited_use_ability_base_use_limit : 0);
+
+					
+					ccf.refresh = classFeatures.getValue('limited_use_ability_refresh');
+					ccf.uses = 0;
+					ccf.total_uses = luaTotalUses;
+					ccf.die_size = classFeatures.getValue('limited_use_ability_die_size');
+				}
+				
+				if(classFeatures.getValue('action') == true){
+					ccf.action = true;
+				}
+				if(classFeatures.getValue('bonus_action') == true){
+					ccf.bonus_action = true;
+				}
+				if(classFeatures.getValue('reaction') == true){
+					ccf.reaction = true;
+				}
+				
 				ccf.character = npcID;
-				ccf.source = npc.u_class.getDisplayValue() + ' Level 1';
-				ccf.feature = classFeatures.description;
-				ccf.name = classFeatures.name;
+				ccf.source = classFeatures.getValue('sys_id');
+				ccf.feature = classFeatures.getValue('description');
+				ccf.name = classFeatures.getValue('name');
 				ccf.active = 'true';
 				ccf.insert();
+
 			}
 		}
+		
 		
 		var subClassFeatures = new GlideRecord('x_262366_wld_bldr_subclass_feature');
 		subClassFeatures.addQuery('subclass', npc.subclass);
 		subClassFeatures.addQuery('level', 1);
 		subClassFeatures.query();
 		while(subClassFeatures.next()){
+
 			var sccf = new GlideRecord('x_262366_wld_bldr_character_feature');
 			sccf.initialize();
+			
+			if(subClassFeatures.getValue('limited_use') == true){
+				var scluaStat = subClassFeatures.getValue('limited_use_ability_modifer');
+				var scluaTotalStatUses = 0;
+
+				if(scluaStat){
+					if(scluaStat == 'cc08f67edb04a30049ac7e7dbf961919'){ //strength
+						scluaTotalStatUses = npc.strength_modifier;
+					}
+					else if(scluaStat == '8a183a7edb04a30049ac7e7dbf96196c'){ //dexterity
+						scluaTotalStatUses = npc.dexterity_modifier;
+					}
+					else if(scluaStat == 'b0283a7edb04a30049ac7e7dbf961953'){ //constitution
+						scluaTotalStatUses = npc.constitution_modifier;
+					}
+					else if(scluaStat == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //intelligence
+						scluaTotalStatUses = npc.intelligence_modifier;
+					}
+					else if(scluaStat == 'e438f67edb04a30049ac7e7dbf96194b'){ //wisdom
+						scluaTotalStatUses = npc.wisdom_modifier;
+					}
+					else if(scluaStat == '0638f67edb04a30049ac7e7dbf9619a1'){ //charisma
+						scluaTotalStatUses = npc.charisma_modifier;
+					}
+
+					scluaTotalStatUses = (scluaTotalStatUses > 0 ? scluaTotalStatUses : 1);
+				}
+
+
+				var scluaTotalUses = parseFloat(scluaTotalStatUses) + parseFloat(subClassFeatures.limited_use_ability_base_use_limit ? subClassFeatures.limited_use_ability_base_use_limit : 0);
+
+
+				sccf.refresh = subClassFeatures.getValue('limited_use_ability_refresh');
+				sccf.uses = 0;
+				sccf.total_uses = scluaTotalUses;
+				sccf.die_size = subClassFeatures.getValue('limited_use_ability_die_size');
+			}
+			
+			if(subClassFeatures.getValue('action') == true){
+				sccf.action = true;
+			}
+			if(subClassFeatures.getValue('bonus_action') == true){
+				sccf.bonus_action = true;
+			}
+			if(subClassFeatures.getValue('reaction') == true){
+				sccf.reaction = true;
+			}
+			
 			sccf.character = npcID;
-			sccf.source = npc.subclass.getDisplayValue();
-			sccf.feature = subClassFeatures.description;
-			sccf.name = subClassFeatures.name;
+			sccf.source = subClassFeatures.getValue('sys_id');
+			sccf.feature = subClassFeatures.getValue('description');
+			sccf.name = subClassFeatures.getValue('name');
 			sccf.active = 'true';
 			sccf.insert();
+
 		}
 		
 		
@@ -553,6 +709,7 @@ GenerateRandomNPC.prototype = {
 			characterSpell3.castable = 'true';
 			characterSpell3.insert();
 		}
+		
 		
 		var characterClassTable = new GlideRecord('x_262366_wld_bldr_class_table');
 		characterClassTable.addQuery('u_class', npc.u_class);
@@ -701,6 +858,7 @@ GenerateRandomNPC.prototype = {
 			}
 		}
 		
+		
 		for(var cfoc = 0; cfoc < classFeatureOptionsChosen.length; ++cfoc){
 			var characterClassFeature = new GlideRecord('x_262366_wld_bldr_character_class_feature_option');
 			characterClassFeature.character = npcID;
@@ -708,6 +866,7 @@ GenerateRandomNPC.prototype = {
 			characterClassFeature.level_obtained = 1;
 			characterClassFeature.insert();
 		}
+		
 		
 		var ccTable = new GlideRecord('x_262366_wld_bldr_character_class');
 		ccTable.initialize();
@@ -732,7 +891,8 @@ GenerateRandomNPC.prototype = {
 			}
 			
 			npc.u_class = '246cc942dbb5230049ac7e7dbf96195b';
-			npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class);
+			npc.subclass = '';
+			//npc.subclass = this.GetSpecificRandomRecordInTable('x_262366_wld_bldr_subclass', 'class', npc.u_class);
 		}
 		
 		npc.update();
@@ -857,13 +1017,13 @@ GenerateRandomNPC.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-08-06 14:49:59</sys_created_on>
         <sys_id>d2c53009dbb7130049ac7e7dbf9619ac</sys_id>
-        <sys_mod_count>128</sys_mod_count>
+        <sys_mod_count>176</sys_mod_count>
         <sys_name>GenerateRandomNPC</sys_name>
         <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
         <sys_update_name>sys_script_include_d2c53009dbb7130049ac7e7dbf9619ac</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-08-07 21:57:34</sys_updated_on>
+        <sys_updated_on>2020-02-18 21:30:44</sys_updated_on>
     </sys_script_include>
 </record_update>

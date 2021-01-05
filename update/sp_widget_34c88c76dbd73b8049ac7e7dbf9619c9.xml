@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function(spUtil,$scope,$timeout,$uibModal,spModal,$http) {
+	/* widget controller */
+	var c = this;
+
+	/* Step 3. Accept user input */
+
+	c.selectAg = function(record) {
+
+		//Set a property on the data object to identify the selected object
+		c.data.selectedAg = record.agValue;
+
+		//Send the data object to the server script
+		c.server.update();
+	}
+
+
+	/* empty string is a filter. For example 'active=true' would only trigger
+	the callback function when changes are made to active records */
+	spUtil.recordWatch($scope, 'x_262366_wld_bldr_encountered_creature', '', function(updateObj){
+		spUtil.update($scope);
+		server.refresh();
+	});
+
+
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>true</has_preview>
+        <id>encounter</id>
+        <internal>false</internal>
+        <link/>
+        <name>Encounter</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+
+	/* Step 1. Load initial data from the server */
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+
+	if(!input) {
+		data.summary = [];
+		data.table = 'x_262366_wld_bldr_encounter';
+		data.fields = 'name,max_hit_points,temporary_hit_points,current_hit_points,status_conditions,armor_class,initiative';
+
+		var ga = new GlideAggregate(data.table);
+		ga.query();
+
+		while(ga.next()) {
+			data.summary.push({
+				agName:ga.getDisplayValue('name'),
+				agValue:ga.getValue('sys_id')
+			});
+		}	
+	}
+
+
+
+	/* Step 4. Process user input */
+
+	if(input) {
+		data.records=[];
+
+		var gr = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+		gr.addQuery('encounter', input.selectedAg);
+		gr.orderByDesc('initiative');
+		gr.query();
+
+		//use an array to order columns
+		data.labels = [];
+		var labels = $sp.getFieldsObject(gr, input.fields);
+
+		for (var label in labels) {
+			data.labels.push({"key":label,
+												"type": labels[label].type,
+												"value":labels[label].label});
+		}
+
+		while(gr.next()){
+			var o = {};
+
+			//use $sp utility methods rather than manually creating record objects
+			$sp.getRecordDisplayValues(o,gr,input.fields);
+			$sp.getRecordValues(o,gr,'sys_id');
+			data.records.push(o);
+		}	
+	}
+
+})();	]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-19 17:52:57</sys_created_on>
+        <sys_id>34c88c76dbd73b8049ac7e7dbf9619c9</sys_id>
+        <sys_mod_count>39</sys_mod_count>
+        <sys_name>Encounter</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sp_widget_34c88c76dbd73b8049ac7e7dbf9619c9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-20 21:51:15</sys_updated_on>
+        <template><![CDATA[<form>
+
+  <!-- Step 2. Display initial data from the server -->
+
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+      {{::options.title}}</div>
+
+    <!-- List group -->
+    <ul class="list-group">
+      <li class="list-group-item"
+          ng-repeat="s in c.data.summary"
+          ng-click="c.selectAg(s)"
+          ng-class="{ 'selected' : c.data.selectedAg == s.agValue}">{{ s.agName }}
+        </li>
+    </ul>
+  </div>
+
+
+  <!-- Step 5. Display customized content based on user input -->
+
+  <table class="table"
+         ng-if="c.data.records">
+    <thead>
+      <tr>
+        <th ng-repeat="label in c.data.labels">
+          {{label.value}}
+        </th>
+        <th>
+          
+          	<span class="glyphicon glyphicon-heart"></span>
+          
+        </th>
+        <th>
+          
+          	<span class="glyphicon glyphicon-fire"></span>
+          
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="record in c.data.records">
+        <td ng-repeat="label in c.data.labels">
+          <span ng-if="label.value == 'Status Conditions'">
+            <span ng-repeat="con in record[label.key].split(',')">
+              <button ng-if="con"
+                      >
+                {{ con }}
+              </button>
+            </span>
+          </span>
+          <span ng-if="label.value != 'Status Conditions'">
+            {{ record[label.key] }}
+          </span>
+        </td>
+        
+        <td>
+          
+          	<input id="hp{{label}}" type="text" size="1" class="form-control input-md">
+          
+        </td>
+        <td>
+          
+          	<input id="dam{{label}}" type="text" size="1" class="form-control input-md">
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>	
+
+
+</form>
+]]></template>
+    </sp_widget>
+</record_update>

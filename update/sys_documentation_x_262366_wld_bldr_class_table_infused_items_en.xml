@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="infused_items" label="Infused Items" language="en" table="x_262366_wld_bldr_class_table">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>infused_items</element>
+            <help/>
+            <hint/>
+            <label>Infused Items</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_class_table</name>
+            <plural>Infused Items</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-01-04 03:37:20</sys_created_on>
+            <sys_id>ed36ecf42f25a010a1fc808cf699b6e6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Infused Items</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_documentation_x_262366_wld_bldr_class_table_infused_items_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-01-04 03:37:20</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

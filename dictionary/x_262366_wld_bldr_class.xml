@@ -2,18 +2,36 @@
     <element label="Class" max_length="40" name="x_262366_wld_bldr_class" type="collection">
         <element attributes="edge_encryption_enabled=true" label="Ability Score Improvement" max_length="40" name="ability_score_improvement" type="string"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Armor Proficiencies" max_length="1024" name="armor_proficiencies" reference="x_262366_wld_bldr_armor_type" type="glide_list"/>
+        <element label="Equipment Groups" max_length="40" name="equipment_groups" type="integer"/>
         <element label="Hit Dice" max_length="40" name="hit_dice" type="integer"/>
+        <element label="Martial Proficiency" max_length="40" name="martial_proficiency" type="boolean"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Pick Subclass" max_length="40" name="pick_subclass" type="integer"/>
         <element label="Prepared Spell Modifier" max_length="40" name="prepared_spell_modifier" type="float"/>
-        <element label="Prepare Spells" max_length="40" name="prepare_spells" type="boolean"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Proficient Tools" max_length="1024" name="proficient_tools" reference="x_262366_wld_bldr_item" type="glide_list"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Saving Throw Proficiencies" max_length="1024" name="saving_throw_proficiencies" reference="x_262366_wld_bldr_ability_score" type="glide_list"/>
+        <element label="Simple Proficiency" max_length="40" name="simple_proficiency" type="boolean"/>
         <element label="Skill Proficiencies" max_length="40" name="skill_proficiencies" type="integer"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Skill Proficiency Options" max_length="1024" name="skill_proficiency_options" reference="x_262366_wld_bldr_skills" type="glide_list"/>
         <element label="Spellcasting Ability" max_length="32" name="spellcasting_ability" reference="x_262366_wld_bldr_ability_score" type="reference"/>
+        <element label="Spellcasting Level" max_length="40" name="spellcasting_level" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Spellcasting Type" max_length="40" name="spellcasting_type" type="string">
+            <choice>
+                <element inactive="true" inactive_on_update="true" label="Prepare (halved)" sequence="0" value="Prepare (halved)"/>
+                <element inactive_on_update="false" label="Standard" sequence="0" value="Standard"/>
+                <element inactive_on_update="false" label="Prepare" sequence="1" value="Prepare"/>
+                <element inactive_on_update="false" label="Spellbook" sequence="2" value="Spellbook"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Subclass Expanded Spell Type" max_length="40" name="subclass_expanded_spell_type" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Always Prepared" sequence="0" value="Always Prepared"/>
+                <element inactive_on_update="false" label="Expanded List" sequence="1" value="Expanded List"/>
+            </choice>
+        </element>
         <element label="Tool Proficiencies" max_length="40" name="tool_proficiencies" type="integer"/>
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiency Options" max_length="1024" name="tool_proficiency_options" reference="x_262366_wld_bldr_tools" type="glide_list"/>
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Proficiencies" max_length="1024" name="weapon_proficiencies" reference="x_262366_wld_bldr_weapons" type="glide_list"/>
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Type Proficiencies" max_length="1024" name="weapon_type_proficiencies" reference="x_262366_wld_bldr_weapon_type" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiency Options" max_length="1024" name="tool_proficiency_options" reference="x_262366_wld_bldr_item" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Proficiencies" max_length="1024" name="weapon_proficiencies" reference="x_262366_wld_bldr_item" type="glide_list"/>
         <index name="index">
             <element name="spellcasting_ability"/>
         </index>

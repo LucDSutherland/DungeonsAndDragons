@@ -59,7 +59,16 @@
 	subclassFeatureOptions.query();
 	subclassFeatureOptions.deleteMultiple();
 	
+	var ownedItems = new GlideRecord('x_262366_wld_bldr_owned_item');
+	ownedItems.addQuery('character', current.sys_id);
+	ownedItems.query();
+	ownedItems.deleteMultiple();
 
+	var luas = new GlideRecord('x_262366_wld_bldr_character_limited_use_ability');
+	luas.addQuery('character', current.sys_id);
+	luas.query();
+	luas.deleteMultiple();
+	
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
         <sys_created_by>admin</sys_created_by>
@@ -67,7 +76,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>46bc3c9bdb5d630049ac7e7dbf96198f</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name>Delete Empty Character Records</sys_name>
         <sys_overrides/>
         <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
@@ -75,7 +84,7 @@
         <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
         <sys_update_name>sys_script_46bc3c9bdb5d630049ac7e7dbf96198f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-20 18:27:00</sys_updated_on>
+        <sys_updated_on>2019-08-26 17:47:49</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>

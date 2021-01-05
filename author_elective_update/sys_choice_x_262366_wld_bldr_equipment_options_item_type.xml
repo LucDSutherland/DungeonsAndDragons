@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="item_type" table="x_262366_wld_bldr_equipment_options" version="3">
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>item_type</element>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 16:58:41</sys_created_on>
+            <sys_id>b97a68da2f830010a1fc808cf699b6a6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>item_type</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_choice_x_262366_wld_bldr_equipment_options_item_type</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 16:58:41</sys_updated_on>
+        </sys_choice_set>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>item_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Magic Item</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <sequence>0</sequence>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 16:58:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>317a68da2f830010a1fc808cf699b6a6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 16:58:41</sys_updated_on>
+            <value>Magic Item</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>item_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Weapon</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <sequence>1</sequence>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 16:58:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>f17a68da2f830010a1fc808cf699b6a7</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 16:58:41</sys_updated_on>
+            <value>Weapon</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>item_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Armor</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <sequence>2</sequence>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 16:58:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>b17a68da2f830010a1fc808cf699b6a8</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 16:58:41</sys_updated_on>
+            <value>Armor</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>item_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Tool</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <sequence>3</sequence>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 16:58:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>717a68da2f830010a1fc808cf699b6a9</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 16:58:41</sys_updated_on>
+            <value>Tool</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>item_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Pack</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <sequence>4</sequence>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 16:58:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>317a68da2f830010a1fc808cf699b6aa</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 16:58:41</sys_updated_on>
+            <value>Pack</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>item_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Instrument</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <sequence>5</sequence>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 16:58:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>f57a6cda2f830010a1fc808cf699b62a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 16:58:41</sys_updated_on>
+            <value>Instrument</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>item_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Ammo</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <sequence>6</sequence>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 20:40:29</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>073d59de2f470010a1fc808cf699b6de</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 20:40:29</sys_updated_on>
+            <value>Ammo</value>
+        </sys_choice>
+    </sys_choice>
+</record_update>

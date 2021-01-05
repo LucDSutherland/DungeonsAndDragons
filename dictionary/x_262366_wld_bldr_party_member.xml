@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Party Member" max_length="40" name="x_262366_wld_bldr_party_member" type="collection">
+        <element label="Animal Companion" max_length="32" name="animal_companion" reference="x_262366_wld_bldr_animal_companion" type="reference"/>
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element label="Creature" max_length="32" name="creature" reference="x_262366_wld_bldr_creatures" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="100" name="name" type="string"/>
+        <element label="Party" max_length="32" name="party" reference="x_262366_wld_bldr_party" type="reference"/>
+        <index name="index">
+            <element name="character"/>
+        </index>
+        <index name="index2">
+            <element name="animal_companion"/>
+        </index>
+        <index name="index3">
+            <element name="creature"/>
+        </index>
+        <index name="index4">
+            <element name="party"/>
+        </index>
+    </element>
+</database>

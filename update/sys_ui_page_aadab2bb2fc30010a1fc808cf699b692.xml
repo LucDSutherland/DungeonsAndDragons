@@ -1,0 +1,1091 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[//DST
+
+function loadPage(){
+	//$j('#tempHpDiv').hide(); //why on earth is this necessary??? because you need style=display:none!important
+	var getToonData = new GlideAjax('CharacterSheet');
+	getToonData.addParam('sysparm_name', 'getToonData');
+	getToonData.addParam('sysparm_toon_id', $j('#toonId').val());
+	//getToonData.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+	//getToonData.addParam('sysparm_toon_id', '4cf98c852fc12010a1fc808cf699b614'); //Wincott
+	
+	getToonData.getXML(setToonVariables);
+
+	var dmg = document.getElementById("damageCount");
+	var heal = document.getElementById("healthCount");
+	var temp = document.getElementById("tempHealthCount");
+
+	dmg.addEventListener("keyup", function(event) {
+		if (event.keyCode === 13) { //enter
+			event.preventDefault();
+			changeHP('damage');
+		}
+	});
+	heal.addEventListener("keyup", function(event) {
+		if (event.keyCode === 13) { //enter
+			event.preventDefault();
+			changeHP('health');
+		}
+	});
+	temp.addEventListener("keyup", function(event) {
+		if (event.keyCode === 13) { //enter
+			event.preventDefault();
+			changeTempHP();
+		}
+	});
+
+}
+
+function setToonVariables(response){
+	var toonData = response.responseXML.getElementsByTagName('toonData');
+
+	var toonName = toonData[0].getAttribute('toonName');
+	var classAndLevel = toonData[0].getAttribute('classAndLevel');
+	var toonRace = toonData[0].getAttribute('toonRace');
+	var toonSubrace = toonData[0].getAttribute('toonSubrace');
+	var toonBackground = toonData[0].getAttribute('toonBackground');
+	var toonGender = toonData[0].getAttribute('toonGender');
+	var toonStr = toonData[0].getAttribute('toonStr');
+	var toonStrMod = toonData[0].getAttribute('toonStrMod');
+	var toonStrSave = toonData[0].getAttribute('toonStrSave');
+	var toonDex = toonData[0].getAttribute('toonDex');
+	var toonDexMod = toonData[0].getAttribute('toonDexMod');
+	var toonDexSave = toonData[0].getAttribute('toonDexSave');
+	var toonCon = toonData[0].getAttribute('toonCon');
+	var toonConMod = toonData[0].getAttribute('toonConMod');
+	var toonConSave = toonData[0].getAttribute('toonConSave');
+	var toonInt = toonData[0].getAttribute('toonInt');
+	var toonIntMod = toonData[0].getAttribute('toonIntMod');
+	var toonIntSave = toonData[0].getAttribute('toonIntSave');
+	var toonWis = toonData[0].getAttribute('toonWis');
+	var toonWisMod = toonData[0].getAttribute('toonWisMod');
+	var toonWisSave = toonData[0].getAttribute('toonWisSave');
+	var toonCha = toonData[0].getAttribute('toonCha');
+	var toonChaMod = toonData[0].getAttribute('toonChaMod');
+	var toonChaSave = toonData[0].getAttribute('toonChaSave');
+	var toonProfBonus = toonData[0].getAttribute('toonProfBonus');
+	var toonSavingThrowProficiencies = toonData[0].getAttribute('toonSavingThrowProficiencies');
+	var toonSavingThrowAdvantage = toonData[0].getAttribute('toonSavingThrowAdvantage');
+	var toonSkillProficiencies = toonData[0].getAttribute('toonSkillProficiencies');
+	var toonDoubledSkillProficiencies = toonData[0].getAttribute('toonDoubledSkillProficiencies');
+	var toonToolProficiencies = toonData[0].getAttribute('toonToolProficiencies');
+	var toonDoubledToolProficiencies = toonData[0].getAttribute('toonDoubledToolProficiencies');
+	var toonArmorProficiencies = toonData[0].getAttribute('toonArmorProficiencies');
+	var toonSimpleProficiency = toonData[0].getAttribute('toonSimpleProficiency');
+	var toonMartialProficiency = toonData[0].getAttribute('toonMartialProficiency');
+	var toonWeaponProficiencies = toonData[0].getAttribute('toonWeaponProficiencies');
+	var toonLanguages = toonData[0].getAttribute('toonLanguages');
+	var toonMaxHP = toonData[0].getAttribute('toonMaxHP');
+	var toonCurrentHP = toonData[0].getAttribute('toonCurrentHP');
+	var toonTempHP = toonData[0].getAttribute('toonTempHP');
+	var toonInitiative = toonData[0].getAttribute('toonInitiative');
+	var toonAC = toonData[0].getAttribute('toonAC');
+	var toonSpeed = toonData[0].getAttribute('toonSpeed');
+	var toonGold = toonData[0].getAttribute('toonGold');
+	var toonSilver = toonData[0].getAttribute('toonSilver');
+	var toonCopper = toonData[0].getAttribute('toonCopper');
+	var toonTools = toonData[0].getAttribute('toonTools');
+	var toonWeapons = toonData[0].getAttribute('toonWeapons');
+	var toonArmor = toonData[0].getAttribute('toonArmor');
+	var toonMagItems = toonData[0].getAttribute('toonMagItems');
+	var toonSpells = toonData[0].getAttribute('toonSpells');
+	var toonFeatures = toonData[0].getAttribute('toonFeatures');
+	var toonDSTS = toonData[0].getAttribute('toonDSTS');
+	var toonDSTF = toonData[0].getAttribute('toonDSTF');
+
+	var race = (toonSubrace?toonSubrace + ' ': '') + toonRace;
+	if(toonGender == 'Male'){
+		race += ' (M)';
+	}
+	else if(toonGender == 'Female'){
+		race += ' (F)';
+	}
+
+	document.getElementById('toonName').innerHTML = toonName;
+	document.getElementById('classAndLevel').innerHTML = classAndLevel;
+	document.getElementById('race').innerHTML = race;
+	document.getElementById('background').innerHTML = toonBackground;
+	document.getElementById('str').innerHTML = toonStr;
+	document.getElementById('strMod').innerHTML = toonStrMod;
+	document.getElementById('dex').innerHTML = toonDex;
+	document.getElementById('dexMod').innerHTML = toonDexMod;
+	document.getElementById('con').innerHTML = toonCon;
+	document.getElementById('conMod').innerHTML = toonConMod;
+	document.getElementById('int').innerHTML = toonInt;
+	document.getElementById('intMod').innerHTML = toonIntMod;
+	document.getElementById('wis').innerHTML = toonWis;
+	document.getElementById('wisMod').innerHTML = toonWisMod;
+	document.getElementById('cha').innerHTML = toonCha;
+	document.getElementById('chaMod').innerHTML = toonChaMod;
+	document.getElementById('proficiency').innerHTML = toonProfBonus;
+	document.getElementById('strSaveBon').innerHTML = toonStrSave;
+	document.getElementById('dexSaveBon').innerHTML = toonDexSave;
+	document.getElementById('conSaveBon').innerHTML = toonConSave;
+	document.getElementById('intSaveBon').innerHTML = toonIntSave;
+	document.getElementById('wisSaveBon').innerHTML = toonWisSave;
+	document.getElementById('chaSaveBon').innerHTML = toonChaSave;
+	document.getElementById('currentHp').innerHTML = toonCurrentHP;
+	document.getElementById('maxHp').innerHTML = toonMaxHP;
+	document.getElementById('armorClass').innerHTML = toonAC;
+	if(toonTempHP > 0){
+		document.getElementById('tempHp').innerHTML = toonTempHP;
+		$j('#tempHpDiv').show();
+	}
+	document.getElementById('initiative').innerHTML = toonInitiative;
+	document.getElementById('speed').innerHTML = toonSpeed;
+	document.getElementById('gold').innerHTML = isNaN(toonGold)?0:toonGold;
+	document.getElementById('silver').innerHTML = isNaN(toonSilver)?0:toonSilver;
+	document.getElementById('copper').innerHTML = isNaN(toonCopper)?0:toonCopper;
+	document.getElementById('equipmentText').innerHTML = toonTools;
+	document.getElementById('weaponsSection').innerHTML = toonWeapons;
+	document.getElementById('armorSection').innerHTML = toonArmor;
+	document.getElementById('magItems').innerHTML = toonMagItems;
+	document.getElementById('spellsSection').innerHTML = toonSpells;
+	document.getElementById('toonFeatures').innerHTML = toonFeatures;
+
+	var languages = '';
+	var langs = toonLanguages.split(', ');
+	for(var j = 0; j < langs.length; ++j){
+		languages += langs[j] + '<br />';
+	}
+	document.getElementById('languages').innerHTML = languages;
+
+	var tools = '';
+	var toolArray = toonToolProficiencies.split(', ');
+	for(var k = 0; k < toolArray.length; ++k){
+		if(toolArray[k] != ''){
+			tools += toolArray[k] + '<br />';
+		}
+	}
+	var tool2Array = toonDoubledToolProficiencies.split(', ');
+	for(var kk = 0; kk < tool2Array.length; ++kk){
+		if(tool2Array[kk] != ''){
+			tools += tool2Array[kk] + '*<br />';
+		}
+	}
+	if(tools != ''){
+		document.getElementById('tools').innerHTML = tools;
+		$j('#toolBox').show();
+	}
+
+	var armor = '';
+	var armorArray = toonArmorProficiencies.split(', ');
+	for(var a = 0; a < armorArray.length; ++ a){
+		if(armorArray[a] != ''){
+			armor += armorArray[a] + '<br />';
+		}
+	}
+	if(armor != ''){
+		document.getElementById('armor').innerHTML = armor;
+		$j('#armorBox').show();
+	}
+
+	var weapons = '';
+	if(toonSimpleProficiency == 1){
+		weapons += 'Simple Weapons<br />';
+	}
+	if(toonMartialProficiency ==1){
+		weapons += 'Martial Weapons<br />';
+	}
+	do{
+		toonWeaponProficiencies = toonWeaponProficiencies.replace('Crossbow,', 'Crossbow:');
+	}
+	while(toonWeaponProficiencies.indexOf('Crossbow,') != -1);
+	var weaponArray = toonWeaponProficiencies.split(', ');
+	for(var w = 0; w < weaponArray.length; ++w){
+		weapons += weaponArray[w] + '<br />';
+	}
+	document.getElementById('weapons').innerHTML = weapons;
+
+	var saveProf = toonSavingThrowProficiencies.split(', ');
+	for(var i = 0; i < saveProf.length; ++i){
+		if(saveProf[i] == 'Strength'){
+			setProfDot('strProf', 1);
+		}
+		else if(saveProf[i] == 'Dexterity'){
+			setProfDot('dexProf', 1);
+		}
+		else if(saveProf[i] == 'Constitution'){
+			setProfDot('conProf', 1);
+		}
+		else if(saveProf[i] == 'Intelligence'){
+			setProfDot('intlProf', 1);
+		}
+		else if(saveProf[i] == 'Wisdom'){
+			setProfDot('wisProf', 1);
+		}
+		else if(saveProf[i] == 'Charisma'){
+			setProfDot('chaProf', 1);
+		}
+	}
+	
+	if(!isNaN(toonDSTS)){
+		for(var ds = 1; ds <= parseFloat(toonDSTS); ++ds){
+			document.getElementById('dsts' + ds + 's').innerHTML = '&#9899;';
+			$j('#dsts' + ds).val('closed');
+		}
+	}
+	if(!isNaN(toonDSTF)){
+		for(var df = 1; df <= parseFloat(toonDSTF); ++df){
+			document.getElementById('dstf' + df + 's').innerHTML = '&#9899;';
+			$j('#dstf' + df).val('closed');
+		}
+	}
+
+
+	document.getElementById('acrBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Acrobatics',toonSkillProficiencies,toonDoubledSkillProficiencies,'acr'))) + parseFloat(toonDexMod);
+	document.getElementById('aniBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Animal Handling',toonSkillProficiencies,toonDoubledSkillProficiencies,'ani'))) + parseFloat(toonWisMod);
+	document.getElementById('arcBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Arcana',toonSkillProficiencies,toonDoubledSkillProficiencies,'arc'))) + parseFloat(toonIntMod);
+	document.getElementById('athBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Athletics',toonSkillProficiencies,toonDoubledSkillProficiencies,'ath'))) + parseFloat(toonStrMod);
+	document.getElementById('decBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Deception',toonSkillProficiencies,toonDoubledSkillProficiencies,'dec'))) + parseFloat(toonChaMod);
+	document.getElementById('hisBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('History',toonSkillProficiencies,toonDoubledSkillProficiencies,'his'))) + parseFloat(toonIntMod);
+	document.getElementById('insBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Insight',toonSkillProficiencies,toonDoubledSkillProficiencies,'ins'))) + parseFloat(toonWisMod);
+	document.getElementById('intBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Intimidation',toonSkillProficiencies,toonDoubledSkillProficiencies,'int'))) + parseFloat(toonChaMod);
+	document.getElementById('invBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Investigation',toonSkillProficiencies,toonDoubledSkillProficiencies,'inv'))) + parseFloat(toonIntMod);
+	document.getElementById('medBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Medicine',toonSkillProficiencies,toonDoubledSkillProficiencies,'med'))) + parseFloat(toonWisMod);
+	document.getElementById('natBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Nature',toonSkillProficiencies,toonDoubledSkillProficiencies,'nat'))) + parseFloat(toonIntMod);
+	var perception = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Perception',toonSkillProficiencies,toonDoubledSkillProficiencies,'perc'))) + parseFloat(toonWisMod);
+
+	document.getElementById('percBon').innerHTML = perception;
+	document.getElementById('passivePerceptionValue').innerHTML = 10+perception;
+	document.getElementById('perfBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Performance',toonSkillProficiencies,toonDoubledSkillProficiencies,'perf'))) + parseFloat(toonChaMod);
+	document.getElementById('persBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Persuasion',toonSkillProficiencies,toonDoubledSkillProficiencies,'pers'))) + parseFloat(toonChaMod);
+	document.getElementById('relBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Religion',toonSkillProficiencies,toonDoubledSkillProficiencies,'rel'))) + parseFloat(toonIntMod);
+	document.getElementById('sleBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Sleight of Hand',toonSkillProficiencies,toonDoubledSkillProficiencies,'sle'))) + parseFloat(toonDexMod);
+	document.getElementById('steBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Stealth',toonSkillProficiencies,toonDoubledSkillProficiencies,'ste'))) + parseFloat(toonDexMod);
+	document.getElementById('surBon').innerHTML = parseFloat(parseFloat(toonProfBonus)*parseFloat(setSkillProf('Survival',toonSkillProficiencies,toonDoubledSkillProficiencies,'sur'))) + parseFloat(toonWisMod);
+
+
+
+}
+
+function setSkillProf(skill, profList, doubledProfList, idText){
+	var prof = 0;
+
+	var profs = profList.split(', ');
+	for(var i = 0; i < profs.length; ++i){
+		if(profs[i] == skill){
+			prof = 1;
+		}
+	}
+	var prof2s = doubledProfList.split(', ');
+	for(var j = 0; j < prof2s.length; ++j){
+		if(prof2s[j] == skill){
+			prof = 2;
+		}
+	}
+
+	if(prof > 0){
+		setProfDot(idText + 'Prof', prof);
+	}
+
+	return prof;
+}
+
+function setProfDot(divId, count){
+	var dots = '';
+	for(var i = 0; i < count; ++i){
+		dots += '&#8226;';
+	}
+	document.getElementById(divId).innerHTML = dots;
+}
+
+function swapWeaponMod(divId, type){
+	if(type == 'dex'){
+		document.getElementById(divId + 'strBon').style.display = 'none!important';
+		$j('#' + divId + 'strBon').hide();
+		document.getElementById(divId + 'strBon').hidden = true;
+		document.getElementById(divId + 'dexBon').style.display = 'inline-block';
+		$j('#' + divId + 'dexBon').show();
+		document.getElementById(divId + 'dexBon').hidden = false;
+	}
+	else if (type == 'str'){
+		document.getElementById(divId + 'dexBon').style.display = 'none!important';
+		$j('#' + divId + 'dexBon').hide();
+		document.getElementById(divId + 'dexBon').hidden = true;
+		document.getElementById(divId + 'strBon').style.display = 'inline-block';
+		$j('#' + divId + 'strBon').show();
+		document.getElementById(divId + 'strBon').hidden = false;
+	}
+}
+
+function equipArmor(sysId, classId){
+	var action = '';
+	if(document.getElementById(sysId).innerHTML == 'e'){
+		document.getElementById(sysId).innerHTML = '';
+		action = 'doff';
+	}
+	else{
+		var sameArmorType = document.getElementsByClassName('armorEquipped' + classId);
+		for(var i = 0; i < sameArmorType.length; ++i){
+			sameArmorType[i].innerHTML = '';
+		}
+
+		document.getElementById(sysId).innerHTML = 'e';
+		action = 'don';
+	}
+
+
+
+	var getArmorClass = new GlideAjax('CharacterSheet');
+	getArmorClass.addParam('sysparm_name', 'equipArmor');
+	getArmorClass.addParam('sysparm_toon_id', $j('#toonId').val());
+	//getArmorClass.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+	getArmorClass.addParam('sysparm_equipped_item', sysId);
+	getArmorClass.addParam('sysparm_action', action);
+	getArmorClass.getXML(setArmorClass);
+}
+
+function setArmorClass(response){
+	var toonArmorClass = response.responseXML.getElementsByTagName('toonArmorClass');
+
+	var armorClass = toonArmorClass[0].getAttribute('armorClass');
+
+	if(armorClass && armorClass > 0){
+		document.getElementById('armorClass').innerHTML = armorClass;	
+	}
+}
+
+function toggleVisibility(sysId){
+	if($j('#' + sysId).is(':hidden')){
+		$j('#' + sysId).show();
+	}
+	else{
+		$j('#' + sysId).hide();
+	}
+}
+
+function showSpellDescription(spellId){
+	if($j('#' + spellId).is(':hidden')){
+		//get all from class spellDescBox and hide them
+		var spellDescriptions = document.getElementsByClassName('spellDescBox');
+		for(var i = 0; i < spellDescriptions.length; ++i){
+			spellDescriptions[i].hide();
+		}
+		//show id = spellId
+		$j('#' + spellId).show();
+	}
+	else{
+		$j('#' + spellId).hide();
+	}
+}
+
+function updateFeatureUse(featureId, count, total){
+	var symbol = $j('#' + featureId + count + 'input').val();
+
+	if(symbol == 'closed'){ //filled in circle
+		//change it and all the ones after it to open
+		for(var fi = count; fi < total; ++fi){
+			document.getElementById(featureId + fi).innerHTML = '&#9898;';
+			$j('#' + featureId + fi + 'input').val('open');
+		}
+
+		var setFeatureUseCount = new GlideAjax('CharacterSheet');
+		setFeatureUseCount.addParam('sysparm_name', 'setFeatureUseCount');
+		setFeatureUseCount.addParam('sysparm_feature_id', featureId);
+		setFeatureUseCount.addParam('sysparm_new_count', count);
+		setFeatureUseCount.getXML();
+
+	}
+	else if(symbol == 'open'){ //open circle
+		//change it and all the ones before it to closed
+		for(var oc = count; oc >= 0; --oc){
+			document.getElementById(featureId + oc).innerHTML = '&#9899;';
+			$j('#' + featureId + oc + 'input').val('closed');
+		}
+
+		var setFeatureUseCount2 = new GlideAjax('CharacterSheet');
+		setFeatureUseCount2.addParam('sysparm_name', 'setFeatureUseCount');
+		setFeatureUseCount2.addParam('sysparm_feature_id', featureId);
+		setFeatureUseCount2.addParam('sysparm_new_count', count + 1);
+		setFeatureUseCount2.getXML();
+
+	}
+}
+
+function changeHP(type){
+	var cur = parseFloat(document.getElementById('currentHp').innerHTML);
+	var max = parseFloat(document.getElementById('maxHp').innerHTML);
+	var temp = parseFloat(document.getElementById('tempHp').innerHTML);
+	var damage = parseFloat($j('#damageCount').val());
+	var heals = parseFloat($j('#healthCount').val());
+
+	if(type == 'damage'){
+		if(temp > 0){
+			if(damage <= temp){
+				temp = temp - damage;
+				damage = 0;
+			}
+			else{
+				damage = damage - temp;
+				temp = 0;
+			}
+		}
+
+		if(damage >= cur){
+			cur = 0;
+		}
+		else{
+			cur = cur - damage;
+		}
+	}
+	else if(type == 'health'){
+		cur = cur + heals;
+		if(cur > max){
+			cur = max;
+		}
+	}
+
+	document.getElementById('currentHp').innerHTML = cur;
+	document.getElementById('tempHp').innerHTML = temp;
+
+	if(temp > 0){
+		$j('#tempHpDiv').show();
+	}
+	else{
+		$j('#tempHpDiv').hide();
+	}
+
+	$j('#damageCount').val('');
+	$j('#healthCount').val('');
+	$j('#tempHealthCount').val('');
+
+	var setToonHealth = new GlideAjax('CharacterSheet');
+	setToonHealth.addParam('sysparm_name', 'setToonHealth');
+	setToonHealth.addParam('sysparm_toon_id', $j('#toonId').val());
+	//setToonHealth.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+	setToonHealth.addParam('sysparm_cur', cur);
+	setToonHealth.addParam('sysparm_temp', temp);
+	setToonHealth.getXML();
+}
+
+function changeTempHP(){
+	var temp = parseFloat($j('#tempHealthCount').val());
+	if(temp > 0){
+		document.getElementById('tempHp').innerHTML = temp;
+		$j('#tempHpDiv').show();
+	}
+	$j('#tempHealthCount').val('');
+	var setToonHealth2 = new GlideAjax('CharacterSheet');
+	setToonHealth2.addParam('sysparm_name', 'setToonHealth');
+	setToonHealth2.addParam('sysparm_toon_id', $j('#toonId').val());
+	//setToonHealth2.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+	setToonHealth2.addParam('sysparm_temp', temp);
+	setToonHealth2.getXML();
+}
+
+function focusCurrency(type){
+	if(type == 'gold'){
+		$j("#silver").removeClass("silverFocus");
+		$j("#copper").removeClass("copperFocus");
+		$j("#gold").addClass("goldFocus");
+
+		$j('#currency').val('gold');
+	}
+	else if(type == 'silver'){
+		$j("#gold").removeClass("goldFocus");
+		$j("#copper").removeClass("copperFocus");
+		$j("#silver").addClass("silverFocus");
+
+		$j('#currency').val('silver');
+	}
+	else if(type == 'copper'){
+		$j("#copper").addClass("copperFocus");
+		$j("#gold").removeClass("goldFocus");
+		$j("#silver").removeClass("silverFocus");
+
+		$j('#currency').val('copper');
+	}
+	document.getElementById('currencyCount').focus();
+}
+
+function updateCurrency(type){
+	var amt = parseFloat($j('#currencyCount').val());
+	if(!isNaN(amt)){
+		var cur = $j('#currency').val();
+		var goldVal = parseFloat(document.getElementById('gold').innerHTML);
+		var silverVal = parseFloat(document.getElementById('silver').innerHTML);
+		var copperVal = parseFloat(document.getElementById('copper').innerHTML);
+
+
+
+		if(cur == 'gold'){
+			if(type == 'plus'){
+				goldVal += amt;
+			}
+			else if(type == 'minus'){
+				goldVal -= amt;
+			}
+			document.getElementById('gold').innerHTML = goldVal;
+		}
+		else if(cur == 'silver'){
+			if(type == 'plus'){
+				silverVal += amt;
+			}
+			else if(type == 'minus'){
+				silverVal -= amt;
+			}
+			document.getElementById('silver').innerHTML = silverVal;
+		}
+		else if(cur == 'copper'){
+			if(type == 'plus'){
+				copperVal += amt;
+			}
+			else if(type == 'minus'){
+				copperVal -= amt;
+			}
+			document.getElementById('copper').innerHTML = copperVal;
+		}
+
+		var updateToonWealth = new GlideAjax('CharacterSheet');
+		updateToonWealth.addParam('sysparm_name', 'updateToonWealth');
+		updateToonWealth.addParam('sysparm_toon_id', $j('#toonId').val());
+		//updateToonWealth.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+		updateToonWealth.addParam('sysparm_gold', goldVal);
+		updateToonWealth.addParam('sysparm_silver', silverVal);
+		updateToonWealth.addParam('sysparm_copper', copperVal);
+		updateToonWealth.getXML();
+
+		$j('#currencyCount').val('');
+	}
+}
+
+function updateDSTS(num){
+	var symbol = $j('#dsts' + num).val();
+
+	if(symbol == 'closed'){ //filled in circle
+		//change it and all the ones after it to open
+		for(var i = parseFloat(num); i <= 3; ++i){
+			document.getElementById('dsts' + i + 's').innerHTML = '&#9898;';
+			$j('#dsts' + i).val('open');
+		}
+		
+		var updateToonDST = new GlideAjax('CharacterSheet');
+		updateToonDST.addParam('sysparm_name', 'updateToonDST');
+		updateToonDST.addParam('sysparm_toon_id', $j('#toonId').val());
+		//updateToonDST.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+		updateToonDST.addParam('sysparm_type', 'success');
+		updateToonDST.addParam('sysparm_count', parseFloat(num) - 1);
+		updateToonDST.getXML();
+		
+	}
+	else if(symbol == 'open'){
+		//change it and all the ones before it to closed
+		for(var j = parseFloat(num); j > 0; --j){
+			document.getElementById('dsts' + j + 's').innerHTML = '&#9899;';
+			$j('#dsts' + j).val('closed');
+		}
+		
+		var updateToonDST2 = new GlideAjax('CharacterSheet');
+		updateToonDST2.addParam('sysparm_name', 'updateToonDST');
+		updateToonDST2.addParam('sysparm_toon_id', $j('#toonId').val());
+		//updateToonDST2.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+		updateToonDST2.addParam('sysparm_type', 'success');
+		updateToonDST2.addParam('sysparm_count', parseFloat(num));
+		updateToonDST2.getXML();
+	}
+}
+
+
+
+function updateDSTF(num){
+	var symbol = $j('#dstf' + num).val();
+
+	if(symbol == 'closed'){ //filled in circle
+		//change it and all the ones after it to open
+		for(var i = parseFloat(num); i <= 3; ++i){
+			document.getElementById('dstf' + i + 's').innerHTML = '&#9898;';
+			$j('#dstf' + i).val('open');
+		}
+		
+		var updateToonDST = new GlideAjax('CharacterSheet');
+		updateToonDST.addParam('sysparm_name', 'updateToonDST');
+		updateToonDST.addParam('sysparm_toon_id', $j('#toonId').val());
+		//updateToonDST.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+		updateToonDST.addParam('sysparm_type', 'failure');
+		updateToonDST.addParam('sysparm_count', parseFloat(num) - 1);
+		updateToonDST.getXML();
+		
+	}
+	else if(symbol == 'open'){
+		//change it and all the ones before it to closed
+		for(var j = parseFloat(num); j > 0; --j){
+			document.getElementById('dstf' + j + 's').innerHTML = '&#9899;';
+			$j('#dstf' + j).val('closed');
+		}
+		
+		var updateToonDST2 = new GlideAjax('CharacterSheet');
+		updateToonDST2.addParam('sysparm_name', 'updateToonDST');
+		updateToonDST2.addParam('sysparm_toon_id', $j('#toonId').val());
+		//updateToonDST2.addParam('sysparm_toon_id', 'ceeb77cc2fd74010a1fc808cf699b654'); // $j('#toonId').val()
+		updateToonDST2.addParam('sysparm_type', 'failure');
+		updateToonDST2.addParam('sysparm_count', parseFloat(num));
+		updateToonDST2.getXML();
+	}
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_262366_wld_bldr_charactersheet.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:700" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous" />
+	<link href="1a551f0a1308e300ecf230ded144b016.cssdbx" rel="stylesheet" type="text/css" />
+
+	<link href="f4ec88e42f130010a1fc808cf699b671.cssdbx" rel="stylesheet" type="text/css"></link>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+	<g:ui_form>
+		<g:evaluate var="jvar_toonId"
+					expression="RP.getParameterValue('sysparam_toon_id')" />
+		<input hidden='true' id='toonId' name='toonId' value="${jvar_toonId}" />
+	</g:ui_form>
+
+	<body style="background:rgba(149, 157, 173);min-width:2000px;overflow-x: scroll;" onload="loadPage()">
+		<div>
+			<div>
+				<div class='title'>
+					<div id='toonName'></div>
+
+				</div>
+				<div class='flex'>
+					<div class='titleData'>
+						<div class='titleText'>
+							<div id='classAndLevel'></div>
+							<div id='race'></div>
+							<div id='background'></div>
+						</div>
+					</div>
+					<div class='titleData'>
+						<div class='heart'>
+							<div class='hp'>
+								<div class='spacer'>&#160;</div>
+								<span id='currentHp'></span>
+								/
+								<span id='maxHp'></span>
+								<div class='hpText'>Hit Points</div>
+							</div>
+						</div>
+					</div>
+					<div class="titleData">
+						<div class="flex">
+							<input class="hpInput" type="number" id="damageCount" oninput="this.value = Math.abs(this.value)"/>
+							<div class="hpButton" onclick="changeHP('damage')">
+								&#9876;
+							</div>
+						</div>
+						<div class='spacer'>&#160;</div>
+						<div class="flex">
+							<input class="hpInput" type="number" id="healthCount" oninput="this.value = Math.abs(this.value)"/>
+							<div class="hpButton" onclick="changeHP('health')">
+								&#x2764;
+							</div>
+						</div>
+					</div>
+					<div hidden='true' style='display:none!important' class='titleData' id='tempHpDiv'>
+						<div class='heart2'>
+							<div class='hp'>
+								<div class='spacer'>&#160;</div>
+								<span id='tempHp'></span>
+								<div class='hpText'>Temp HP</div>
+							</div>
+						</div>
+					</div>
+					<div class="titleData">
+						<div class="flex">
+							<input class="hpInput" type="number" id="tempHealthCount" oninput="this.value = Math.abs(this.value)"/>
+							<div class="hpTempButton" onclick="changeTempHP()">
+								&#x2764;
+							</div>
+						</div>
+					</div>
+					<div class='titleData'>
+						<div class='shield'>
+							<div class='hp'>
+								<div class='spacer'>&#160;</div>
+								<span id='armorClass'></span>
+								<div class='hpText'>Armor Class</div>
+							</div>
+						</div>
+					</div>
+					<div class='titleData'>
+						<div class='shield'>
+							<div class='hp'>
+								<div class='spacer'>&#160;</div>
+								<span id='initiative'></span>
+								<div class='hpText'>Initiative</div>
+							</div>
+						</div>
+					</div>
+					<div class='titleData'>
+						<div class='shield'>
+							<div class='hp'>
+								<div class='spacer'>&#160;</div>
+								<span id='speed'></span>
+								<div class='hpText'>Speed</div>
+							</div>
+						</div>
+					</div>
+					<div class='titleData'>
+						<div class='dstTitle'>
+							Death Saving Throws
+						</div>
+						<div class="dstSection">
+							<div class="dstLabel">
+								Successes
+							</div>
+							<div class="dstButtons">
+								<div class="dstCounter" id="dsts1s" onclick="updateDSTS(1)">&#9898;</div>
+								<div class="dstCounter" id="dsts2s" onclick="updateDSTS(2)">&#9898;</div>
+								<div class="dstCounter" id="dsts3s" onclick="updateDSTS(3)">&#9898;</div>
+								<input hidden="true" style="display:none!important" id="dsts1" value="open" />
+								<input hidden="true" style="display:none!important" id="dsts2" value="open" />
+								<input hidden="true" style="display:none!important" id="dsts3" value="open" />
+							</div>
+						</div>
+						<div class="dstSection">
+							<div class="dstLabel">
+								Failures
+							</div>
+							<div class="dstButtons">
+								<div class="dstCounter" id="dstf1s" onclick="updateDSTF(1)">&#9898;</div>
+								<div class="dstCounter" id="dstf2s" onclick="updateDSTF(2)">&#9898;</div>
+								<div class="dstCounter" id="dstf3s" onclick="updateDSTF(3)">&#9898;</div>
+								<input hidden="true" style="display:none!important" id="dstf1" value="open" />
+								<input hidden="true" style="display:none!important" id="dstf2" value="open" />
+								<input hidden="true" style="display:none!important" id="dstf3" value="open" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex">
+				<div class='scoresAndSkills'>
+					<div class="flex">
+						<div class='scores'>
+							<div class='scoreBox'>
+								<div class='score'>
+									Strength
+									<div class='scoreText' id='str'></div>
+									<div class='spacer'>&#160;</div>
+								</div>
+								<div class='scoreModifier'>
+									<span id='strMod'></span>
+								</div>
+							</div>
+							<div class='scoreBox'>
+								<div class='score'>
+									Dexterity
+									<div class='scoreText' id='dex'></div>
+									<div class='spacer'>&#160;</div>
+								</div>
+								<div class='scoreModifier'>
+									<span id='dexMod'></span>
+								</div>
+							</div>
+							<div class='scoreBox'>
+								<div class='score'>
+									Constitution
+									<div class='scoreText' id='con'></div>
+									<div class='spacer'>&#160;</div>
+								</div>
+								<div class='scoreModifier'>
+									<span id='conMod'></span>
+								</div>
+							</div>
+							<div class='scoreBox'>
+								<div class='score'>
+									Intelligence
+									<div class='scoreText' id='int'></div>
+									<div class='spacer'>&#160;</div>
+								</div>
+								<div class='scoreModifier'>
+									<span id='intMod'></span>
+								</div>
+							</div>
+							<div class='scoreBox'>
+								<div class='score'>
+									Wisdom
+									<div class='scoreText' id='wis'></div>
+									<div class='spacer'>&#160;</div>
+								</div>
+								<div class='scoreModifier'>
+									<span id='wisMod'></span>
+								</div>
+							</div>
+							<div class='scoreBox'>
+								<div class='score'>
+									Charisma
+									<div class='scoreText' id='cha'></div>
+									<div class='spacer'>&#160;</div>
+								</div>
+								<div class='scoreModifier'>
+									<span id='chaMod'></span>
+								</div>
+							</div>
+						</div>
+						<div class='skillsAndSaves'>
+							<div class='inspirationBox'>
+								<div class='inspirationValueBox' id='inspiration'>
+
+								</div>
+								<div class='inspirationTextBox'>
+									&#160;Inspiration
+								</div>
+							</div>
+							<div class='inspirationBox'>
+								<div class='inspirationValueBox' id='proficiency'>
+
+								</div>
+								<div class='inspirationTextBox'>
+									&#160;Proficiency Bonus
+								</div>
+							</div>
+							<div class='saveBox'>
+								<div class='saveLine'>
+									<div class='profIndicator' id='strProf'></div>
+									<div class='profValue' id='strSaveBon'></div>
+									<div class='profText'>Strength</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='dexProf'></div>
+									<div class='profValue' id='dexSaveBon'></div>
+									<div class='profText'>Dexterity</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='conProf'></div>
+									<div class='profValue' id='conSaveBon'></div>
+									<div class='profText'>Constitution</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='intlProf'></div>
+									<div class='profValue' id='intSaveBon'></div>
+									<div class='profText'>Intelligence</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='wisProf'></div>
+									<div class='profValue' id='wisSaveBon'></div>
+									<div class='profText'>Wisdom</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='chaProf'></div>
+									<div class='profValue' id='chaSaveBon'></div>
+									<div class='profText'>Charisma</div>
+								</div>
+								<div class='profTitle'>Saving Throws</div>
+							</div>
+							<div class='saveBox'>
+								<div class='saveLine'>
+									<div class='profIndicator' id='acrProf'></div>
+									<div class='profValue' id='acrBon'></div>
+									<div class='profText'>Acrobatics (Dex)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='aniProf'></div>
+									<div class='profValue' id='aniBon'></div>
+									<div class='profText'>Animal Handling (Wis)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='arcProf'></div>
+									<div class='profValue' id='arcBon'></div>
+									<div class='profText'>Arcana (Int)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='athProf'></div>
+									<div class='profValue' id='athBon'></div>
+									<div class='profText'>Athletics (Str)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='decProf'></div>
+									<div class='profValue' id='decBon'></div>
+									<div class='profText'>Deception</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='hisProf'></div>
+									<div class='profValue' id='hisBon'></div>
+									<div class='profText'>History (Int)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='insProf'></div>
+									<div class='profValue' id='insBon'></div>
+									<div class='profText'>Insight (Wis)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='intProf'></div>
+									<div class='profValue' id='intBon'></div>
+									<div class='profText'>Intimidation (Cha)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='invProf'></div>
+									<div class='profValue' id='invBon'></div>
+									<div class='profText'>Investigation (Int)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='medProf'></div>
+									<div class='profValue' id='medBon'></div>
+									<div class='profText'>Medicine (Wis)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='natProf'></div>
+									<div class='profValue' id='natBon'></div>
+									<div class='profText'>Nature (Int)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='percProf'></div>
+									<div class='profValue' id='percBon'></div>
+									<div class='profText'>Perception (Wis)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='perfProf'></div>
+									<div class='profValue' id='perfBon'></div>
+									<div class='profText'>Performance (Cha)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='persProf'></div>
+									<div class='profValue' id='persBon'></div>
+									<div class='profText'>Persuasion (Cha)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='relProf'></div>
+									<div class='profValue' id='relBon'></div>
+									<div class='profText'>Religion (Int)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='sleProf'></div>
+									<div class='profValue' id='sleBon'></div>
+									<div class='profText'>Sleight of Hand (Dex)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='steProf'></div>
+									<div class='profValue' id='steBon'></div>
+									<div class='profText'>Stealth (Dex)</div>
+								</div>
+								<div class='saveLine'>
+									<div class='profIndicator' id='surProf'></div>
+									<div class='profValue' id='surBon'></div>
+									<div class='profText'>Survival (Wis)</div>
+								</div>
+								<div class='profTitle'>Skills</div>
+							</div>
+						</div>
+					</div>
+					<div class='passivePerceptionArea'>
+						<div class='passivePerceptionBox'>
+							<div class='passivePerceptionValue' id='passivePerceptionValue'>
+							</div>
+							<div class='passivePerceptionText'> Passive Perception
+							</div>
+						</div>
+					</div>
+					<div class='otherProficienciesArea'>
+						<div class='otherProficienciesBox'>
+							<div class='otherProficiencesArea'>
+								<div class='languagesBox'>
+									<div class='languagesTitle'>Languages</div>
+									<div class='languages' id='languages'></div>
+								</div>
+								<div hidden='true' class='languagesBox' id='toolBox'>
+									<div class='languagesTitle'>Tool Proficiencies</div>
+									<div class='languages' id='tools'></div>
+								</div>
+								<div hidden='true' class='languagesBox' id='armorBox'>
+									<div class='languagesTitle'>Armor Proficiencies</div>
+									<div class='languages' id='armor'></div>
+								</div>
+								<div class='languagesBox'>
+									<div class='languagesTitle'>Weapon Proficiencies</div>
+									<div class='languages' id='weapons'></div>
+								</div>
+							</div>
+							<div class='currencySection'>
+								<div class='spacer'>&#160;</div>
+								<div class='currencyBox'>
+									<div class='currencyText'>
+										GP
+									</div>
+									<div class='goldValue goldFocus' id='gold' onclick="focusCurrency('gold')"></div>
+								</div>
+								<div class='currencyBox'>
+									<div class='currencyText'>
+										SP
+									</div>
+									<div class='silverValue' id='silver' onclick="focusCurrency('silver')"></div>
+								</div>
+								<div class='currencyBox'>
+									<div class='currencyText'>
+										CP
+									</div>
+									<div class='copperValue' id='copper' onclick="focusCurrency('copper')"></div>
+								</div>
+								<div class='currencyBox'>
+									<div class="flex">
+										<div class='currencyButton' onclick="updateCurrency('minus')">
+											-
+										</div>
+										<input class="currencyInput" type="number" id="currencyCount" oninput="this.value = Math.abs(this.value)"/>
+										<div class='currencyButton' onclick="updateCurrency('plus')">
+											+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class='equipmentBox'>
+								<div class='languagesTitle'>
+									Equipment
+								</div>
+								<div class='equipmentText' id='equipmentText'>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='weaponsAndSpells'>
+					<div class='weaponsArea'>
+						<div class='weaponsTitle'>
+							Weapons
+						</div>
+						<div class='weaponsSection' id='weaponsSection'>
+						</div>
+					</div>
+					<div class='armorArea'>
+						<div class='weaponsTitle'>
+							Armor
+						</div>
+						<div class='weaponsSection' id='armorSection'>
+						</div>
+					</div>
+					<div class='spellArea'>
+						<div class='spellsSection' id='spellsSection'></div>
+					</div>
+					<div class="magicItemsArea" id="magItems">
+					</div>
+				</div>
+				<div class="weaponsAndSpells">
+					<div class="toonFeaturesSection" id="toonFeatures"></div>
+				</div>
+			</div>
+		</div>
+		<input hidden='true' id='currency' name='currency' value="gold" />
+	</body>
+</j:jelly>]]></html>
+        <name>charactersheet</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-25 19:22:06</sys_created_on>
+        <sys_id>aadab2bb2fc30010a1fc808cf699b692</sys_id>
+        <sys_mod_count>268</sys_mod_count>
+        <sys_name>charactersheet</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_ui_page_aadab2bb2fc30010a1fc808cf699b692</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-12-23 02:22:49</sys_updated_on>
+    </sys_ui_page>
+</record_update>

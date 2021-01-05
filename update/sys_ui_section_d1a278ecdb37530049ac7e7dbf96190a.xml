@@ -4,13 +4,13 @@
             <element>.begin_split</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>f2224374db3d230049ac7e7dbf9619b4</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>82a2d0e1dbd7778049ac7e7dbf961918</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type>.begin_split</type>
         </sys_ui_element>
@@ -18,27 +18,27 @@
             <element>name</element>
             <position>1</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>7a224374db3d230049ac7e7dbf9619b4</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>06a2d0e1dbd7778049ac7e7dbf961918</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>type</element>
+            <element>creature</element>
             <position>2</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>fa224374db3d230049ac7e7dbf9619b4</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>86a2d0e1dbd7778049ac7e7dbf961918</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -46,281 +46,295 @@
             <element>alignment</element>
             <position>3</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>7e224374db3d230049ac7e7dbf9619b4</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>0aa2d0e1dbd7778049ac7e7dbf961918</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
-            <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>biomes</element>
-            <position>4</position>
-            <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>fe224374db3d230049ac7e7dbf9619b4</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
-            <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>strength</element>
-            <position>5</position>
+            <position>4</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>72224374db3d230049ac7e7dbf9619b5</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>8aa2d0e1dbd7778049ac7e7dbf961918</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>dexterity</element>
-            <position>6</position>
+            <position>5</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>f2224374db3d230049ac7e7dbf9619b5</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>0ea2d0e1dbd7778049ac7e7dbf961918</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>constitution</element>
-            <position>7</position>
+            <position>6</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>76224374db3d230049ac7e7dbf9619b5</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>8ea2d0e1dbd7778049ac7e7dbf961918</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>intelligence</element>
-            <position>8</position>
+            <position>7</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>f6224374db3d230049ac7e7dbf9619b5</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>02a2d0e1dbd7778049ac7e7dbf961919</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>wisdom</element>
-            <position>9</position>
+            <position>8</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>7a224374db3d230049ac7e7dbf9619b5</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>82a2d0e1dbd7778049ac7e7dbf961919</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>charisma</element>
-            <position>10</position>
+            <position>9</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>fa224374db3d230049ac7e7dbf9619b5</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>06a2d0e1dbd7778049ac7e7dbf961919</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.split</element>
-            <position>11</position>
+            <position>10</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>7e224374db3d230049ac7e7dbf9619b5</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>86a2d0e1dbd7778049ac7e7dbf961919</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>size</element>
+            <element>armor_class</element>
+            <position>11</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>0aa2d0e1dbd7778049ac7e7dbf961919</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>max_hit_points</element>
             <position>12</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>fe224374db3d230049ac7e7dbf9619b5</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>8aa2d0e1dbd7778049ac7e7dbf961919</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>armor_class</element>
+            <element>current_hit_points</element>
             <position>13</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>72224374db3d230049ac7e7dbf9619b6</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>0ea2d0e1dbd7778049ac7e7dbf961919</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
-            <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>hit_points</element>
-            <position>14</position>
-            <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>f2224374db3d230049ac7e7dbf9619b6</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
-            <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
-            <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>challenge_rating</element>
-            <position>15</position>
-            <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>76224374db3d230049ac7e7dbf9619b6</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
-            <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>strength_modifier</element>
-            <position>16</position>
+            <position>14</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>f6224374db3d230049ac7e7dbf9619b6</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>8ea2d0e1dbd7778049ac7e7dbf961919</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>dexterity_modifier</element>
-            <position>17</position>
+            <position>15</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>7a224374db3d230049ac7e7dbf9619b6</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>02a2d0e1dbd7778049ac7e7dbf96191a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>constitution_modifier</element>
-            <position>18</position>
+            <position>16</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>fa224374db3d230049ac7e7dbf9619b6</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>82a2d0e1dbd7778049ac7e7dbf96191a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>intelligence_modifier</element>
-            <position>19</position>
+            <position>17</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>7e224374db3d230049ac7e7dbf9619b6</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>06a2d0e1dbd7778049ac7e7dbf96191a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>wisdom_modifier</element>
-            <position>20</position>
+            <position>18</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>fe224374db3d230049ac7e7dbf9619b6</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>86a2d0e1dbd7778049ac7e7dbf96191a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>charisma_modifier</element>
-            <position>21</position>
+            <position>19</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>72224374db3d230049ac7e7dbf9619b7</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>0aa2d0e1dbd7778049ac7e7dbf96191a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.end_split</element>
-            <position>22</position>
+            <position>20</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-13 16:29:48</sys_created_on>
-            <sys_id>f2224374db3d230049ac7e7dbf9619b7</sys_id>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>8aa2d0e1dbd7778049ac7e7dbf96191a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-13 16:29:48</sys_updated_on>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
             <sys_user/>
             <type>.end_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>gold</element>
+            <position>21</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>0ea2d0e1dbd7778049ac7e7dbf96191a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>silver</element>
+            <position>22</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>8ea2d0e1dbd7778049ac7e7dbf96191a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>copper</element>
+            <position>23</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2019-08-15 21:23:46</sys_created_on>
+            <sys_id>02a2d0e1dbd7778049ac7e7dbf96191b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_creatures" sys_domain="global" view="Default view">d1a278ecdb37530049ac7e7dbf96190a</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2019-08-15 21:23:46</sys_updated_on>
+            <sys_user/>
+            <type/>
         </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
             <caption/>

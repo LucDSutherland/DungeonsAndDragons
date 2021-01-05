@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Class Feature Option" max_length="40" name="x_262366_wld_bldr_class_feature_option" type="collection">
+        <element label="Action" max_length="40" name="action" type="boolean"/>
+        <element label="Bonus Action" max_length="40" name="bonus_action" type="boolean"/>
         <element label="Cantrip Prerequisite" max_length="32" name="cantrip_prerequisite" reference="x_262366_wld_bldr_spell" type="reference"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Class Features" max_length="1024" name="class_features" reference="x_262366_wld_bldr_class_feature" type="glide_list"/>
         <element label="Class Feature Option Prerequisite" max_length="32" name="class_feature_option_prerequisite" reference="x_262366_wld_bldr_class_feature_option" type="reference"/>
         <element label="Creature Type" max_length="32" name="creature_type" reference="x_262366_wld_bldr_creature_type" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Dawn Refresh" max_length="40" name="dawn_refresh" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Description" max_length="1000" name="description" type="string"/>
         <element label="Level Prerequisite" max_length="40" name="level_prerequisite" type="integer"/>
+        <element label="Limited Use" max_length="40" name="limited_use" type="boolean"/>
+        <element label="Limited Use Ability Base Use Limit" max_length="40" name="limited_use_ability_base_use_limit" type="integer"/>
+        <element label="Limited Use Ability Die Count" max_length="40" name="limited_use_ability_die_count" type="integer"/>
+        <element label="Limited Use Ability Die Size" max_length="40" name="limited_use_ability_die_size" type="integer"/>
+        <element label="Limited Use Ability Modifier" max_length="32" name="limited_use_ability_modifier" reference="x_262366_wld_bldr_ability_score" type="reference"/>
+        <element label="Limited Use Ability Refresh" max_length="32" name="limited_use_ability_refresh" reference="x_262366_wld_bldr_rest_type" type="reference"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Reaction" max_length="40" name="reaction" type="boolean"/>
         <index name="index">
-            <element name="cantrip_prerequisite"/>
+            <element name="limited_use_ability_refresh"/>
         </index>
         <index name="index2">
+            <element name="cantrip_prerequisite"/>
+        </index>
+        <index name="index3">
             <element name="creature_type"/>
+        </index>
+        <index name="index4">
+            <element name="limited_use_ability_modifier"/>
         </index>
     </element>
 </database>

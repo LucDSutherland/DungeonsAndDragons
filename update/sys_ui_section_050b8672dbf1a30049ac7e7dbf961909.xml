@@ -4,13 +4,13 @@
             <element>name</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-19 17:46:34</sys_created_on>
-            <sys_id>b14d0ef2dbf1a30049ac7e7dbf961941</sys_id>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>2a9ff2e82fed6010a1fc808cf699b6cc</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-19 17:46:34</sys_updated_on>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -18,13 +18,13 @@
             <element>race</element>
             <position>1</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-19 17:46:34</sys_created_on>
-            <sys_id>354d0ef2dbf1a30049ac7e7dbf961941</sys_id>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>aa9ff2e82fed6010a1fc808cf699b6cc</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-19 17:46:34</sys_updated_on>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -32,13 +32,97 @@
             <element>feature</element>
             <position>2</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-11-19 17:46:34</sys_created_on>
-            <sys_id>b54d0ef2dbf1a30049ac7e7dbf961941</sys_id>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>2e9ff2e82fed6010a1fc808cf699b6cc</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-11-19 17:46:34</sys_updated_on>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>limited_use</element>
+            <position>3</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>ae9ff2e82fed6010a1fc808cf699b6cc</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>limited_use_ability_base_limit</element>
+            <position>4</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>229ff2e82fed6010a1fc808cf699b6cd</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>limited_use_ability_refresh</element>
+            <position>5</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>a29ff2e82fed6010a1fc808cf699b6cd</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>action</element>
+            <position>6</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>269ff2e82fed6010a1fc808cf699b6cd</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>bonus_action</element>
+            <position>7</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>a69ff2e82fed6010a1fc808cf699b6cd</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>reaction</element>
+            <position>8</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2021-01-03 20:09:02</sys_created_on>
+            <sys_id>2a9ff2e82fed6010a1fc808cf699b6cd</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_race_features" sys_domain="global" view="Default view">050b8672dbf1a30049ac7e7dbf961909</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2021-01-03 20:09:02</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

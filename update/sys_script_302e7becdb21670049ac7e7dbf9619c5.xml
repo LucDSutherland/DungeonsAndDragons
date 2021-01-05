@@ -30,7 +30,7 @@
         <rest_variables/>
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
-
+	//need to update based on Tasha's Cauldron of Everything; subclass is not permanent
 	var expTable = new GlideRecord('x_262366_wld_bldr_character_advancement');
 	expTable.addQuery('experience_points', '<=', current.experience_points);
 	expTable.orderByDesc('level');
@@ -78,7 +78,7 @@
 					//var classCount = 0;
 					//while(cc.next()){
 					if(cc2.next()){
-						//theory: this is another one of those stupid things where the value is correct in the loop, but changes
+						//theory: this is another one of those stupid things where the value is correct in the loop, but changes (fixed by using getValue)
 						//out of it. Rewrite this to only query the correct one.
 						//if(classCount == randClass){ //TODO: prevent from getting over 20
 							asi.character_class = cc2.getValue('sys_id');
@@ -121,22 +121,22 @@
 							//decide which ability scores to increase
 							for(var twoTimes = 0; twoTimes < 2; ++twoTimes){
 								var exclusions = [];
-								if(current.strength == 20){
+								if(current.strength >= 20){
 									exclusions[exclusions.length] = 0;
 								}
-								if(current.dexterity == 20){
+								if(current.dexterity >= 20){
 									exclusions[exclusions.length] = 1;
 								}
-								if(current.constitution == 20){
+								if(current.constitution >= 20){
 									exclusions[exclusions.length] = 2;
 								}
-								if(current.intelligence == 20){
+								if(current.intelligence >= 20){
 									exclusions[exclusions.length] = 3;
 								}
-								if(current.wisdom == 20){
+								if(current.wisdom >= 20){
 									exclusions[exclusions.length] = 4;
 								}
-								if(current.charisma == 20){
+								if(current.charisma >= 20){
 									exclusions[exclusions.length] = 5;
 								}
 								
@@ -188,8 +188,9 @@
 					//increase hitpoints
 					var addHitPoints = new RollDice().RollDice(1,classGR.hit_dice,'sum') + current.bonus_hp_per_level;
 					asi.hit_points_increase = addHitPoints;
-					current.hit_points_max += addHitPoints + Math.floor((current.constitution-10)/2);
-					current.hit_points += addHitPoints + Math.floor((current.constitution-10)/2);
+					current.max_hit_points += addHitPoints + Math.floor((current.constitution-10)/2);
+					current.temporary_max_hit_points += addHitPoints + Math.floor((current.constitution-10)/2);
+					current.current_hit_points += addHitPoints + Math.floor((current.constitution-10)/2);
 				}
 				asi.insert();
 				
@@ -260,6 +261,69 @@
 						var cfoCount = 0;
 						while(cfo.next()){
 							if(randClassFeatureOptions.indexOf(cfoCount) > -1){
+								
+								//create character feature record
+								var ccfcfo = new GlideRecord('x_262366_wld_bldr_character_feature');
+								ccfcfo.initialize();
+								
+								if(cfo.getValue('limited_use') == true){
+									var cfoluaStat = cfo.getValue('limited_use_ability_modifier');
+									var cfoluaTotalStatUses = 0;
+
+									if(cfoluaStat){
+										if(cfoluaStat == 'cc08f67edb04a30049ac7e7dbf961919'){ //strength
+											cfoluaTotalStatUses = current.strength_modifier;
+										}
+										else if(cfoluaStat == '8a183a7edb04a30049ac7e7dbf96196c'){ //dexterity
+											cfoluaTotalStatUses = current.dexterity_modifier;
+										}
+										else if(cfoluaStat == 'b0283a7edb04a30049ac7e7dbf961953'){ //constitution
+											cfoluaTotalStatUses = current.constitution_modifier;
+										}
+										else if(cfoluaStat == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //intelligence
+											cfoluaTotalStatUses = current.intelligence_modifier;
+										}
+										else if(cfoluaStat == 'e438f67edb04a30049ac7e7dbf96194b'){ //wisdom
+											cfoluaTotalStatUses = current.wisdom_modifier;
+										}
+										else if(cfoluaStat == '0638f67edb04a30049ac7e7dbf9619a1'){ //charisma
+											cfoluaTotalStatUses = current.charisma_modifier;
+										}
+
+										cfoluaTotalStatUses = (cfoluaTotalStatUses > 0 ? cfoluaTotalStatUses : 1);
+									}
+
+
+									var cfoluaTotalUses = parseFloat(cfoluaTotalStatUses) + parseFloat(cfo.getValue('limited_use_ability_base_use_limit') ? cfo.getValue('limited_use_ability_base_use_limit') : 0);
+
+									
+										
+										
+									ccfcfo.refresh = cfo.getValue('limited_use_ability_refresh');
+									ccfcfo.uses = 0;
+									ccfcfo.total_uses = cfoluaTotalUses;
+									ccfcfo.die_size = cfo.getValue('limited_use_ability_die_size');
+									ccfcfo.die_count = cfo.getValue('limited_use_ability_die_count');
+								}
+								
+								if(cfo.getValue('action') == true){
+									ccfcfo.action = true;
+								}
+								if(cfo.getValue('bonus_action') == true){
+									ccfcfo.bonus_action = true;
+								}
+								if(cfo.getValue('reaction') == true){
+									ccfcfo.reaction = true;
+								}
+								
+								ccfcfo.character = current.sys_id;
+								ccfcfo.source = cfo.getValue('sys_id');
+								ccfcfo.feature = cfo.getValue('description');
+								ccfcfo.name = cfo.getValue('name');
+								ccfcfo.active = 'true';
+								ccfcfo.insert();
+								
+								
 								//create Character Class Feature Option record
 								var newccfo = new GlideRecord('x_262366_wld_bldr_character_class_feature_option');
 								newccfo.initialize();
@@ -267,16 +331,6 @@
 								newccfo.class_feature_option = cfo.sys_id;
 								newccfo.level_obtained = currentLevel;
 								newccfo.insert();
-								
-								//create character feature record
-								var ccfcfo = new GlideRecord('x_262366_wld_bldr_character_feature');
-								ccfcfo.initialize();
-								ccfcfo.character = current.sys_id;
-								ccfcfo.source = cf.name;
-								ccfcfo.feature = cfo.description;
-								ccfcfo.name = cfo.name;
-								ccfcfo.active = 'true';
-								ccfcfo.insert();
 							}
 							
 							++cfoCount;
@@ -284,14 +338,105 @@
 						
 					}
 					else{
-						var ccf = new GlideRecord('x_262366_wld_bldr_character_feature');
-						ccf.initialize();
-						ccf.character = current.sys_id;
-						ccf.source = className + ' ' + currentLevel;
-						ccf.feature = cf.description;
-						ccf.name = cf.name;
-						ccf.active = 'true';
-						ccf.insert();
+						if(cf.getValue('limited_use') == true){
+							var luaStat = cf.getValue('limited_use_ability_modifier');
+							var luaTotalStatUses = 0;
+
+							if(luaStat){
+								if(luaStat == 'cc08f67edb04a30049ac7e7dbf961919'){ //strength
+									luaTotalStatUses = current.strength_modifier;
+								}
+								else if(luaStat == '8a183a7edb04a30049ac7e7dbf96196c'){ //dexterity
+									luaTotalStatUses = current.dexterity_modifier;
+								}
+								else if(luaStat == 'b0283a7edb04a30049ac7e7dbf961953'){ //constitution
+									luaTotalStatUses = current.constitution_modifier;
+								}
+								else if(luaStat == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //intelligence
+									luaTotalStatUses = current.intelligence_modifier;
+								}
+								else if(luaStat == 'e438f67edb04a30049ac7e7dbf96194b'){ //wisdom
+									luaTotalStatUses = current.wisdom_modifier;
+								}
+								else if(luaStat == '0638f67edb04a30049ac7e7dbf9619a1'){ //charisma
+									luaTotalStatUses = current.charisma_modifier;
+								}
+
+								luaTotalStatUses = (luaTotalStatUses > 0 ? luaTotalStatUses : 1);
+							}
+							
+							
+							var luaTotalUses = parseFloat(luaTotalStatUses) + parseFloat(cf.getValue('limited_use_ability_base_use_limit') ? cf.getValue('limited_use_ability_base_use_limit') : 0);
+							
+							//check if it's a new ability or an upgrade to an existing one
+							var existingLUA = new GlideRecord('x_262366_wld_bldr_character_feature');
+							existingLUA.addQuery('character', current.sys_id);
+							existingLUA.addQuery('source', cf.getValue('ability_upgrade'));
+							existingLUA.query();
+							if(existingLUA.next()){
+								existingLUA.die_size = cf.getValue('limited_use_ability_die_size');
+								existingLUA.total_uses = luaTotalUses;
+								existingLUA.refresh = cf.getValue('limited_use_ability_refresh');
+								existingLUA.update();
+							}
+							else{
+								var newLUA = new GlideRecord('x_262366_wld_bldr_character_feature');
+								newLUA.initialize();
+								newLUA.character = current.sys_id;
+								newLUA.refresh = cf.getValue('limited_use_ability_refresh');
+								newLUA.uses = 0;
+								newLUA.total_uses = luaTotalUses;
+								newLUA.die_size = cf.getValue('limited_use_ability_die_size');
+								newLUA.feature = cf.getValue('description');
+								newLUA.source = cf.getValue('sys_id');
+								newLUA.name = cf.getValue('name');
+								
+								if(cf.getValue('action') == true){
+									newLUA.action = true;
+								}
+								if(cf.getValue('bonus_action') == true){
+									newLUA.bonus_action = true;
+								}
+								if(cf.getValue('reaction') == true){
+									newLUA.reaction = true;
+								}
+								
+								newLUA.insert();
+							}
+							
+						}
+						else{
+							var ccf = new GlideRecord('x_262366_wld_bldr_character_feature');
+							ccf.initialize();
+							
+							if(cf.getValue('parent_class_feature')){
+								//add value to parent limited use ability
+								var clua = new GlideRecord('x_262366_wld_bldr_character_feature');
+								clua.addQuery('character', current.sys_id);
+								clua.addQuery('source', cf.getValue('parent_class_feature'));
+								clua.query();
+								if(clua.next()){
+									ccf.parent_limited_use_ability = clua.getValue('sys_id');
+								}
+							}
+							
+							if(cf.getValue('action') == true){
+								ccf.action = true;
+							}
+							if(cf.getValue('bonus_action') == true){
+								ccf.bonus_action = true;
+							}
+							if(cf.getValue('reaction') == true){
+								ccf.reaction = true;
+							}
+							
+							ccf.character = current.sys_id;
+							ccf.source = cf.getValue('sys_id');
+							ccf.feature = cf.getValue('description');
+							ccf.name = cf.getValue('name');
+							ccf.active = 'true';
+							ccf.insert();
+						}
 					}
 				}
 				
@@ -339,10 +484,21 @@
 								var ccfsfo = new GlideRecord('x_262366_wld_bldr_character_feature');
 								ccfsfo.initialize();
 								ccfsfo.character = current.sys_id;
-								ccfsfo.source = scf.name;
+								ccfsfo.source = sfo.sys_id;
 								ccfsfo.feature = sfo.description;
 								ccfsfo.name = sfo.name;
 								ccfsfo.active = 'true';
+								
+								if(sfo.getValue('action') == true){
+									ccfsfo.action = true;
+								}
+								if(sfo.getValue('bonus_action') == true){
+									ccfsfo.bonus_action = true;
+								}
+								if(sfo.getValue('reaction') == true){
+									ccfsfo.reaction = true;
+								}
+								
 								ccfsfo.insert();
 							}
 							++sfoCount;
@@ -351,14 +507,104 @@
 
 					}
 					else{
-						var csf = new GlideRecord('x_262366_wld_bldr_character_feature');
-						csf.initialize();
-						csf.character = current.sys_id;
-						csf.source = subclassName + ' ' + currentLevel;
-						csf.feature = scf.description;
-						csf.name = scf.name;
-						csf.active = 'true';
-						csf.insert();
+						if(scf.getValue('limited_use') == true){
+							var scluaStat = scf.getValue('limited_use_ability_modifier');
+							var scluaTotalStatUses = 0;
+
+							if(scluaStat){
+								if(scluaStat == 'cc08f67edb04a30049ac7e7dbf961919'){ //strength
+									scluaTotalStatUses = current.strength_modifier;
+								}
+								else if(scluaStat == '8a183a7edb04a30049ac7e7dbf96196c'){ //dexterity
+									scluaTotalStatUses = current.dexterity_modifier;
+								}
+								else if(scluaStat == 'b0283a7edb04a30049ac7e7dbf961953'){ //constitution
+									scluaTotalStatUses = current.constitution_modifier;
+								}
+								else if(scluaStat == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //intelligence
+									scluaTotalStatUses = current.intelligence_modifier;
+								}
+								else if(scluaStat == 'e438f67edb04a30049ac7e7dbf96194b'){ //wisdom
+									scluaTotalStatUses = current.wisdom_modifier;
+								}
+								else if(scluaStat == '0638f67edb04a30049ac7e7dbf9619a1'){ //charisma
+									scluaTotalStatUses = current.charisma_modifier;
+								}
+
+								scluaTotalStatUses = (scluaTotalStatUses > 0 ? scluaTotalStatUses : 1);
+							}
+							
+							var scluaTotalUses = parseFloat(scluaTotalStatUses) + parseFloat(scf.getValue('limited_use_ability_base_use_limit') ? scf.getValue('limited_use_ability_base_use_limit') : 0);
+							
+							var scexistingLUA = new GlideRecord('x_262366_wld_bldr_character_feature');
+							scexistingLUA.addQuery('character', current.sys_id);
+							scexistingLUA.addQuery('source', scf.getValue('ability_upgrade'));
+							scexistingLUA.query();
+							if(scexistingLUA.next()){
+								scexistingLUA.die_size = scf.getValue('limited_use_ability_die_size');
+								scexistingLUA.total_uses = scluaTotalUses;
+								scexistingLUA.refresh = scf.getValue('limited_use_ability_refresh');
+								scexistingLUA.update();
+							}
+							else{
+								var scnewLUA = new GlideRecord('x_262366_wld_bldr_character_feature');
+								scnewLUA.initialize();
+								scnewLUA.character = current.sys_id;
+								scnewLUA.refresh = scf.getValue('limited_use_ability_refresh');
+								scnewLUA.uses = 0;
+								scnewLUA.total_uses = scluaTotalUses;
+								scnewLUA.die_size = scf.getValue('limited_use_ability_die_size');
+								scnewLUA.feature = scf.getValue('description');
+								scnewLUA.source = scf.getValue('sys_id');
+								scnewLUA.name = scf.getValue('name');
+								
+								if(scf.getValue('action') == true){
+									scnewLUA.action = true;
+								}
+								if(scf.getValue('bonus_action') == true){
+									scnewLUA.bonus_action = true;
+								}
+								if(scf.getValue('reaction') == true){
+									scnewLUA.reaction = true;
+								}
+								
+								scnewLUA.insert();
+							}
+							
+						}
+						else{
+							var csf = new GlideRecord('x_262366_wld_bldr_character_feature');
+							csf.initialize();
+							
+							if(scf.getValue('parent_class_feature')){
+								//add value to parent limited use ability
+								var sclua = new GlideRecord('x_262366_wld_bldr_character_limited_use_ability');
+								sclua.addQuery('character', current.sys_id);
+								sclua.addQuery('source', scf.getValue('parent_class_feature'));
+								sclua.query();
+								if(sclua.next()){
+									csf.parent_limited_use_ability = sclua.getValue('sys_id');
+								}
+							}
+							
+							if(scf.getValue('action') == true){
+								csf.action = true;
+							}
+							if(scf.getValue('bonus_action') == true){
+								csf.bonus_action = true;
+							}
+							if(scf.getValue('reaction') == true){
+								csf.reaction = true;
+							}
+							
+							csf.character = current.sys_id;
+							csf.source = scf.getValue('sys_id');
+							csf.feature = scf.getValue('description');
+							csf.name = scf.getValue('name');
+							csf.active = 'true';
+							csf.insert();
+						}
+						
 					}
 				}
 				
@@ -545,12 +791,12 @@
 			
 			//TODO: update proficiencies increases (for skills)
 			
-			current.strength_save_modifier = current.strength_modifier + (current.saving_throws_proficiency.indexOf('cc08f67edb04a30049ac7e7dbf961919')>-1?expTable.proficiency_bonus:0);
-			current.dexterity_save_modifier = current.dexterity_modifier + (current.saving_throws_proficiency.indexOf('8a183a7edb04a30049ac7e7dbf96196c')>-1?expTable.proficiency_bonus:0);
-			current.constitution_save_modifier = current.constitution_modifier + (current.saving_throws_proficiency.indexOf('b0283a7edb04a30049ac7e7dbf961953')>-1?expTable.proficiency_bonus:0);
-			current.intelligence_save_modifier = current.intelligence_modifier + (current.saving_throws_proficiency.indexOf('ee28f67edb04a30049ac7e7dbf9619f5')>-1?expTable.proficiency_bonus:0);
-			current.wisdom_save_modifier = current.wisdom_modifier + (current.saving_throws_proficiency.indexOf('e438f67edb04a30049ac7e7dbf96194b')>-1?expTable.proficiency_bonus:0);
-			current.charisma_save_modifier = current.charisma_modifier + (current.saving_throws_proficiency.indexOf('0638f67edb04a30049ac7e7dbf9619a1')>-1?expTable.proficiency_bonus:0);
+			current.strength_save_modifier = current.strength_modifier + (current.saving_throw_proficiencies.indexOf('cc08f67edb04a30049ac7e7dbf961919')>-1?expTable.proficiency_bonus:0);
+			current.dexterity_save_modifier = current.dexterity_modifier + (current.saving_throw_proficiencies.indexOf('8a183a7edb04a30049ac7e7dbf96196c')>-1?expTable.proficiency_bonus:0);
+			current.constitution_save_modifier = current.constitution_modifier + (current.saving_throw_proficiencies.indexOf('b0283a7edb04a30049ac7e7dbf961953')>-1?expTable.proficiency_bonus:0);
+			current.intelligence_save_modifier = current.intelligence_modifier + (current.saving_throw_proficiencies.indexOf('ee28f67edb04a30049ac7e7dbf9619f5')>-1?expTable.proficiency_bonus:0);
+			current.wisdom_save_modifier = current.wisdom_modifier + (current.saving_throw_proficiencies.indexOf('e438f67edb04a30049ac7e7dbf96194b')>-1?expTable.proficiency_bonus:0);
+			current.charisma_save_modifier = current.charisma_modifier + (current.saving_throw_proficiencies.indexOf('0638f67edb04a30049ac7e7dbf9619a1')>-1?expTable.proficiency_bonus:0);
 			current.level = expTable.level;
 			
 			var prepareSpells = new PrepareSpells().Prepare(current.sys_id);
@@ -573,7 +819,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>302e7becdb21670049ac7e7dbf9619c5</sys_id>
-        <sys_mod_count>124</sys_mod_count>
+        <sys_mod_count>157</sys_mod_count>
         <sys_name>Level Up Character</sys_name>
         <sys_overrides/>
         <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
@@ -581,7 +827,7 @@
         <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
         <sys_update_name>sys_script_302e7becdb21670049ac7e7dbf9619c5</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-07-30 20:05:23</sys_updated_on>
+        <sys_updated_on>2020-12-08 16:03:33</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>

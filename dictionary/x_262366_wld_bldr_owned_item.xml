@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Owned Item" max_length="40" name="x_262366_wld_bldr_owned_item" type="collection">
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element label="Charges" max_length="40" name="charges" type="integer"/>
+        <element label="Count" max_length="40" name="count" type="integer"/>
+        <element label="Creature" max_length="32" name="creature" reference="x_262366_wld_bldr_creatures" type="reference"/>
+        <element attributes="encode_utf8=false" label="Equipped" max_length="32" name="equipped" reference="x_262366_wld_bldr_equipment_slot" type="reference"/>
+        <element label="Item" max_length="32" name="item" reference="x_262366_wld_bldr_item" type="reference"/>
+        <element label="Max Charges" max_length="40" name="max_charges" type="integer"/>
+        <element label="Silvered" max_length="40" name="silvered" type="boolean"/>
+        <element label="Spell" max_length="32" name="spell" reference="x_262366_wld_bldr_spell" type="reference"/>
+        <element label="Trade" max_length="32" name="trade" reference="x_262366_wld_bldr_character" type="reference"/>
+        <index name="index">
+            <element name="spell"/>
+        </index>
+        <index name="index2">
+            <element name="character"/>
+        </index>
+        <index name="index3">
+            <element name="item"/>
+        </index>
+        <index name="index4">
+            <element name="trade"/>
+        </index>
+        <index name="index5">
+            <element name="equipped"/>
+        </index>
+        <index name="index6">
+            <element name="creature"/>
+        </index>
+    </element>
+</database>

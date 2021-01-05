@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Animal Companion" max_length="40" name="x_262366_wld_bldr_animal_companion" type="collection">
+        <element label="Armor Class" max_length="40" name="armor_class" type="integer"/>
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element label="Charisma" max_length="40" name="charisma" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.charisma - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Charisma Modifier" max_length="40" name="charisma_modifier" type="integer" virtual="true"/>
+        <element label="Constitution" max_length="40" name="constitution" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.constitution - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Constitution Modifier" max_length="40" name="constitution_modifier" type="integer" virtual="true"/>
+        <element label="Creature" max_length="32" name="creature" reference="x_262366_wld_bldr_creature_compendium" type="reference"/>
+        <element label="Current Hit Points" max_length="40" name="current_hit_points" type="integer"/>
+        <element label="Dexterity" max_length="40" name="dexterity" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.dexterity - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Dexterity Modifier" max_length="40" name="dexterity_modifier" type="integer" virtual="true"/>
+        <element label="Intelligence" max_length="40" name="intelligence" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.intelligence - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Intelligence Modifier" max_length="40" name="intelligence_modifier" type="integer" virtual="true"/>
+        <element label="Max Hit Points" max_length="40" name="max_hit_points" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="100" name="name" type="string"/>
+        <element label="Strength" max_length="40" name="strength" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.strength - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Strength Modifier" max_length="40" name="strength_modifier" type="integer" virtual="true"/>
+        <element label="Wisdom" max_length="40" name="wisdom" type="integer"/>
+        <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.wisdom - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Wisdom Modifier" max_length="40" name="wisdom_modifier" type="integer" virtual="true"/>
+        <index name="index">
+            <element name="character"/>
+        </index>
+        <index name="index2">
+            <element name="creature"/>
+        </index>
+    </element>
+</database>

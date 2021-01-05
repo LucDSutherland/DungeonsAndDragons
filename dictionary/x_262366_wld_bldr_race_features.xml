@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Race Features" max_length="40" name="x_262366_wld_bldr_race_features" type="collection">
+        <element label="Action" max_length="40" name="action" type="boolean"/>
+        <element label="Bonus Action" max_length="40" name="bonus_action" type="boolean"/>
         <element attributes="edge_encryption_enabled=true" label="Feature" max_length="4000" name="feature" type="string"/>
+        <element label="Limited Use" max_length="40" name="limited_use" type="boolean"/>
+        <element label="Limited Use Ability Base Limit" max_length="40" name="limited_use_ability_base_limit" type="integer"/>
+        <element label="Limited Use Ability Refresh" max_length="32" name="limited_use_ability_refresh" reference="x_262366_wld_bldr_rest_type" type="reference"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
         <element label="Race" max_length="32" name="race" reference="x_262366_wld_bldr_race" type="reference"/>
+        <element label="Reaction" max_length="40" name="reaction" type="boolean"/>
         <index name="index">
+            <element name="limited_use_ability_refresh"/>
+        </index>
+        <index name="index2">
             <element name="race"/>
         </index>
     </element>

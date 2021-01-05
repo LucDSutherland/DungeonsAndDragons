@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="u_r" label="R" language="en" table="u_imp_tmpl_x_262366_wld_bldr_spell">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>u_r</element>
+            <help/>
+            <hint/>
+            <label>R</label>
+            <language>en</language>
+            <name>u_imp_tmpl_x_262366_wld_bldr_spell</name>
+            <plural>Rs</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-12-28 19:30:07</sys_created_on>
+            <sys_id>9e2dffea2fd12010a1fc808cf699b61f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>R</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_documentation_u_imp_tmpl_x_262366_wld_bldr_spell_u_r_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-12-28 19:30:07</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

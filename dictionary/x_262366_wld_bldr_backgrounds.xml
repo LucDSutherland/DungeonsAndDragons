@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Backgrounds" max_length="40" name="x_262366_wld_bldr_backgrounds" type="collection">
+        <element label="Languages" max_length="40" name="languages" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Skill Proficiencies" max_length="1024" name="skill_proficiencies" reference="x_262366_wld_bldr_skills" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Starting Equipment" max_length="1024" name="starting_equipment" reference="x_262366_wld_bldr_item" type="glide_list"/>
+        <element label="Starting Equipment Count" max_length="40" name="starting_equipment_count" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Starting Equipment Options" max_length="1024" name="starting_equipment_options" reference="x_262366_wld_bldr_item" type="glide_list"/>
+        <element label="Starting Gold" max_length="40" name="starting_gold" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiencies" max_length="1024" name="tool_proficiencies" reference="x_262366_wld_bldr_item" type="glide_list"/>
+        <element label="Tool Proficiency Choices" max_length="40" name="tool_proficiency_choices" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiency Options" max_length="1024" name="tool_proficiency_options" reference="x_262366_wld_bldr_item" type="glide_list"/>
     </element>
 </database>

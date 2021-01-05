@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Creatures" max_length="40" name="x_262366_wld_bldr_creatures" type="collection">
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Alignment" max_length="1024" name="alignment" reference="x_262366_wld_bldr_alignment" type="glide_list"/>
+        <element label="Alignment" max_length="32" name="alignment" reference="x_262366_wld_bldr_alignment" type="reference"/>
         <element label="Armor Class" max_length="40" name="armor_class" type="integer"/>
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Biomes" max_length="1024" name="biomes" reference="x_262366_wld_bldr_terrain_type" type="glide_list"/>
-        <element label="Challenge Rating" max_length="40" name="challenge_rating" type="float"/>
         <element label="Charisma" max_length="40" name="charisma" type="integer"/>
         <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.charisma - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Charisma Modifier" max_length="40" name="charisma_modifier" type="integer" virtual="true"/>
         <element label="Constitution" max_length="40" name="constitution" type="integer"/>
         <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.constitution - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Constitution Modifier" max_length="40" name="constitution_modifier" type="integer" virtual="true"/>
+        <element label="Copper" max_length="40" name="copper" type="integer"/>
+        <element label="Creature" max_length="32" name="creature" reference="x_262366_wld_bldr_creature_compendium" type="reference"/>
+        <element label="Current Hit Points" max_length="40" name="current_hit_points" type="integer"/>
         <element label="Dexterity" max_length="40" name="dexterity" type="integer"/>
         <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.dexterity - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Dexterity Modifier" max_length="40" name="dexterity_modifier" type="integer" virtual="true"/>
-        <element label="Hit Points" max_length="40" name="hit_points" type="integer"/>
+        <element label="Encounter" max_length="32" name="encounter" reference="x_262366_wld_bldr_encounter" type="reference"/>
+        <element label="Gold" max_length="40" name="gold" type="integer"/>
         <element label="Intelligence" max_length="40" name="intelligence" type="integer"/>
         <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.intelligence - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Intelligence Modifier" max_length="40" name="intelligence_modifier" type="integer" virtual="true"/>
+        <element label="Max Hit Points" max_length="40" name="max_hit_points" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
-        <element label="Size" max_length="32" name="size" reference="x_262366_wld_bldr_creature_size" type="reference"/>
+        <element label="Silver" max_length="40" name="silver" type="integer"/>
         <element label="Strength" max_length="40" name="strength" type="integer"/>
         <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.strength - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Strength Modifier" max_length="40" name="strength_modifier" type="integer" virtual="true"/>
-        <element label="Type" max_length="32" name="type" reference="x_262366_wld_bldr_creature_type" type="reference"/>
         <element label="Wisdom" max_length="40" name="wisdom" type="integer"/>
         <element calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;return Math.floor((current.wisdom - 10) / 2);&#13;&#10;&#13;&#10;})(current);" label="Wisdom Modifier" max_length="40" name="wisdom_modifier" type="integer" virtual="true"/>
         <index name="index">
-            <element name="size"/>
+            <element name="encounter"/>
         </index>
         <index name="index2">
-            <element name="type"/>
+            <element name="alignment"/>
+        </index>
+        <index name="index3">
+            <element name="creature"/>
         </index>
     </element>
 </database>

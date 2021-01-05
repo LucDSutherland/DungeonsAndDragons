@@ -35,7 +35,7 @@
         <primary>false</primary>
         <read_only>false</read_only>
         <read_roles/>
-        <reference display_value="" name="x_262366_wld_bldr_tools">x_262366_wld_bldr_tools</reference>
+        <reference display_value="" name="x_262366_wld_bldr_item">x_262366_wld_bldr_item</reference>
         <reference_cascade_rule/>
         <reference_floats>false</reference_floats>
         <reference_key/>
@@ -47,8 +47,8 @@
         <staged>false</staged>
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-09-13 20:28:45</sys_created_on>
-        <sys_id>98ef2115db20230049ac7e7dbf9619f5</sys_id>
+        <sys_created_on>2020-02-21 19:43:28</sys_created_on>
+        <sys_id>21c95e622f470010a1fc808cf699b66e</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Tool Proficiencies</sys_name>
         <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
@@ -56,7 +56,7 @@
         <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
         <sys_update_name>sys_dictionary_x_262366_wld_bldr_character_tool_proficiencies</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-09-13 20:28:45</sys_updated_on>
+        <sys_updated_on>2020-02-21 19:43:28</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

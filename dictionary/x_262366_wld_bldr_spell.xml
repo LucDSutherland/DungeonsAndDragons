@@ -11,6 +11,7 @@
         <element label="Duration Measurement" max_length="32" name="duration_measurement" reference="x_262366_wld_bldr_time_measurement" type="reference"/>
         <element label="Duration Time" max_length="40" name="duration_time" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Effect" max_length="1000" name="effect" type="string"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Expanded for Subclass" max_length="1024" name="expanded_for_subclass" reference="x_262366_wld_bldr_subclass" type="glide_list"/>
         <element label="Level" max_length="32" name="level" reference="x_262366_wld_bldr_spell_level" type="reference"/>
         <element attributes="edge_encryption_enabled=true" label="Material Components" max_length="1000" name="material_components" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>

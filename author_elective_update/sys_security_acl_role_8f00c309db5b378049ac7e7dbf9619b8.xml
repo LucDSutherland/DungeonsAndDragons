@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="DELETE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-14 20:44:22</sys_created_on>
+        <sys_id>8f00c309db5b378049ac7e7dbf9619b8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_262366_wld_bldr_encountered_character.x_262366_wld_bldr.dungeon_master</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_security_acl display_value="x_262366_wld_bldr_encountered_character">0700c309db5b378049ac7e7dbf9619b6</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_8f00c309db5b378049ac7e7dbf9619b8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-14 20:44:22</sys_updated_on>
+        <sys_user_role display_value="x_262366_wld_bldr.dungeon_master" name="x_262366_wld_bldr.dungeon_master">b29d7ce4db77530049ac7e7dbf961975</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>sys_security_acl_role_8f00c309db5b378049ac7e7dbf9619b8</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2019-08-14 20:44:22</sys_created_on><sys_id>8f00c309db5b378049ac7e7dbf9619b8</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_262366_wld_bldr_encountered_character.x_262366_wld_bldr.dungeon_master</sys_name><sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package><sys_policy/><sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope><sys_security_acl display_value="x_262366_wld_bldr_encountered_character">0700c309db5b378049ac7e7dbf9619b6</sys_security_acl><sys_update_name>sys_security_acl_role_8f00c309db5b378049ac7e7dbf9619b8</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2019-08-14 20:44:22</sys_updated_on><sys_user_role display_value="x_262366_wld_bldr.dungeon_master" name="x_262366_wld_bldr.dungeon_master">b29d7ce4db77530049ac7e7dbf961975</sys_user_role><transaction_id/></sys_security_acl_role></record_update>]]></payload>
+        <payload_hash>1593910773</payload_hash>
+        <record_name>x_262366_wld_bldr_encountered_character.x_262366_wld_bldr.dungeon_master</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-14 20:44:22</sys_created_on>
+        <sys_id>4700c309db5b378049ac7e7dbf9619bb</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16c91dfd9260000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-14 20:44:22</sys_updated_on>
+        <type>Access Roles</type>
+        <update_guid>8f00c309f75b3780947b1350d1537aba</update_guid>
+        <update_guid_history>8f00c309f75b3780947b1350d1537aba:1593910773</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Record deleted 08-14-2019 16:10:53">e316c70ddb5b378049ac7e7dbf961917</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-14 21:10:53</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl_role">sys_security_acl_role</sys_db_object>
+        <sys_id>02b152dcaaf046e0817d4299508e1e40</sys_id>
+        <sys_metadata>8f00c309db5b378049ac7e7dbf9619b8</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_262366_wld_bldr_encountered_character.x_262366_wld_bldr.dungeon_master</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent display_value="">0700c309db5b378049ac7e7dbf9619b6</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>sys_security_acl_role_8f00c309db5b378049ac7e7dbf9619b8</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_role_8f00c309db5b378049ac7e7dbf9619b8">4700c309db5b378049ac7e7dbf9619bb</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-14 21:10:53</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

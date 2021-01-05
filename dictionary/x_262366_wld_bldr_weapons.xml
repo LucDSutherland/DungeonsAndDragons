@@ -11,6 +11,18 @@
         <element label="Range" max_length="40" name="range" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Special Effect" max_length="1000" name="special_effect" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Versatile Damage" max_length="40" name="versatile_damage" type="string"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Weapon Type Range" max_length="40" name="weapon_type_range" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Melee" sequence="1" value="Melee"/>
+                <element inactive_on_update="false" label="Ranged" sequence="2" value="Ranged"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Weapon Type Skill" max_length="40" name="weapon_type_skill" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Martial" sequence="0" value="Martial"/>
+                <element inactive_on_update="false" label="Simple" sequence="1" value="Simple"/>
+            </choice>
+        </element>
         <element label="Weight" max_length="40" name="weight" type="float"/>
         <index name="index">
             <element name="damage_type"/>

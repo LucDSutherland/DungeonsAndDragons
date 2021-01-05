@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_fix">
+    <sys_script_fix action="DELETE">
+        <active>true</active>
+        <before>false</before>
+        <description/>
+        <flush_cache>false</flush_cache>
+        <name>Copy Creatures to Compendium</name>
+        <record_for_rollback>false</record_for_rollback>
+        <run_once>true</run_once>
+        <script><![CDATA[var c = new GlideRecord('x_262366_wld_bldr_creatures');
+c.query();
+//c.deleteMultiple();
+/*
+while(c.next()){
+	var cc = new GlideRecord('x_262366_wld_bldr_creature_compendium');
+	cc.initialize();
+	cc.name = c.getValue('name');
+	cc.type = c.getValue('type');
+	cc.alignment = c.getValue('alignment');
+	cc.biomes = c.getValue('biomes');
+	cc.strength = c.getValue('strength');
+	cc.dexterity = c.getValue('dexterity');
+	cc.constitution = c.getValue('constitution');
+	cc.intelligence = c.getValue('intelligence');
+	cc.wisdom = c.getValue('wisdom');
+	cc.charisma = c.getValue('charisma');
+	cc.size = c.getValue('size');
+	cc.armor_class = c.getValue('armor_class');
+	cc.hit_points = c.getValue('hit_points');
+	cc.challenge_rating = c.getValue('challenge_rating');
+	cc.insert();
+}*/]]></script>
+        <sys_class_name>sys_script_fix</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-15 16:12:17</sys_created_on>
+        <sys_id>5ff9c39ddbd3778049ac7e7dbf961988</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Copy Creatures to Compendium</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_fix_5ff9c39ddbd3778049ac7e7dbf961988</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-15 16:31:34</sys_updated_on>
+        <unloadable>false</unloadable>
+    </sys_script_fix>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>sys_script_fix_5ff9c39ddbd3778049ac7e7dbf961988</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_fix"&gt;&lt;sys_script_fix action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;before&gt;false&lt;/before&gt;&lt;description/&gt;&lt;flush_cache&gt;false&lt;/flush_cache&gt;&lt;name&gt;Copy Creatures to Compendium&lt;/name&gt;&lt;record_for_rollback&gt;false&lt;/record_for_rollback&gt;&lt;run_once&gt;true&lt;/run_once&gt;&lt;script&gt;&lt;![CDATA[var c = new GlideRecord('x_262366_wld_bldr_creatures');
+c.query();
+//c.deleteMultiple();
+/*
+while(c.next()){
+	var cc = new GlideRecord('x_262366_wld_bldr_creature_compendium');
+	cc.initialize();
+	cc.name = c.getValue('name');
+	cc.type = c.getValue('type');
+	cc.alignment = c.getValue('alignment');
+	cc.biomes = c.getValue('biomes');
+	cc.strength = c.getValue('strength');
+	cc.dexterity = c.getValue('dexterity');
+	cc.constitution = c.getValue('constitution');
+	cc.intelligence = c.getValue('intelligence');
+	cc.wisdom = c.getValue('wisdom');
+	cc.charisma = c.getValue('charisma');
+	cc.size = c.getValue('size');
+	cc.armor_class = c.getValue('armor_class');
+	cc.hit_points = c.getValue('hit_points');
+	cc.challenge_rating = c.getValue('challenge_rating');
+	cc.insert();
+}*/]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_fix&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2019-08-15 16:12:17&lt;/sys_created_on&gt;&lt;sys_id&gt;5ff9c39ddbd3778049ac7e7dbf961988&lt;/sys_id&gt;&lt;sys_mod_count&gt;4&lt;/sys_mod_count&gt;&lt;sys_name&gt;Copy Creatures to Compendium&lt;/sys_name&gt;&lt;sys_package display_value="World Builder" source="x_262366_wld_bldr"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="World Builder"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_fix_5ff9c39ddbd3778049ac7e7dbf961988&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2019-08-15 16:31:34&lt;/sys_updated_on&gt;&lt;unloadable&gt;false&lt;/unloadable&gt;&lt;/sys_script_fix&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>289822655</payload_hash>
+        <record_name>Copy Creatures to Compendium</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-15 16:31:34</sys_created_on>
+        <sys_id>35cf47d1db17778049ac7e7dbf96195e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16c961ec6030000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-15 16:31:34</sys_updated_on>
+        <type>Fix Script</type>
+        <update_guid>bdcf47d1331777805b4f91462b67f55d</update_guid>
+        <update_guid_history>bdcf47d1331777805b4f91462b67f55d:289822655,f0bf87910d1777809191d3b0f3e50e46:-1255932769,1cdbc7dd94d377806debd8605899dfc0:-75367129,629b83dd45d37780877615db52124dd0:-1263612934,175bcb5d53d37780359f3be45f7d0960:694545435</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-15 16:31:45</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_fix">sys_script_fix</sys_db_object>
+        <sys_id>13e0a1e5830c4bac8b4fd0f981912b90</sys_id>
+        <sys_metadata>5ff9c39ddbd3778049ac7e7dbf961988</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Copy Creatures to Compendium</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>sys_script_fix_5ff9c39ddbd3778049ac7e7dbf961988</sys_update_name>
+        <sys_update_version display_value="sys_script_fix_5ff9c39ddbd3778049ac7e7dbf961988">35cf47d1db17778049ac7e7dbf96195e</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-15 16:31:45</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

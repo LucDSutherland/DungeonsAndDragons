@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="DELETE">
+        <active>true</active>
+        <application display_value="World Builder Base Tables">166b3c64db77530049ac7e7dbf961987</application>
+        <assessment/>
+        <content_page/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>LIST</link_type>
+        <map_page/>
+        <mobile_title>Ability Score Modifiers</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name>x_262366_wld_bldr_ability_score_modifier</name>
+        <order/>
+        <override_menu_roles>false</override_menu_roles>
+        <query/>
+        <report/>
+        <roles>x_262366_wld_bldr.dungeon_master</roles>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-05 03:31:53</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>94215decdb77530049ac7e7dbf961908</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Ability Score Modifiers</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_app_module_94215decdb77530049ac7e7dbf961908</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-08-05 03:31:53</sys_updated_on>
+        <timeline_page/>
+        <title>Ability Score Modifiers</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>sys_app_module_94215decdb77530049ac7e7dbf961908</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module"><sys_app_module action="INSERT_OR_UPDATE"><active>true</active><application display_value="World Builder Base Tables">166b3c64db77530049ac7e7dbf961987</application><assessment/><content_page/><device_type/><filter/><hint/><homepage/><image/><link_type>LIST</link_type><map_page/><mobile_title>Ability Score Modifiers</mobile_title><mobile_view_name>Mobile</mobile_view_name><name>x_262366_wld_bldr_ability_score_modifier</name><order/><override_menu_roles>false</override_menu_roles><query/><report/><roles>x_262366_wld_bldr.dungeon_master</roles><sys_class_name>sys_app_module</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2018-08-05 03:31:53</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>94215decdb77530049ac7e7dbf961908</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Ability Score Modifiers</sys_name><sys_overrides/><sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package><sys_policy/><sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope><sys_update_name>sys_app_module_94215decdb77530049ac7e7dbf961908</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2018-08-05 03:31:53</sys_updated_on><timeline_page/><title>Ability Score Modifiers</title><uncancelable>false</uncancelable><view_name/><window_name/></sys_app_module></record_update>]]></payload>
+        <payload_hash>-1162934481</payload_hash>
+        <record_name>Ability Score Modifiers</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-08-05 03:31:53</sys_created_on>
+        <sys_id>54211d24dbb7530049ac7e7dbf9619c4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16508242d0b0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-08-05 03:31:53</sys_updated_on>
+        <type>Module</type>
+        <update_guid>9c211d248cb753003c594f8666c722c3</update_guid>
+        <update_guid_history>9c211d248cb753003c594f8666c722c3:-1162934481</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Record deleted 02-15-2020 20:54:03">dec241f42f83c010a1fc808cf699b6bc</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-16 02:54:03</sys_created_on>
+        <sys_db_object display_value="" name="sys_app_module">sys_app_module</sys_db_object>
+        <sys_id>3278bc400af94fa8ab3bb61a8e2a9061</sys_id>
+        <sys_metadata>94215decdb77530049ac7e7dbf961908</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Ability Score Modifiers</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>sys_app_module_94215decdb77530049ac7e7dbf961908</sys_update_name>
+        <sys_update_version display_value="sys_app_module_94215decdb77530049ac7e7dbf961908">54211d24dbb7530049ac7e7dbf9619c4</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-16 02:54:03</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

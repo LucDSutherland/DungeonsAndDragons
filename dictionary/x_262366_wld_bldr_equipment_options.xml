@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Equipment Options" max_length="40" name="x_262366_wld_bldr_equipment_options" type="collection">
+        <element label="Group" max_length="40" name="group" type="integer"/>
+        <element attributes="encode_utf8=false" label="Item 1" max_length="32" name="item_1" reference="x_262366_wld_bldr_item" type="reference"/>
+        <element label="Item 1 Count" max_length="40" name="item_1_count" type="integer"/>
+        <element attributes="encode_utf8=false" label="Item 2" max_length="32" name="item_2" reference="x_262366_wld_bldr_item" type="reference"/>
+        <element label="Item 2 Count" max_length="40" name="item_2_count" type="integer"/>
+        <element attributes="encode_utf8=false" label="Item 3" max_length="32" name="item_3" reference="x_262366_wld_bldr_item" type="reference"/>
+        <element label="Item 3 Count" max_length="40" name="item_3_count" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Item Type" max_length="40" name="item_type" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Magic Item" sequence="0" value="Magic Item"/>
+                <element inactive_on_update="false" label="Weapon" sequence="1" value="Weapon"/>
+                <element inactive_on_update="false" label="Armor" sequence="2" value="Armor"/>
+                <element inactive_on_update="false" label="Tool" sequence="3" value="Tool"/>
+                <element inactive_on_update="false" label="Pack" sequence="4" value="Pack"/>
+                <element inactive_on_update="false" label="Instrument" sequence="5" value="Instrument"/>
+                <element inactive_on_update="false" label="Ammo" sequence="6" value="Ammo"/>
+            </choice>
+        </element>
+        <element label="Proficiency Required" max_length="40" name="proficiency_required" type="boolean"/>
+        <element attributes="encode_utf8=false" display="true" label="Class" max_length="32" name="u_class" reference="x_262366_wld_bldr_class" type="reference"/>
+        <element label="Weapon Choice Count" max_length="40" name="weapon_choice_count" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Weapon Type Range" max_length="40" name="weapon_type_range" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Melee" sequence="0" value="Melee"/>
+                <element inactive_on_update="false" label="Ranged" sequence="1" value="Ranged"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Weapon Type Skill" max_length="40" name="weapon_type_skill" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Martial" sequence="0" value="Martial"/>
+                <element inactive_on_update="false" label="Simple" sequence="1" value="Simple"/>
+            </choice>
+        </element>
+        <index name="index">
+            <element name="u_class"/>
+        </index>
+        <index name="index2">
+            <element name="item_3"/>
+        </index>
+        <index name="index3">
+            <element name="item_2"/>
+        </index>
+        <index name="index4">
+            <element name="item_1"/>
+        </index>
+    </element>
+</database>

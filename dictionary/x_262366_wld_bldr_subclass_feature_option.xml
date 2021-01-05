@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Subclass Feature Option" max_length="40" name="x_262366_wld_bldr_subclass_feature_option" type="collection">
+        <element label="Action" max_length="40" name="action" type="boolean"/>
+        <element label="Bonus Action" max_length="40" name="bonus_action" type="boolean"/>
         <element attributes="edge_encryption_enabled=true" label="Description" max_length="1000" name="description" type="string"/>
         <element label="Ki Cost" max_length="40" name="ki_cost" type="integer"/>
         <element label="Level Prerequisite" max_length="40" name="level_prerequisite" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Reaction" max_length="40" name="reaction" type="boolean"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Subclass Feature" max_length="1024" name="subclass_feature" reference="x_262366_wld_bldr_subclass_feature" type="glide_list"/>
     </element>
 </database>

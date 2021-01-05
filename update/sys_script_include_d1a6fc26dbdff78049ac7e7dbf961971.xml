@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_262366_wld_bldr.ResolveEncounter</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>ResolveEncounter</name>
+        <script><![CDATA[var ResolveEncounter = Class.create();
+ResolveEncounter.prototype = {
+	initialize: function() {
+	},
+
+	ResolveEncounter: function(encounterSysId){
+		//mark dead things dead
+		var combatants = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+		combatants.addQuery('encounter', encounterSysId);
+		combatants.query();
+		while(combatants.next()){
+			if(combatants.getValue('current_hit_points') == 0){
+				combatants.setValue('dead', true);
+			}
+
+			//update actual records with encounter data (eg health)
+			if(combatants.character){
+				var toon = new GlideRecord('x_262366_wld_bldr_character');
+				toon.addQuery('sys_id', combatants.character);
+				toon.query();
+				if(toon.next()){
+					toon.current_hit_points = combatants.getValue('current_hit_points');
+					toon.temporary_max_hit_points = combatants.getValue('max_hit_points');
+					toon.temporary_hit_points = combatants.getValue('temporary_hit_points');
+					toon.update();
+				}
+			}
+			else if(combatants.creature){
+				var creat = new GlideRecord('x_262366_wld_bldr_creatures');
+				creat.addQuery('sys_id', combatants.creature);
+				creat.query();
+				if(creat.next()){
+					creat.current_hit_points = combatants.getValue('current_hit_points');
+					creat.update();
+				}
+			}
+			else if(combatants.animal_companion){
+				var comp = new GlideRecord('x_262366_wld_bldr_animal_companion');
+				comp.addQuery('sys_id', combatants.animal_companion);
+				comp.query();
+				if(comp.next()){
+					comp.current_hit_points = combatants.getValue('current_hit_points');
+					comp.update();
+				}
+			}
+
+			combatants.update();
+		}
+
+		//assign loot to slayer
+		var interactions = new GlideRecord('x_262366_wld_bldr_encounter_interaction');
+		interactions.addQuery('encounter', encounterSysId);
+		interactions.orderByDesc('sys_created_on');
+		interactions.query();
+		while(interactions.next()){
+			if(interactions.getValue('fatal')){
+				if(interactions.source.character && interactions.target.creature){ //if a creature was killed by a character, give that guy the loot
+					var chara = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+					chara.addQuery('sys_id', interactions.source);
+					chara.query();
+					if(chara.next()){
+						var loot = new GlideRecord('x_262366_wld_bldr_owned_item');
+						loot.addQuery('creature', interactions.target.creature);
+						loot.query();
+						while(loot.next()){
+							loot.character = chara.getValue('character');
+							loot.creature = '';
+							loot.update();
+						}
+
+						var character = new GlideRecord('x_262366_wld_bldr_character');
+						character.addQuery('sys_id', chara.getValue('character'));
+						character.query();
+						if(character.next()){
+							var creature = new GlideRecord('x_262366_wld_bldr_creatures');
+							creature.addQuery('sys_id', interactions.target.creature);
+							creature.query();
+							if(creature.next()){
+								character.setValue('gold', parseFloat(character.getValue('gold')?character.getValue('gold'):0) + parseFloat(creature.getValue('gold')?creature.getValue('gold'):0) );
+								creature.setValue('gold', 0);
+								character.setValue('silver', parseFloat(character.getValue('silver')?character.getValue('silver'):0) + parseFloat(creature.getValue('silver')?creature.getValue('silver'):0) );
+								creature.setValue('silver', 0);
+								character.setValue('copper', parseFloat(character.getValue('copper')?character.getValue('copper'):0) + parseFloat(creature.getValue('copper')?creature.getValue('copper'):0) );
+								creature.setValue('copper', 0);
+								creature.update();
+								character.update();
+							}
+						}
+
+					}
+				}
+			}
+		}
+	},
+
+	type: 'ResolveEncounter'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-19 03:11:15</sys_created_on>
+        <sys_id>d1a6fc26dbdff78049ac7e7dbf961971</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>ResolveEncounter</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_include_d1a6fc26dbdff78049ac7e7dbf961971</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-12 04:49:10</sys_updated_on>
+    </sys_script_include>
+</record_update>

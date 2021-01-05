@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_fix">
+    <sys_script_fix action="DELETE">
+        <active>true</active>
+        <before>false</before>
+        <description/>
+        <flush_cache>false</flush_cache>
+        <name>Test Selling Item</name>
+        <record_for_rollback>false</record_for_rollback>
+        <run_once>true</run_once>
+        <script><![CDATA[var sellItem = new GlideRecord('x_262366_wld_bldr_owned_item');
+		sellItem.addQuery('sys_id', '905b73aedb28cc9049ac7e7dbf9619c6');
+		sellItem.query();
+		if(sellItem.next()){
+			var magItem = new GlideRecord('x_262366_wld_bldr_item');
+			magItem.addQuery('sys_id', sellItem.getValue('item'));
+			magItem.query();
+			if(magItem.next()){
+				var character = new GlideRecord('x_262366_wld_bldr_character');
+				character.addQuery('sys_id', sellItem.getValue('character'));
+				character.query();
+				if(character.next()){
+					character.setValue('gold', parseFloat(character.getValue('gold')?character.getValue('gold'):0) + parseFloat(magItem.getValue('price_gp')?magItem.getValue('price_gp'):0) );
+					character.setValue('silver', parseFloat(character.getValue('silver')?character.getValue('silver'):0) + parseFloat(magItem.getValue('price_sp')?magItem.getValue('price_sp'):0) );
+					character.setValue('copper', parseFloat(character.getValue('copper')?character.getValue('copper'):0) + parseFloat(magItem.getValue('price_cp')?magItem.getValue('price_cp'):0) );
+					character.update();
+				}
+			}
+			sellItem.deleteRecord();
+		}]]></script>
+        <sys_class_name>sys_script_fix</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-12 04:26:49</sys_created_on>
+        <sys_id>594fba3ddbc1085049ac7e7dbf96196f</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Test Selling Item</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_fix_594fba3ddbc1085049ac7e7dbf96196f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-12 04:32:35</sys_updated_on>
+        <unloadable>false</unloadable>
+    </sys_script_fix>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>sys_script_fix_594fba3ddbc1085049ac7e7dbf96196f</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_fix"&gt;&lt;sys_script_fix action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;before&gt;false&lt;/before&gt;&lt;description/&gt;&lt;flush_cache&gt;false&lt;/flush_cache&gt;&lt;name&gt;Test Selling Item&lt;/name&gt;&lt;record_for_rollback&gt;false&lt;/record_for_rollback&gt;&lt;run_once&gt;true&lt;/run_once&gt;&lt;script&gt;&lt;![CDATA[var sellItem = new GlideRecord('x_262366_wld_bldr_owned_item');
+		sellItem.addQuery('sys_id', '905b73aedb28cc9049ac7e7dbf9619c6');
+		sellItem.query();
+		if(sellItem.next()){
+			var magItem = new GlideRecord('x_262366_wld_bldr_item');
+			magItem.addQuery('sys_id', sellItem.getValue('item'));
+			magItem.query();
+			if(magItem.next()){
+				var character = new GlideRecord('x_262366_wld_bldr_character');
+				character.addQuery('sys_id', sellItem.getValue('character'));
+				character.query();
+				if(character.next()){
+					character.setValue('gold', parseFloat(character.getValue('gold')?character.getValue('gold'):0) + parseFloat(magItem.getValue('price_gp')?magItem.getValue('price_gp'):0) );
+					character.setValue('silver', parseFloat(character.getValue('silver')?character.getValue('silver'):0) + parseFloat(magItem.getValue('price_sp')?magItem.getValue('price_sp'):0) );
+					character.setValue('copper', parseFloat(character.getValue('copper')?character.getValue('copper'):0) + parseFloat(magItem.getValue('price_cp')?magItem.getValue('price_cp'):0) );
+					character.update();
+				}
+			}
+			sellItem.deleteRecord();
+		}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_fix&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2019-11-12 04:26:49&lt;/sys_created_on&gt;&lt;sys_id&gt;594fba3ddbc1085049ac7e7dbf96196f&lt;/sys_id&gt;&lt;sys_mod_count&gt;2&lt;/sys_mod_count&gt;&lt;sys_name&gt;Test Selling Item&lt;/sys_name&gt;&lt;sys_package display_value="World Builder" source="x_262366_wld_bldr"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="World Builder"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_fix_594fba3ddbc1085049ac7e7dbf96196f&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2019-11-12 04:32:35&lt;/sys_updated_on&gt;&lt;unloadable&gt;false&lt;/unloadable&gt;&lt;/sys_script_fix&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>206625729</payload_hash>
+        <record_name>Test Selling Item</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-12 04:32:35</sys_created_on>
+        <sys_id>a1b0837ddbc1085049ac7e7dbf961984</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16e5de280170000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-12 04:32:35</sys_updated_on>
+        <type>Fix Script</type>
+        <update_guid>e9b0837db3c10850ce42e683a0d88883</update_guid>
+        <update_guid_history>e9b0837db3c10850ce42e683a0d88883:206625729,d7808b3d5ac10850f42dc38ee9519875:-83797791,016f3e3d60c1085058355c27dac89d79:1451797465</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-12 04:48:49</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_fix">sys_script_fix</sys_db_object>
+        <sys_id>0176240dd0fe4b8080043e76ff2ee069</sys_id>
+        <sys_metadata>594fba3ddbc1085049ac7e7dbf96196f</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Test Selling Item</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>sys_script_fix_594fba3ddbc1085049ac7e7dbf96196f</sys_update_name>
+        <sys_update_version display_value="sys_script_fix_594fba3ddbc1085049ac7e7dbf96196f">a1b0837ddbc1085049ac7e7dbf961984</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-12 04:48:49</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

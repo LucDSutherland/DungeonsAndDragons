@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element extends="sys_import_set_row" label="Imp Tmpl X 262366 Wld Bldr Spell" max_length="40" name="u_imp_tmpl_x_262366_wld_bldr_spell" type="collection">
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=At Higher Levels" label="At Higher Levels" max_length="1000" name="u_at_higher_levels" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Casting Time" label="Casting Time" max_length="32" name="u_casting_time" type="string"/>
+        <element attributes="import_attribute_name=Concentration Time (min)" label="Concentration Time (min)" max_length="40" name="u_concentration_time__min_" type="integer"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Damage" label="Damage" max_length="40" name="u_damage" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Damage Type" label="Damage Type" max_length="32" name="u_damage_type" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Duration" label="Duration" max_length="32" name="u_duration" type="string"/>
+        <element attributes="import_attribute_name=Duration Measurement" label="Duration Measurement" max_length="32" name="u_duration_measurement" type="integer"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Duration Time" label="Duration Time" max_length="40" name="u_duration_time" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Effect" label="Effect" max_length="1000" name="u_effect" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Level" label="Level" max_length="32" name="u_level" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Material Components" label="Material Components" max_length="1000" name="u_material_components" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Name" label="Name" max_length="40" name="u_name" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=R" label="R" max_length="40" name="u_r" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Range (ft)" label="Range (ft)" max_length="40" name="u_range__ft_" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Ritual" label="Ritual" max_length="40" name="u_ritual" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=S" label="S" max_length="40" name="u_s" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Saving Throw Type" label="Saving Throw Type" max_length="32" name="u_saving_throw_type" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Shape" label="Shape" max_length="32" name="u_shape" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=T" label="T" max_length="40" name="u_t" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Type" label="Type" max_length="32" name="u_type" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=U" label="U" max_length="40" name="u_u" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=V" label="V" max_length="40" name="u_v" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=W" label="W" max_length="40" name="u_w" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=X" label="X" max_length="40" name="u_x" type="string"/>
+        <element attributes="edge_encryption_enabled=true,import_attribute_name=Y" label="Y" max_length="40" name="u_y" type="string"/>
+    </element>
+</database>

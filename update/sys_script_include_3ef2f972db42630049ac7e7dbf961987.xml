@@ -3,6 +3,7 @@
         <access>package_private</access>
         <active>true</active>
         <api_name>x_262366_wld_bldr.PrepareSpells</api_name>
+        <caller_access/>
         <client_callable>false</client_callable>
         <description/>
         <name>PrepareSpells</name>
@@ -106,7 +107,6 @@ PrepareSpells.prototype = {
 							
 							newSpellRecord.save_dc = 8 + character.proficiency_bonus + spellCastModifier;
 							newSpellRecord.attack_modifier = spellCastModifier + character.proficiency_bonus;
-							newSpellRecord.castable = 'true';
 							newSpellRecord.insert();
 						}
 					}
@@ -145,13 +145,13 @@ PrepareSpells.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-12-02 02:38:15</sys_created_on>
         <sys_id>3ef2f972db42630049ac7e7dbf961987</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>PrepareSpells</sys_name>
         <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
         <sys_update_name>sys_script_include_3ef2f972db42630049ac7e7dbf961987</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-12-17 05:29:26</sys_updated_on>
+        <sys_updated_on>2020-02-18 21:48:02</sys_updated_on>
     </sys_script_include>
 </record_update>

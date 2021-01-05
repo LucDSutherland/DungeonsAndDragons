@@ -1,0 +1,2229 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="DELETE">
+        <category>general</category>
+        <client_script/>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_262366_wld_bldr_test.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<style>
+		@import url(https://fonts.googleapis.com/css?family=Arapey%7CBitter);
+
+.ds_j5es .valigntop
+{
+	display: inline-block;
+	/* IE 7 hack */
+	*zoom:1;
+	*display: inline;
+	vertical-align: top;
+}
+
+.ds_j5es
+{
+	line-height: 12px;
+	font-size: 10px !important;
+}
+
+.ds_j5es th,
+.ds_j5es td
+{
+	font-family: 'Bitter',georgia,times,'times new roman',serif !important;
+}
+
+.ds_j5es .dsf
+{
+	height: 12px;
+	vertical-align: bottom;
+}
+
+.ds_j5es.editable span.dsf
+{
+	min-width: 20px;
+	display: inline-block;
+}
+
+.ds_j5es .noborder
+{
+	border: none !important;
+}
+
+.ds_j5es table
+{
+	margin: 0;
+	border-collapse: separate;
+	border-spacing: 2px;
+	background-color: transparent;
+}
+
+.ds_j5es th
+{
+	font-size: 10px;
+	border-top: 1px solid black;
+	padding: 0;
+	text-align: center;
+	background: none;
+	vertical-align: top;
+	line-height: 11px;
+}
+
+.ds_j5es sup 
+{ 
+	font-size: 60% 
+}
+
+.ds_j5es td
+{
+	padding: 5px 5px 0 5px;
+	text-align: center;
+	font-size: 12px;
+}
+
+.ds_j5es td,
+.ds_j5es th
+{
+	margin: 0 3px;
+}
+
+.ds_j5es h3.title
+{
+	font-family: Arapey,georgia,times,'times new roman',serif !important;
+	background: #003c9f; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #A52A2A 0%, #000000 73%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#A52A2A), color-stop(73%,#000000)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #A52A2A 0%,#000000 73%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #A52A2A 0%,#000000 73%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #A52A2A 0%,#000000 73%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover, #A52A2A 0%,#000000 73%); /* W3C */
+	font-size: 16px;
+	height: 16px;
+	width: 100%;
+	color: #ddd !important;
+	text-align: center;
+	margin: 0 !important;
+	padding: 0px 0px 8px 0px !important;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+	text-shadow: 1px 1px 1px #000 !important;
+}
+
+.ds_j5es input,
+.ds_j5es select
+{
+	margin: 0;
+	width: auto;
+	height: auto;
+	display: inline;
+}
+
+.ds_j5es h4.title
+{
+	font-family: Arapey,georgia,times,'times new roman',serif !important;
+	background: #3c008f; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #B8860B 0%, #000000 73%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#B8860B), color-stop(73%,#000000)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* W3C */
+	font-size: 14px;
+	height: 14px;
+	width: 100%;
+	color: #ddd !important;
+	text-align: center;
+	margin: 0 !important;
+	padding: 0px 0px 6px 0px !important;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+	text-shadow: 1px 1px 1px #000 !important;
+}
+
+.ds_j5es .newSpellsDialog
+{
+	font-family: Arapey,georgia,times,'times new roman',serif !important;
+	background: #008f00; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #B8860B 0%, #000000 73%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#B8860B), color-stop(73%,#000000)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* W3C */
+	font-size: 14px;
+
+	border-bottom-left-radius: inherit;
+	border-bottom-right-radius: inherit;
+	width: 100%;
+	color: #ddd;
+	text-align: center;
+	margin: 0;
+	padding: 2px 0;
+	text-shadow: 1px 1px 1px #000;
+}
+
+.ds_j5es .newSpellsDialog label
+{
+	display: inline;
+	font: inherit;
+}
+
+.ds_j5es .newSpellsDialog input
+{
+	padding: 0 2px;
+	font: inherit;
+}
+
+.ds_j5es .collapse
+{
+	width: 1px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border-spacing: 0 !important;
+	border: none !important;
+}
+
+.ds_j5es .addButton,
+.ds_j5es .removeButton
+{
+	display: none;
+}
+
+.ds_j5es.editable .addButton
+{
+	display: inline;
+	float: right;
+	min-width: 12px;
+	height: 0px;
+	margin: 3px 5px 3px 0px;
+	padding: 0px 5px 0px 5px;
+	border-radius: 8px;
+	background-color: #722;
+	color: #fff;
+	cursor: pointer;
+	font-weight: normal;
+	font-size: 10px;
+}
+
+.ds_j5es.editable .removeButton
+{
+	display: inline;
+	float: right;
+	min-width: 12px;
+	height: 0px;
+	margin: 3px 5px 3px 0px;
+	padding: 0px 5px 0px 5px;
+	border-radius: 8px;
+	background-color: #722;
+	color: #fff;
+	cursor: pointer;
+	font-weight: normal;
+	font-size: 10px;
+}
+
+.ds_j5es.editable .dsf
+{
+	background-color: #CDF;
+	color: #000;
+	border-radius: 2px;
+}
+
+.ds_j5es.editable .dsf.readonly,
+.ds_j5es.editable .dsf.checkbox
+{
+	background-color: #fff;
+	color: #000;
+	border-radius: 0;
+}
+
+.ds_j5es .fancybox
+{
+	padding: 0 0 2px 0;
+	margin: 5px 0 0 0;
+	display: inline-block;
+	width: 730px;
+	vertical-align: top;
+	border: 1px solid black;
+	box-shadow: 3px 3px 3px #999;
+	border-radius: 20px / 8px;
+	background: #FFF;
+	color: #000;
+}
+
+.ds_j5es .fancybox
+{
+	width: 750px;
+}
+
+.ds_j5es .statsbox
+{
+	width: 165px;
+	height: 163px;
+}
+
+.ds_j5es .probox,
+.ds_j5es .hpbox,
+.ds_j5es .deathbox,
+.ds_j5es .speedbox,
+.ds_j5es .acbox,
+.ds_j5es .initbox
+{
+	height: 65px;
+}
+
+.ds_j5es .miscbox
+{
+	width: 565px;
+	display: inline-block;
+}
+
+.ds_j5es .acbox,
+.ds_j5es .hpbox
+{
+	width: 293px;
+}
+
+.ds_j5es .probox,
+.ds_j5es .speedbox
+{
+	width: 100px;
+}
+
+.ds_j5es .initbox,
+.ds_j5es .deathbox
+{
+	width: 160px;
+}
+
+.ds_j5es .grapplebox
+{
+	width: 144px;
+}
+
+.ds_j5es .halfwidth
+{
+	width: 368px;
+	display: inline-block;
+}
+
+.ds_j5es .quarterwidth
+{
+	width: 180px;
+	display: inline-block;
+	margin-top: 0;
+}
+
+.ds_j5es .threequarterwidth
+{
+	width: 545px;
+	display: inline-block;
+	margin-top: 0;
+}
+
+.ds_j5es .domain
+{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-left: -1px;
+	width: 181px;
+	box-shadow: none;
+}
+
+.ds_j5es .dcbox
+{
+	width: 184px;
+	margin-right: -1px;
+}
+
+.ds_j5es .spellSection
+{
+	margin-top: 5px;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+}
+
+.ds_j5es .subbox.halfwidth
+{
+	width: 364px;
+}
+
+.ds_j5es .inventorybox .item
+{
+	width: 237px;
+	margin: 0 2px;
+	display: inline-block;
+}
+
+.ds_j5es .subbox
+{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin: 0 -1px 5px -1px;
+	box-shadow: none;
+}
+
+.ds_j5es .subbox + .subbox
+{
+	margin-left: -2px;
+
+}
+
+.ds_j5es .statsbox table,
+.ds_j5es .savesbox table,
+.ds_j5es .attackbox table,
+.ds_j5es .armorbox table,
+.ds_j5es .weaponbox table,
+.ds_j5es .dcTable
+{
+	border-spacing: 0 !important;
+	border-collapse: collapse;
+	width: 99%;
+	margin-bottom: 4px;
+}
+
+.ds_j5es .armorbox table,
+.ds_j5es .weaponbox table
+{
+	margin-left: 3px;
+	width: 724px;
+}
+
+.ds_j5es .attackbox table
+{
+	margin-top: 8px;
+}
+
+.ds_j5es .dcTable
+{
+	margin-left: 2px;
+	width: 180px;
+}
+
+.ds_j5es .statsbox th,
+.ds_j5es .savesbox th,
+.ds_j5es .armorbox th,
+.ds_j5es .featTable th,
+.ds_j5es .traitTable th,
+.ds_j5es .abilityTable th,
+.ds_j5es .skillTable th,
+.ds_j5es .noncoreTable th,
+.ds_j5es .weaponbox th,
+.ds_j5es .dcTable th
+{
+	border: none;
+	vertical-align: bottom;
+	padding: 4px 2px;
+}
+
+.ds_j5es .skillTable tr > td:first-child,
+.ds_j5es .noncoreTable tr > td:first-child
+{
+	text-align: left;
+}
+
+.ds_j5es .statsbox th.stat,
+.ds_j5es .savesbox th.stat
+{
+	font-size: 12px;
+	font-variant: small-caps;
+	vertical-align: middle;
+}
+
+.ds_j5es .statsbox td,
+.ds_j5es .savesbox td,
+.ds_j5es .attackbox td,
+.ds_j5es .armorbox td,
+.ds_j5es .weaponbox td,
+.ds_j5es .dcTable td
+{
+	border: 1px solid black;
+	padding: 3px;
+	vertical-align: middle;
+}
+
+.ds_j5es .featTable td,
+.ds_j5es .abilityTable td,
+.ds_j5es .skillTable td,
+.ds_j5es .noncoreTable td,
+.ds_j5es .traitTable td
+{
+	border-bottom: 1px solid black;
+	padding: 3px;
+	vertical-align: middle;
+}
+
+.ds_j5es .skillTable td,
+.ds_j5es .noncorelTable td
+{
+	font-size: 11px;
+	line-height: 10px;
+}
+
+.ds_j5es .spellList
+{
+	width: 240px;
+	margin: 2px 1px 2px 2px;
+	display: inline-block;
+	border-bottom: 1px solid black;
+}
+
+.ds_j5es .spellList .dsf
+{
+	width: 225px;
+	display: inline-block;
+	height: 100%;
+}
+
+.ds_j5es .spellList .spellLevel
+{
+	width: 15px;
+	display: inline-block;
+}
+
+.ds_j5es .dsf_bio
+{
+	min-height: 100px;
+	height: 100%;
+	padding: 5px;
+	border-bottom-left-radius: inherit !important;
+	border-bottom-right-radius: inherit !important;
+}
+
+.ds_j5es .sideways
+{
+	-webkit-transform: rotate(90deg); 
+	-moz-transform: rotate(90deg);
+	text-align: left;
+	vertical-align: top;
+	display: block;
+	margin: 10px 0 15px 0;
+	font-size: 10px;
+}
+
+.ds_j5es .dsf_avatar_image
+{
+    display: block;
+    height: 100%;
+}
+	</style>
+	<div class="fancybox">
+	<h3 class="title">Basic Information</h3>
+	<table width="100%">
+	<col width="125"/>
+	<col width="151"/>
+	<col width="151"/>
+	<col width="151"/>
+	<col />
+	<tr>
+		<td rowspan="10"><div class="dsf dsf_avatar_image readonly"></div></td>
+		<td class="dsf dsf_name readonly"></td>
+		<td class="dsf dsf_alignment"></td>
+		<td class="dsf dsf_race"></td>
+		<td class="dsf dsf_homeland"></td>
+	</tr>
+	<tr>
+		<th>Character Name</th>
+		<th>Alignment</th>
+		<th>Race</th>
+		<th>Homeland</th>
+	</tr>
+	<tr>
+		<td class="dsf dsf_class"></td>
+		<td class="dsf dsf_background"></td>
+		<td class="dsf dsf_deity"></td>
+		<td class="dsf dsf_faction"></td>
+	</tr>
+	<tr>
+		<th>Class</th>
+		<th>Background</th>
+		<th>Deity</th>
+		<th>Faction</th>
+	</tr>
+	<tr>
+		<td class="dsf dsf_gender"></td>
+		<td class="dsf dsf_age"></td>
+		<td class="dsf dsf_height"></td>
+		<td class="dsf dsf_weight"></td>
+	</tr>
+	<tr>
+		<th>Gender</th>
+		<th>Age</th>
+		<th>Height</th>
+		<th>Weight</th>
+	</tr>
+	<tr>
+		<td class="dsf dsf_hair"></td>
+		<td class="dsf dsf_skin"></td>
+		<td class="dsf dsf_eyes"></td>
+		<td class="dsf dsf_experience"></td>
+	</tr>
+	<tr>
+		<th>Hair</th>
+		<th>Skin</th>
+		<th>Eyes</th>
+		<th>Experience Points</th>
+	</tr>
+	<tr>
+		<td colspan="4" class="dsf dsf_languages"></td>
+	</tr>
+	<tr>
+		<th colspan="4">Languages</th>
+	</tr>
+	</table>
+</div>
+<br />
+
+<div class="fancybox statsbox">
+	<h3 class="title">Abilities</h3>
+	<table width="50%">
+	<tr>
+		<th>Name</th>
+		<th>Score</th>
+		<th>Modifier</th>
+	</tr><tr>
+		<th class="stat">Str</th>
+		<td class="dsf dsf_str"></td>
+		<td class="dsf dsf_str_mod readonly"></td>
+	</tr><tr>
+		<th class="stat">Dex</th>
+		<td class="dsf dsf_dex"></td>
+		<td class="dsf dsf_dex_mod readonly"></td>
+	</tr><tr>
+		<th class="stat">Con</th>
+		<td class="dsf dsf_con"></td>
+		<td class="dsf dsf_con_mod readonly"></td>
+	</tr><tr>
+		<th class="stat">Int</th>
+		<td class="dsf dsf_int"></td>
+		<td class="dsf dsf_int_mod readonly"></td>
+	</tr><tr>
+		<th class="stat">Wis</th>
+		<td class="dsf dsf_wis"></td>
+		<td class="dsf dsf_wis_mod readonly"></td>
+	</tr><tr>
+		<th class="stat">Cha</th>
+		<td class="dsf dsf_cha"></td>
+		<td class="dsf dsf_cha_mod readonly"></td>
+	</tr>
+	</table>
+</div>
+&#160;&#160;&#160;
+<div class="miscbox">
+<div class="fancybox probox">
+	<h3 class="title">Proficiency</h3>
+	<table width="100%">
+	<tr>
+		<td class="dsf dsf_proficiency"></td>
+	</tr><tr>
+		<th>Bonus</th>
+	</tr>
+	</table>
+</div>
+<div class="fancybox hpbox">
+	<h3 class="title">Hit Points</h3>
+	<table width="100%">
+	<tr>
+		<td class="dsf dsf_wounds"></td>
+		<td class="dsf dsf_hp"></td>
+		<td class="dsf dsf_temporaryhp"></td>
+		<td class="dsf dsf_hitdice"></td>
+	</tr><tr>
+		<th>Current</th>
+		<th>Max</th>
+		<th>Temp</th>
+		<th>Hit Dice</th>
+	</tr>
+	</table>
+</div>
+<div class="fancybox deathbox">
+	<h3 class="title">Death Saves</h3>
+	<table width="100%">
+	<tr>
+		<td><b>Sucesses</b></td>
+		<td><span class="dsf dsf_deathsuccess1_cs checkbox"></span></td>
+		<td><span class="dsf dsf_deathsuccess2_cs checkbox"></span></td>
+		<td><span class="dsf dsf_deathsuccess3_cs checkbox"></span></td>
+	</tr><tr>
+		<td><b>Failures</b></td>
+		<td><span class="dsf dsf_deathfails1_cs checkbox"></span></td>
+		<td><span class="dsf dsf_deathfails2_cs checkbox"></span></td>
+		<td><span class="dsf dsf_deathfails3_cs checkbox"></span></td>
+	</tr>
+	</table>
+</div>
+<br />
+
+<div class="fancybox speedbox">
+	<h3 class="title">Movement</h3>
+	<table width="100%">
+	<tr>
+		<td class="dsf dsf_speed"></td>
+	</tr><tr>
+		<th>Speed</th>
+	</tr>
+	</table>
+</div>
+<div class="fancybox acbox">
+	<h3 class="title">Armor Class</h3>
+	<table width="100%">
+	<tr>
+		<td style="font-weight:bold" class="dsf dsf_ac readonly"></td>
+		<td class="collapse" rowspan="2">=</td>
+		<td class="dsf dsf_armor_bonus"></td>
+		<td class="collapse" rowspan="2">+</td>
+		<td class="dsf dsf_shield_bonus"></td>
+		<td class="collapse" rowspan="2">+</td>
+		<td class="dsf dsf_dextoac"></td>
+		<td class="collapse" rowspan="2">+</td>
+		<td class="dsf dsf_misc_mod"></td>
+	</tr><tr>
+		<th>Total</th>
+		<th>Base (Armor)</th>
+		<th>Shield</th>
+		<th>Dex</th>
+		<th>Misc</th>
+	</tr>
+	</table>
+</div>
+<div class="fancybox initbox">
+	<h3 class="title">Initiative</h3>
+	<table width="100%">
+	<tr>
+		<td class="dsf dsf_initative_total readonly"></td>
+		<td class="dsf dsf_dex_mod readonly"></td>
+		<td class="dsf dsf_misc_init_mod"></td>
+	</tr><tr>
+		<th>Total</th>
+		<th>Dex</th>
+		<th>Misc</th>
+	</tr>
+	</table>
+</div>
+</div>
+<br />
+<div class="fancybox weaponbox">
+	<h3 class="title">Weapons<span class="ctlAddWeapon addButton">+ Add</span></h3>
+	<div class="dsf dsf_ctlWeaponCount" style="display:none"></div>
+	<table class="weaponTable" prefix="weapon">
+	<tr>
+		<th>Name</th>
+		<th>Attack</th>
+		<th>Damage</th>
+		<th>Type</th>
+		<th>Range</th>
+		<th>Special Qualities</th>
+	</tr>
+	</table>
+</div>
+<br />
+
+<div class="halfwidth valigntop">
+<div class="fancybox halfwidth skillbox">
+	<h3 class="title">Saves + Skills</h3>
+	<div class="dsf dsf_ctlSkillCount" style="display:none"></div>
+	<div class="halfwidth">
+		<h4 class="title">Saves</h4>
+	</div>
+	<table width="100%" class="skillTable" prefix="skill">
+	<col width="15"/>
+	<col />
+	<col width="40"/>
+	<col width="40"/>
+	<col width="40"/>
+	<tr>
+		<th>Pr.</th>
+		<th>Save</th>
+		<th style="display:none;">ability</th>
+		<th>Total</th>
+		<th>Mod</th>
+		<th>Misc</th>
+	</tr><tr>
+		<td><span class="dsf dsf_strsave_cs checkbox"></span></td>
+		<td>Strength</td>
+		<td style="display:none;">Str</td>
+		<td style="font-weight:bold" class="dsf dsf_strsave_mod readonly"></td>
+		<td class="dsf dsf_str_mod readonly"></td>
+		<td class="dsf dsf_strsave_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_dexsave_cs checkbox"></span></td>
+		<td>Dexterity</td>
+		<td style="display:none;">Dex</td>
+		<td style="font-weight:bold" class="dsf dsf_dexsave_mod readonly"></td>
+		<td class="dsf dsf_dex_mod readonly"></td>
+		<td class="dsf dsf_dexsave_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_consave_cs checkbox"></span></td>
+		<td>Constitution</td>
+		<td style="display:none;">Con</td>
+		<td style="font-weight:bold" class="dsf dsf_consave_mod readonly"></td>
+		<td class="dsf dsf_con_mod readonly"></td>
+		<td class="dsf dsf_consave_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_intsave_cs checkbox"></span></td>
+		<td>Intelligence</td>
+		<td style="display:none;">Int</td>
+		<td style="font-weight:bold" class="dsf dsf_intsave_mod readonly"></td>
+		<td class="dsf dsf_int_mod readonly"></td>
+		<td class="dsf dsf_intsave_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_wissave_cs checkbox"></span></td>
+		<td>Wisdom</td>
+		<td style="display:none;">Wis</td>
+		<td style="font-weight:bold" class="dsf dsf_wissave_mod readonly"></td>
+		<td class="dsf dsf_wis_mod readonly"></td>
+		<td class="dsf dsf_wissave_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_chasave_cs checkbox"></span></td>
+		<td>Charisma</td>
+		<td style="display:none;">Cha</td>
+		<td style="font-weight:bold" class="dsf dsf_chasave_mod readonly"></td>
+		<td class="dsf dsf_cha_mod readonly"></td>
+		<td class="dsf dsf_chasave_misc_mod"></td>
+	</tr>
+	</table>
+	<div class="dsf dsf_ctlNoncoreCount" style="display:none"></div>
+	<div class="halfwidth">
+	<h4 class="title">Skills</h4>
+	</div>
+	<table width="100%" class="noncoreTable" prefix="noncore">
+	<col width="15"/>
+	<col />
+	<col />
+	<col width="40"/>
+	<col width="40"/>
+	<col width="40"/>
+	<tr>
+		<th>Pr.</th>
+		<th>Skill</th>
+		<th style="display:none;">Ability</th>
+		<th>Total</th>
+		<th>Mod</th>
+		<th>Misc</th>
+	</tr><tr>
+		<td><span class="dsf dsf_acrobatics_cs checkbox"></span></td>
+		<td>Acrobatics (Dex)</td>
+		<td style="display:none;">Dex</td>
+		<td style="font-weight:bold" class="dsf dsf_acrobatics_mod readonly"></td>
+		<td class="dsf dsf_dex_mod readonly"></td>
+		<td class="dsf dsf_acrobatics_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_animalhandling_cs checkbox"></span></td>
+		<td>Animal Handling (Wis)</td>
+		<td style="display:none;">Wis</td>
+		<td style="font-weight:bold" class="dsf dsf_animalhandling_mod readonly"></td>
+		<td class="dsf dsf_wis_mod readonly"></td>
+		<td class="dsf dsf_animalhandling_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_arcana_cs checkbox"></span></td>
+		<td>Arcana (Int)</td>
+		<td style="display:none;">Int</td>
+		<td style="font-weight:bold" class="dsf dsf_arcana_mod readonly"></td>
+		<td class="dsf dsf_int_mod readonly"></td>
+		<td class="dsf dsf_arcana_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_athletics_cs checkbox"></span></td>
+		<td>Athletics (Str)</td>
+		<td style="display:none;">Str</td>
+		<td style="font-weight:bold" class="dsf dsf_athletics_mod readonly"></td>
+		<td class="dsf dsf_str_mod readonly"></td>
+		<td class="dsf dsf_athletics_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_deception_cs checkbox"></span></td>
+		<td>Deception (Cha)</td>
+		<td style="display:none;">Cha</td>
+		<td style="font-weight:bold" class="dsf dsf_deception_mod readonly"></td>
+		<td class="dsf dsf_cha_mod readonly"></td>
+		<td class="dsf dsf_deception_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_history_cs checkbox"></span></td>
+		<td>History (Int)</td>
+		<td style="display:none;">Int</td>
+		<td style="font-weight:bold" class="dsf dsf_history_mod readonly"></td>
+		<td class="dsf dsf_int_mod readonly"></td>
+		<td class="dsf dsf_history_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_insight_cs checkbox"></span></td>
+		<td>Insight (Wis)</td>
+		<td style="display:none;">Wis</td>
+		<td style="font-weight:bold" class="dsf dsf_insight_mod readonly"></td>
+		<td class="dsf dsf_wis_mod readonly"></td>
+		<td class="dsf dsf_insight_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_intimidation_cs checkbox"></span></td>
+		<td>Intimidation (Cha)</td>
+		<td style="display:none;">Cha</td>
+		<td style="font-weight:bold" class="dsf dsf_intimidation_mod readonly"></td>
+		<td class="dsf dsf_cha_mod readonly"></td>
+		<td class="dsf dsf_intimidation_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_investigation_cs checkbox"></span></td>
+		<td>Investigation (Int)</td>
+		<td style="display:none;">Int</td>
+		<td style="font-weight:bold" class="dsf dsf_investigation_mod readonly"></td>
+		<td class="dsf dsf_int_mod readonly"></td>
+		<td class="dsf dsf_investigation_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_medicine_cs checkbox"></span></td>
+		<td>Medicine (Wis)</td>
+		<td style="display:none;">Wis</td>
+		<td style="font-weight:bold" class="dsf dsf_medicine_mod readonly"></td>
+		<td class="dsf dsf_wis_mod readonly"></td>
+		<td class="dsf dsf_medicine_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_nature_cs checkbox"></span></td>
+		<td>Nature (Int)</td>
+		<td style="display:none;">Int</td>
+		<td style="font-weight:bold" class="dsf dsf_nature_mod readonly"></td>
+		<td class="dsf dsf_int_mod readonly"></td>
+		<td class="dsf dsf_nature_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_perception_cs checkbox"></span></td>
+		<td>Perception (Wis)</td>
+		<td style="display:none;">Wis</td>
+		<td style="font-weight:bold" class="dsf dsf_perception_mod readonly"></td>
+		<td class="dsf dsf_wis_mod readonly"></td>
+		<td class="dsf dsf_perception_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_performance_cs checkbox"></span></td>
+		<td>Performance (Cha)</td>
+		<td style="display:none;">Cha</td>
+		<td style="font-weight:bold" class="dsf dsf_performance_mod readonly"></td>
+		<td class="dsf dsf_cha_mod readonly"></td>
+		<td class="dsf dsf_performance_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_persuasion_cs checkbox"></span></td>
+		<td>Persuasion (Cha)</td>
+		<td style="display:none;">Cha</td>
+		<td style="font-weight:bold" class="dsf dsf_persuasion_mod readonly"></td>
+		<td class="dsf dsf_cha_mod readonly"></td>
+		<td class="dsf dsf_persuasion_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_religion_cs checkbox"></span></td>
+		<td>Religion (Int)</td>
+		<td style="display:none;">Int</td>
+		<td style="font-weight:bold" class="dsf dsf_religion_mod readonly"></td>
+		<td class="dsf dsf_int_mod readonly"></td>
+		<td class="dsf dsf_religion_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_slightofhand_cs checkbox"></span></td>
+		<td>Sleight of Hand (Dex)</td>
+		<td style="display:none;">Dex</td>
+		<td style="font-weight:bold" class="dsf dsf_slightofhand_mod readonly"></td>
+		<td class="dsf dsf_dex_mod readonly"></td>
+		<td class="dsf dsf_slightofhand_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_stealth_cs checkbox"></span></td>
+		<td>Stealth (Dex)</td>
+		<td style="display:none;">Dex</td>
+		<td style="font-weight:bold" class="dsf dsf_stealth_mod readonly"></td>
+		<td class="dsf dsf_dex_mod readonly"></td>
+		<td class="dsf dsf_stealth_misc_mod"></td>
+	</tr><tr>
+		<td><span class="dsf dsf_survival_cs checkbox"></span></td>
+		<td>Survival (Wis)</td>
+		<td style="display:none;">Wis</td>
+		<td style="font-weight:bold" class="dsf dsf_survival_mod readonly"></td>
+		<td class="dsf dsf_wis_mod readonly"></td>
+		<td class="dsf dsf_survival_misc_mod"></td>
+	</tr>
+	</table>
+</div>
+</div>
+&#160;&#160;&#160;
+
+<div class="halfwidth valigntop">
+<div class="fancybox halfwidth traitbox">
+	<h3 class="title">Traits + Proficiencies<span class="ctlAddTrait addButton">+ Add</span></h3>
+	<div class="dsf dsf_ctlTraitCount" style="display:none"></div>
+	<table width="100%" class="traitTable" prefix="trait">
+	<tr><th>Trait</th><th>Description</th></tr>
+	</table>
+</div>
+<div class="fancybox halfwidth featbox">
+	<h3 class="title">Feats<span class="ctlAddFeat addButton">+ Add</span></h3>
+	<div class="dsf dsf_ctlFeatCount" style="display:none"></div>
+	<table width="100%" class="featTable" prefix="feat">
+	<tr><th>Feat</th><th>Description</th></tr>
+	</table>
+</div>
+<div class="fancybox halfwidth abilitybox">
+	<h3 class="title">Class Abilities<span class="ctlAddAbility addButton">+ Add</span></h3>
+	<div class="dsf dsf_ctlAbilityCount" style="display:none"></div>
+	<table width="100%" class="abilityTable" prefix="special_ability">
+	<tr><th>Ability</th><th>Description</th></tr>
+	</table>
+</div>
+</div>
+<br />
+<div class="fancybox armorbox">
+	<h3 class="title">Equipment</h3>
+	<div>
+	<h4 class="title">Armor/Shield</h4>
+	<table width="100%">
+	<tr>
+		<th>Type</th>
+		<th>Name</th>
+		<th>Base Armor</th>
+		<th>Max Dex</th>
+		<th>Special Qualities</th>
+	</tr><tr>
+		<th>Armor</th>
+		<td class="dsf dsf_armor1_type"></td>
+		<td class="dsf dsf_armor1_ac_bonus"></td>
+		<td class="dsf dsf_armor1_max_dex"></td>
+		<td class="dsf dsf_armor1_special_properties"></td>
+	</tr><tr>
+		<th>Shield</th>
+		<td class="dsf dsf_armor4_type"></td>
+		<td class="dsf dsf_armor4_ac_bonus"></td>
+		<td class="dsf dsf_armor4_max_dex"></td>
+		<td class="dsf dsf_armor4_special_properties"></td>
+	</tr>
+	</table>
+	<h4 class="title">Magic Items</h4>
+	<table width="100%">
+	<tr>
+		<th>Name</th>
+		<th>Bonus</th>
+		<th>Item Description</th>
+	</tr><tr>
+		<td class="dsf dsf_protitem1_type"></td>
+		<td class="dsf dsf_protitem1_ac_bonus"></td>
+		<td class="dsf dsf_protitem1_special_properties"></td>
+	</tr><tr>
+		<td class="dsf dsf_protitem2_type"></td>
+		<td class="dsf dsf_protitem2_ac_bonus"></td>
+		<td class="dsf dsf_protitem2_special_properties"></td>
+	</tr><tr>
+		<td class="dsf dsf_protitem3_type"></td>
+		<td class="dsf dsf_protitem3_ac_bonus"></td>
+		<td class="dsf dsf_protitem3_special_properties"></td>
+	</tr><tr>
+		<td class="dsf dsf_protitem4_type"></td>
+		<td class="dsf dsf_protitem4_ac_bonus"></td>
+		<td class="dsf dsf_protitem4_special_properties"></td>
+	</tr><tr>
+		<td class="dsf dsf_protitem5_type"></td>
+		<td class="dsf dsf_protitem5_ac_bonus"></td>
+		<td class="dsf dsf_protitem5_special_properties"></td>
+	</tr>
+	</table>
+	</div>
+</div>
+<br />
+<div class="fancybox inventorybox">
+	<h3 class="title">Inventory<span class="ctlAddInventory addButton">+ Add</span></h3>
+	<div class="dsf dsf_ctlInventoryCount" style="display:none"></div>
+	<div class="fancybox subbox halfwidth" style="height:60px;">
+		<h4 class="title">Carrying Capacity</h4>
+		<table width="100%">
+		<tr>
+			<td style="text-align:center;"><span class="dsf dsf_light_load readonly"></span> lbs.</td>
+			<td style="text-align:center;"><span class="dsf dsf_medium_load readonly"></span> lbs.</td>
+			<td style="text-align:center;"><span class="dsf dsf_heavy_load readonly"></span> lbs.</td>
+			<td style="text-align:center;"><span class="dsf dsf_lift_over_head readonly"></span> lbs.</td>
+		</tr><tr>
+			<th>Encumbered</th>
+			<th>Heavily Encumbered</th>
+			<th>Max Load</th>
+			<th>Push/Drag/Lift</th>
+		</tr>
+		</table>
+	</div>
+	<div class="fancybox subbox halfwidth" style="height:60px;">
+		<h4 class="title">Money</h4>
+		<table width="100%">
+		<tr>
+			<td style="text-align:center;" class="dsf dsf_wealth_total readonly"></td>
+			<td style="text-align:center;" class="dsf dsf_pp"></td>
+			<td style="text-align:center;" class="dsf dsf_gp"></td>
+			<td style="text-align:center;" class="dsf dsf_ep"></td>
+			<td style="text-align:center;" class="dsf dsf_sp"></td>
+			<td style="text-align:center;" class="dsf dsf_cp"></td>
+		</tr><tr>
+			<th>Total</th>
+			<th>PP</th>
+			<th>GP</th>
+			<th>EP</th>
+			<th>SP</th>
+			<th>CP</th>
+		</tr>
+		</table>
+	</div>
+</div>
+
+<div class="fancybox spellbox">
+	<h3 class="title">Spells</h3>
+	<div class="newSpellsDialog"><b>New Spells Section:</b> <input type="checkbox" name="spontaneous" /><label for="spontaneous">Spontaneous Caster</label> <input type="checkbox" name="spellbook" /><label for="spellbook">Uses Spellbook</label> <input type="checkbox" name="domains" /><label for="domains">Domains</label> <input type="text" name="minSpellLevel" size="1" maxlength="1" value="0" /><input type="text" name="maxSpellLevel" size="1" maxlength="1" value="9" /> Spell Levels<span class="ctlAddSpellSection addButton">+ Add</span></div>
+	<div class="dsf dsf_ctlSpellSectionCount" style="display:none"></div>
+</div>
+<br />
+<div class="fancybox">
+	<h3 class="title">Character Bio</h3>
+	<table width="100%">
+		<tr>
+			<td class="dsf dsf_personality"></td>
+		</tr><tr>
+			<th>Personality Traits</th>
+		</tr><tr>
+			<td class="dsf dsf_ideals"></td>
+		</tr><tr>
+			<th>Ideals</th>
+		</tr><tr>
+			<td class="dsf dsf_bonds"></td>
+		</tr><tr>
+			<th>Bonds</th>
+		</tr><tr>
+			<td class="dsf dsf_flaws"></td>
+		</tr><tr>
+			<th>Flaws</th>
+		</tr>
+	</table>
+	<br />
+	<div class="dsf dsf_bio readonly"></div>
+</div>
+<br />
+<br />
+<div class="campaign">Campaign: <span class="dsf readonly dsf_campaign"></span></div>
+<div class="player">Player: <span class="dsf readonly dsf_player"></span></div>
+<div>DD 5e Sheet by: <span class="dsf readonly dsf_dst_author"></span></div>
+</j:jelly>]]></html>
+        <name>test</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-25 22:27:47</sys_created_on>
+        <sys_id>326227f32f870010a1fc808cf699b689</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>test</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_ui_page_326227f32f870010a1fc808cf699b689</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-25 23:03:58</sys_updated_on>
+    </sys_ui_page>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>sys_ui_page_326227f32f870010a1fc808cf699b689</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_ui_page"&gt;&lt;sys_ui_page action="INSERT_OR_UPDATE"&gt;&lt;category&gt;general&lt;/category&gt;&lt;client_script/&gt;&lt;description/&gt;&lt;direct&gt;false&lt;/direct&gt;&lt;endpoint&gt;x_262366_wld_bldr_test.do&lt;/endpoint&gt;&lt;html&gt;&lt;![CDATA[&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null"&gt;
+	&lt;style&gt;
+		@import url(https://fonts.googleapis.com/css?family=Arapey%7CBitter);
+
+.ds_j5es .valigntop
+{
+	display: inline-block;
+	/* IE 7 hack */
+	*zoom:1;
+	*display: inline;
+	vertical-align: top;
+}
+
+.ds_j5es
+{
+	line-height: 12px;
+	font-size: 10px !important;
+}
+
+.ds_j5es th,
+.ds_j5es td
+{
+	font-family: 'Bitter',georgia,times,'times new roman',serif !important;
+}
+
+.ds_j5es .dsf
+{
+	height: 12px;
+	vertical-align: bottom;
+}
+
+.ds_j5es.editable span.dsf
+{
+	min-width: 20px;
+	display: inline-block;
+}
+
+.ds_j5es .noborder
+{
+	border: none !important;
+}
+
+.ds_j5es table
+{
+	margin: 0;
+	border-collapse: separate;
+	border-spacing: 2px;
+	background-color: transparent;
+}
+
+.ds_j5es th
+{
+	font-size: 10px;
+	border-top: 1px solid black;
+	padding: 0;
+	text-align: center;
+	background: none;
+	vertical-align: top;
+	line-height: 11px;
+}
+
+.ds_j5es sup 
+{ 
+	font-size: 60% 
+}
+
+.ds_j5es td
+{
+	padding: 5px 5px 0 5px;
+	text-align: center;
+	font-size: 12px;
+}
+
+.ds_j5es td,
+.ds_j5es th
+{
+	margin: 0 3px;
+}
+
+.ds_j5es h3.title
+{
+	font-family: Arapey,georgia,times,'times new roman',serif !important;
+	background: #003c9f; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #A52A2A 0%, #000000 73%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#A52A2A), color-stop(73%,#000000)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #A52A2A 0%,#000000 73%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #A52A2A 0%,#000000 73%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #A52A2A 0%,#000000 73%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover, #A52A2A 0%,#000000 73%); /* W3C */
+	font-size: 16px;
+	height: 16px;
+	width: 100%;
+	color: #ddd !important;
+	text-align: center;
+	margin: 0 !important;
+	padding: 0px 0px 8px 0px !important;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+	text-shadow: 1px 1px 1px #000 !important;
+}
+
+.ds_j5es input,
+.ds_j5es select
+{
+	margin: 0;
+	width: auto;
+	height: auto;
+	display: inline;
+}
+
+.ds_j5es h4.title
+{
+	font-family: Arapey,georgia,times,'times new roman',serif !important;
+	background: #3c008f; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #B8860B 0%, #000000 73%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#B8860B), color-stop(73%,#000000)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* W3C */
+	font-size: 14px;
+	height: 14px;
+	width: 100%;
+	color: #ddd !important;
+	text-align: center;
+	margin: 0 !important;
+	padding: 0px 0px 6px 0px !important;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+	text-shadow: 1px 1px 1px #000 !important;
+}
+
+.ds_j5es .newSpellsDialog
+{
+	font-family: Arapey,georgia,times,'times new roman',serif !important;
+	background: #008f00; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #B8860B 0%, #000000 73%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#B8860B), color-stop(73%,#000000)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover, #B8860B 0%,#000000 73%); /* W3C */
+	font-size: 14px;
+
+	border-bottom-left-radius: inherit;
+	border-bottom-right-radius: inherit;
+	width: 100%;
+	color: #ddd;
+	text-align: center;
+	margin: 0;
+	padding: 2px 0;
+	text-shadow: 1px 1px 1px #000;
+}
+
+.ds_j5es .newSpellsDialog label
+{
+	display: inline;
+	font: inherit;
+}
+
+.ds_j5es .newSpellsDialog input
+{
+	padding: 0 2px;
+	font: inherit;
+}
+
+.ds_j5es .collapse
+{
+	width: 1px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border-spacing: 0 !important;
+	border: none !important;
+}
+
+.ds_j5es .addButton,
+.ds_j5es .removeButton
+{
+	display: none;
+}
+
+.ds_j5es.editable .addButton
+{
+	display: inline;
+	float: right;
+	min-width: 12px;
+	height: 0px;
+	margin: 3px 5px 3px 0px;
+	padding: 0px 5px 0px 5px;
+	border-radius: 8px;
+	background-color: #722;
+	color: #fff;
+	cursor: pointer;
+	font-weight: normal;
+	font-size: 10px;
+}
+
+.ds_j5es.editable .removeButton
+{
+	display: inline;
+	float: right;
+	min-width: 12px;
+	height: 0px;
+	margin: 3px 5px 3px 0px;
+	padding: 0px 5px 0px 5px;
+	border-radius: 8px;
+	background-color: #722;
+	color: #fff;
+	cursor: pointer;
+	font-weight: normal;
+	font-size: 10px;
+}
+
+.ds_j5es.editable .dsf
+{
+	background-color: #CDF;
+	color: #000;
+	border-radius: 2px;
+}
+
+.ds_j5es.editable .dsf.readonly,
+.ds_j5es.editable .dsf.checkbox
+{
+	background-color: #fff;
+	color: #000;
+	border-radius: 0;
+}
+
+.ds_j5es .fancybox
+{
+	padding: 0 0 2px 0;
+	margin: 5px 0 0 0;
+	display: inline-block;
+	width: 730px;
+	vertical-align: top;
+	border: 1px solid black;
+	box-shadow: 3px 3px 3px #999;
+	border-radius: 20px / 8px;
+	background: #FFF;
+	color: #000;
+}
+
+.ds_j5es .fancybox
+{
+	width: 750px;
+}
+
+.ds_j5es .statsbox
+{
+	width: 165px;
+	height: 163px;
+}
+
+.ds_j5es .probox,
+.ds_j5es .hpbox,
+.ds_j5es .deathbox,
+.ds_j5es .speedbox,
+.ds_j5es .acbox,
+.ds_j5es .initbox
+{
+	height: 65px;
+}
+
+.ds_j5es .miscbox
+{
+	width: 565px;
+	display: inline-block;
+}
+
+.ds_j5es .acbox,
+.ds_j5es .hpbox
+{
+	width: 293px;
+}
+
+.ds_j5es .probox,
+.ds_j5es .speedbox
+{
+	width: 100px;
+}
+
+.ds_j5es .initbox,
+.ds_j5es .deathbox
+{
+	width: 160px;
+}
+
+.ds_j5es .grapplebox
+{
+	width: 144px;
+}
+
+.ds_j5es .halfwidth
+{
+	width: 368px;
+	display: inline-block;
+}
+
+.ds_j5es .quarterwidth
+{
+	width: 180px;
+	display: inline-block;
+	margin-top: 0;
+}
+
+.ds_j5es .threequarterwidth
+{
+	width: 545px;
+	display: inline-block;
+	margin-top: 0;
+}
+
+.ds_j5es .domain
+{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-left: -1px;
+	width: 181px;
+	box-shadow: none;
+}
+
+.ds_j5es .dcbox
+{
+	width: 184px;
+	margin-right: -1px;
+}
+
+.ds_j5es .spellSection
+{
+	margin-top: 5px;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+}
+
+.ds_j5es .subbox.halfwidth
+{
+	width: 364px;
+}
+
+.ds_j5es .inventorybox .item
+{
+	width: 237px;
+	margin: 0 2px;
+	display: inline-block;
+}
+
+.ds_j5es .subbox
+{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin: 0 -1px 5px -1px;
+	box-shadow: none;
+}
+
+.ds_j5es .subbox + .subbox
+{
+	margin-left: -2px;
+
+}
+
+.ds_j5es .statsbox table,
+.ds_j5es .savesbox table,
+.ds_j5es .attackbox table,
+.ds_j5es .armorbox table,
+.ds_j5es .weaponbox table,
+.ds_j5es .dcTable
+{
+	border-spacing: 0 !important;
+	border-collapse: collapse;
+	width: 99%;
+	margin-bottom: 4px;
+}
+
+.ds_j5es .armorbox table,
+.ds_j5es .weaponbox table
+{
+	margin-left: 3px;
+	width: 724px;
+}
+
+.ds_j5es .attackbox table
+{
+	margin-top: 8px;
+}
+
+.ds_j5es .dcTable
+{
+	margin-left: 2px;
+	width: 180px;
+}
+
+.ds_j5es .statsbox th,
+.ds_j5es .savesbox th,
+.ds_j5es .armorbox th,
+.ds_j5es .featTable th,
+.ds_j5es .traitTable th,
+.ds_j5es .abilityTable th,
+.ds_j5es .skillTable th,
+.ds_j5es .noncoreTable th,
+.ds_j5es .weaponbox th,
+.ds_j5es .dcTable th
+{
+	border: none;
+	vertical-align: bottom;
+	padding: 4px 2px;
+}
+
+.ds_j5es .skillTable tr &gt; td:first-child,
+.ds_j5es .noncoreTable tr &gt; td:first-child
+{
+	text-align: left;
+}
+
+.ds_j5es .statsbox th.stat,
+.ds_j5es .savesbox th.stat
+{
+	font-size: 12px;
+	font-variant: small-caps;
+	vertical-align: middle;
+}
+
+.ds_j5es .statsbox td,
+.ds_j5es .savesbox td,
+.ds_j5es .attackbox td,
+.ds_j5es .armorbox td,
+.ds_j5es .weaponbox td,
+.ds_j5es .dcTable td
+{
+	border: 1px solid black;
+	padding: 3px;
+	vertical-align: middle;
+}
+
+.ds_j5es .featTable td,
+.ds_j5es .abilityTable td,
+.ds_j5es .skillTable td,
+.ds_j5es .noncoreTable td,
+.ds_j5es .traitTable td
+{
+	border-bottom: 1px solid black;
+	padding: 3px;
+	vertical-align: middle;
+}
+
+.ds_j5es .skillTable td,
+.ds_j5es .noncorelTable td
+{
+	font-size: 11px;
+	line-height: 10px;
+}
+
+.ds_j5es .spellList
+{
+	width: 240px;
+	margin: 2px 1px 2px 2px;
+	display: inline-block;
+	border-bottom: 1px solid black;
+}
+
+.ds_j5es .spellList .dsf
+{
+	width: 225px;
+	display: inline-block;
+	height: 100%;
+}
+
+.ds_j5es .spellList .spellLevel
+{
+	width: 15px;
+	display: inline-block;
+}
+
+.ds_j5es .dsf_bio
+{
+	min-height: 100px;
+	height: 100%;
+	padding: 5px;
+	border-bottom-left-radius: inherit !important;
+	border-bottom-right-radius: inherit !important;
+}
+
+.ds_j5es .sideways
+{
+	-webkit-transform: rotate(90deg); 
+	-moz-transform: rotate(90deg);
+	text-align: left;
+	vertical-align: top;
+	display: block;
+	margin: 10px 0 15px 0;
+	font-size: 10px;
+}
+
+.ds_j5es .dsf_avatar_image
+{
+    display: block;
+    height: 100%;
+}
+	&lt;/style&gt;
+	&lt;div class="fancybox"&gt;
+	&lt;h3 class="title"&gt;Basic Information&lt;/h3&gt;
+	&lt;table width="100%"&gt;
+	&lt;col width="125"/&gt;
+	&lt;col width="151"/&gt;
+	&lt;col width="151"/&gt;
+	&lt;col width="151"/&gt;
+	&lt;col /&gt;
+	&lt;tr&gt;
+		&lt;td rowspan="10"&gt;&lt;div class="dsf dsf_avatar_image readonly"&gt;&lt;/div&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_name readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_alignment"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_race"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_homeland"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Character Name&lt;/th&gt;
+		&lt;th&gt;Alignment&lt;/th&gt;
+		&lt;th&gt;Race&lt;/th&gt;
+		&lt;th&gt;Homeland&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td class="dsf dsf_class"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_background"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_deity"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_faction"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Class&lt;/th&gt;
+		&lt;th&gt;Background&lt;/th&gt;
+		&lt;th&gt;Deity&lt;/th&gt;
+		&lt;th&gt;Faction&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td class="dsf dsf_gender"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_age"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_height"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_weight"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Gender&lt;/th&gt;
+		&lt;th&gt;Age&lt;/th&gt;
+		&lt;th&gt;Height&lt;/th&gt;
+		&lt;th&gt;Weight&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td class="dsf dsf_hair"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_skin"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_eyes"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_experience"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Hair&lt;/th&gt;
+		&lt;th&gt;Skin&lt;/th&gt;
+		&lt;th&gt;Eyes&lt;/th&gt;
+		&lt;th&gt;Experience Points&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td colspan="4" class="dsf dsf_languages"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;th colspan="4"&gt;Languages&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+
+&lt;div class="fancybox statsbox"&gt;
+	&lt;h3 class="title"&gt;Abilities&lt;/h3&gt;
+	&lt;table width="50%"&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Name&lt;/th&gt;
+		&lt;th&gt;Score&lt;/th&gt;
+		&lt;th&gt;Modifier&lt;/th&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th class="stat"&gt;Str&lt;/th&gt;
+		&lt;td class="dsf dsf_str"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_str_mod readonly"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th class="stat"&gt;Dex&lt;/th&gt;
+		&lt;td class="dsf dsf_dex"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_dex_mod readonly"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th class="stat"&gt;Con&lt;/th&gt;
+		&lt;td class="dsf dsf_con"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_con_mod readonly"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th class="stat"&gt;Int&lt;/th&gt;
+		&lt;td class="dsf dsf_int"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_int_mod readonly"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th class="stat"&gt;Wis&lt;/th&gt;
+		&lt;td class="dsf dsf_wis"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_wis_mod readonly"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th class="stat"&gt;Cha&lt;/th&gt;
+		&lt;td class="dsf dsf_cha"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_cha_mod readonly"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&amp;#160;&amp;#160;&amp;#160;
+&lt;div class="miscbox"&gt;
+&lt;div class="fancybox probox"&gt;
+	&lt;h3 class="title"&gt;Proficiency&lt;/h3&gt;
+	&lt;table width="100%"&gt;
+	&lt;tr&gt;
+		&lt;td class="dsf dsf_proficiency"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th&gt;Bonus&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="fancybox hpbox"&gt;
+	&lt;h3 class="title"&gt;Hit Points&lt;/h3&gt;
+	&lt;table width="100%"&gt;
+	&lt;tr&gt;
+		&lt;td class="dsf dsf_wounds"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_hp"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_temporaryhp"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_hitdice"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th&gt;Current&lt;/th&gt;
+		&lt;th&gt;Max&lt;/th&gt;
+		&lt;th&gt;Temp&lt;/th&gt;
+		&lt;th&gt;Hit Dice&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="fancybox deathbox"&gt;
+	&lt;h3 class="title"&gt;Death Saves&lt;/h3&gt;
+	&lt;table width="100%"&gt;
+	&lt;tr&gt;
+		&lt;td&gt;&lt;b&gt;Sucesses&lt;/b&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_deathsuccess1_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_deathsuccess2_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_deathsuccess3_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;b&gt;Failures&lt;/b&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_deathfails1_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_deathfails2_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_deathfails3_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+
+&lt;div class="fancybox speedbox"&gt;
+	&lt;h3 class="title"&gt;Movement&lt;/h3&gt;
+	&lt;table width="100%"&gt;
+	&lt;tr&gt;
+		&lt;td class="dsf dsf_speed"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th&gt;Speed&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="fancybox acbox"&gt;
+	&lt;h3 class="title"&gt;Armor Class&lt;/h3&gt;
+	&lt;table width="100%"&gt;
+	&lt;tr&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_ac readonly"&gt;&lt;/td&gt;
+		&lt;td class="collapse" rowspan="2"&gt;=&lt;/td&gt;
+		&lt;td class="dsf dsf_armor_bonus"&gt;&lt;/td&gt;
+		&lt;td class="collapse" rowspan="2"&gt;+&lt;/td&gt;
+		&lt;td class="dsf dsf_shield_bonus"&gt;&lt;/td&gt;
+		&lt;td class="collapse" rowspan="2"&gt;+&lt;/td&gt;
+		&lt;td class="dsf dsf_dextoac"&gt;&lt;/td&gt;
+		&lt;td class="collapse" rowspan="2"&gt;+&lt;/td&gt;
+		&lt;td class="dsf dsf_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th&gt;Total&lt;/th&gt;
+		&lt;th&gt;Base (Armor)&lt;/th&gt;
+		&lt;th&gt;Shield&lt;/th&gt;
+		&lt;th&gt;Dex&lt;/th&gt;
+		&lt;th&gt;Misc&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="fancybox initbox"&gt;
+	&lt;h3 class="title"&gt;Initiative&lt;/h3&gt;
+	&lt;table width="100%"&gt;
+	&lt;tr&gt;
+		&lt;td class="dsf dsf_initative_total readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_dex_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_misc_init_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th&gt;Total&lt;/th&gt;
+		&lt;th&gt;Dex&lt;/th&gt;
+		&lt;th&gt;Misc&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+&lt;div class="fancybox weaponbox"&gt;
+	&lt;h3 class="title"&gt;Weapons&lt;span class="ctlAddWeapon addButton"&gt;+ Add&lt;/span&gt;&lt;/h3&gt;
+	&lt;div class="dsf dsf_ctlWeaponCount" style="display:none"&gt;&lt;/div&gt;
+	&lt;table class="weaponTable" prefix="weapon"&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Name&lt;/th&gt;
+		&lt;th&gt;Attack&lt;/th&gt;
+		&lt;th&gt;Damage&lt;/th&gt;
+		&lt;th&gt;Type&lt;/th&gt;
+		&lt;th&gt;Range&lt;/th&gt;
+		&lt;th&gt;Special Qualities&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+
+&lt;div class="halfwidth valigntop"&gt;
+&lt;div class="fancybox halfwidth skillbox"&gt;
+	&lt;h3 class="title"&gt;Saves + Skills&lt;/h3&gt;
+	&lt;div class="dsf dsf_ctlSkillCount" style="display:none"&gt;&lt;/div&gt;
+	&lt;div class="halfwidth"&gt;
+		&lt;h4 class="title"&gt;Saves&lt;/h4&gt;
+	&lt;/div&gt;
+	&lt;table width="100%" class="skillTable" prefix="skill"&gt;
+	&lt;col width="15"/&gt;
+	&lt;col /&gt;
+	&lt;col width="40"/&gt;
+	&lt;col width="40"/&gt;
+	&lt;col width="40"/&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Pr.&lt;/th&gt;
+		&lt;th&gt;Save&lt;/th&gt;
+		&lt;th style="display:none;"&gt;ability&lt;/th&gt;
+		&lt;th&gt;Total&lt;/th&gt;
+		&lt;th&gt;Mod&lt;/th&gt;
+		&lt;th&gt;Misc&lt;/th&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_strsave_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Strength&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Str&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_strsave_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_str_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_strsave_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_dexsave_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Dexterity&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Dex&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_dexsave_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_dex_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_dexsave_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_consave_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Constitution&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Con&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_consave_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_con_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_consave_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_intsave_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Intelligence&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Int&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_intsave_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_int_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_intsave_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_wissave_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Wisdom&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Wis&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_wissave_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_wis_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_wissave_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_chasave_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Charisma&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Cha&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_chasave_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_cha_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_chasave_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;div class="dsf dsf_ctlNoncoreCount" style="display:none"&gt;&lt;/div&gt;
+	&lt;div class="halfwidth"&gt;
+	&lt;h4 class="title"&gt;Skills&lt;/h4&gt;
+	&lt;/div&gt;
+	&lt;table width="100%" class="noncoreTable" prefix="noncore"&gt;
+	&lt;col width="15"/&gt;
+	&lt;col /&gt;
+	&lt;col /&gt;
+	&lt;col width="40"/&gt;
+	&lt;col width="40"/&gt;
+	&lt;col width="40"/&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Pr.&lt;/th&gt;
+		&lt;th&gt;Skill&lt;/th&gt;
+		&lt;th style="display:none;"&gt;Ability&lt;/th&gt;
+		&lt;th&gt;Total&lt;/th&gt;
+		&lt;th&gt;Mod&lt;/th&gt;
+		&lt;th&gt;Misc&lt;/th&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_acrobatics_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Acrobatics (Dex)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Dex&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_acrobatics_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_dex_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_acrobatics_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_animalhandling_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Animal Handling (Wis)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Wis&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_animalhandling_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_wis_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_animalhandling_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_arcana_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Arcana (Int)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Int&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_arcana_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_int_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_arcana_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_athletics_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Athletics (Str)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Str&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_athletics_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_str_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_athletics_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_deception_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Deception (Cha)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Cha&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_deception_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_cha_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_deception_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_history_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;History (Int)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Int&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_history_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_int_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_history_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_insight_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Insight (Wis)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Wis&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_insight_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_wis_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_insight_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_intimidation_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Intimidation (Cha)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Cha&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_intimidation_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_cha_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_intimidation_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_investigation_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Investigation (Int)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Int&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_investigation_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_int_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_investigation_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_medicine_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Medicine (Wis)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Wis&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_medicine_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_wis_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_medicine_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_nature_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Nature (Int)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Int&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_nature_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_int_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_nature_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_perception_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Perception (Wis)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Wis&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_perception_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_wis_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_perception_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_performance_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Performance (Cha)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Cha&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_performance_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_cha_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_performance_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_persuasion_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Persuasion (Cha)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Cha&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_persuasion_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_cha_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_persuasion_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_religion_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Religion (Int)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Int&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_religion_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_int_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_religion_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_slightofhand_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Sleight of Hand (Dex)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Dex&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_slightofhand_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_dex_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_slightofhand_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_stealth_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Stealth (Dex)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Dex&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_stealth_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_dex_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_stealth_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td&gt;&lt;span class="dsf dsf_survival_cs checkbox"&gt;&lt;/span&gt;&lt;/td&gt;
+		&lt;td&gt;Survival (Wis)&lt;/td&gt;
+		&lt;td style="display:none;"&gt;Wis&lt;/td&gt;
+		&lt;td style="font-weight:bold" class="dsf dsf_survival_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_wis_mod readonly"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_survival_misc_mod"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&amp;#160;&amp;#160;&amp;#160;
+
+&lt;div class="halfwidth valigntop"&gt;
+&lt;div class="fancybox halfwidth traitbox"&gt;
+	&lt;h3 class="title"&gt;Traits + Proficiencies&lt;span class="ctlAddTrait addButton"&gt;+ Add&lt;/span&gt;&lt;/h3&gt;
+	&lt;div class="dsf dsf_ctlTraitCount" style="display:none"&gt;&lt;/div&gt;
+	&lt;table width="100%" class="traitTable" prefix="trait"&gt;
+	&lt;tr&gt;&lt;th&gt;Trait&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="fancybox halfwidth featbox"&gt;
+	&lt;h3 class="title"&gt;Feats&lt;span class="ctlAddFeat addButton"&gt;+ Add&lt;/span&gt;&lt;/h3&gt;
+	&lt;div class="dsf dsf_ctlFeatCount" style="display:none"&gt;&lt;/div&gt;
+	&lt;table width="100%" class="featTable" prefix="feat"&gt;
+	&lt;tr&gt;&lt;th&gt;Feat&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="fancybox halfwidth abilitybox"&gt;
+	&lt;h3 class="title"&gt;Class Abilities&lt;span class="ctlAddAbility addButton"&gt;+ Add&lt;/span&gt;&lt;/h3&gt;
+	&lt;div class="dsf dsf_ctlAbilityCount" style="display:none"&gt;&lt;/div&gt;
+	&lt;table width="100%" class="abilityTable" prefix="special_ability"&gt;
+	&lt;tr&gt;&lt;th&gt;Ability&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+&lt;div class="fancybox armorbox"&gt;
+	&lt;h3 class="title"&gt;Equipment&lt;/h3&gt;
+	&lt;div&gt;
+	&lt;h4 class="title"&gt;Armor/Shield&lt;/h4&gt;
+	&lt;table width="100%"&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Type&lt;/th&gt;
+		&lt;th&gt;Name&lt;/th&gt;
+		&lt;th&gt;Base Armor&lt;/th&gt;
+		&lt;th&gt;Max Dex&lt;/th&gt;
+		&lt;th&gt;Special Qualities&lt;/th&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th&gt;Armor&lt;/th&gt;
+		&lt;td class="dsf dsf_armor1_type"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_armor1_ac_bonus"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_armor1_max_dex"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_armor1_special_properties"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;th&gt;Shield&lt;/th&gt;
+		&lt;td class="dsf dsf_armor4_type"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_armor4_ac_bonus"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_armor4_max_dex"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_armor4_special_properties"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;h4 class="title"&gt;Magic Items&lt;/h4&gt;
+	&lt;table width="100%"&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Name&lt;/th&gt;
+		&lt;th&gt;Bonus&lt;/th&gt;
+		&lt;th&gt;Item Description&lt;/th&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td class="dsf dsf_protitem1_type"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem1_ac_bonus"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem1_special_properties"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td class="dsf dsf_protitem2_type"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem2_ac_bonus"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem2_special_properties"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td class="dsf dsf_protitem3_type"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem3_ac_bonus"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem3_special_properties"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td class="dsf dsf_protitem4_type"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem4_ac_bonus"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem4_special_properties"&gt;&lt;/td&gt;
+	&lt;/tr&gt;&lt;tr&gt;
+		&lt;td class="dsf dsf_protitem5_type"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem5_ac_bonus"&gt;&lt;/td&gt;
+		&lt;td class="dsf dsf_protitem5_special_properties"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+&lt;div class="fancybox inventorybox"&gt;
+	&lt;h3 class="title"&gt;Inventory&lt;span class="ctlAddInventory addButton"&gt;+ Add&lt;/span&gt;&lt;/h3&gt;
+	&lt;div class="dsf dsf_ctlInventoryCount" style="display:none"&gt;&lt;/div&gt;
+	&lt;div class="fancybox subbox halfwidth" style="height:60px;"&gt;
+		&lt;h4 class="title"&gt;Carrying Capacity&lt;/h4&gt;
+		&lt;table width="100%"&gt;
+		&lt;tr&gt;
+			&lt;td style="text-align:center;"&gt;&lt;span class="dsf dsf_light_load readonly"&gt;&lt;/span&gt; lbs.&lt;/td&gt;
+			&lt;td style="text-align:center;"&gt;&lt;span class="dsf dsf_medium_load readonly"&gt;&lt;/span&gt; lbs.&lt;/td&gt;
+			&lt;td style="text-align:center;"&gt;&lt;span class="dsf dsf_heavy_load readonly"&gt;&lt;/span&gt; lbs.&lt;/td&gt;
+			&lt;td style="text-align:center;"&gt;&lt;span class="dsf dsf_lift_over_head readonly"&gt;&lt;/span&gt; lbs.&lt;/td&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;th&gt;Encumbered&lt;/th&gt;
+			&lt;th&gt;Heavily Encumbered&lt;/th&gt;
+			&lt;th&gt;Max Load&lt;/th&gt;
+			&lt;th&gt;Push/Drag/Lift&lt;/th&gt;
+		&lt;/tr&gt;
+		&lt;/table&gt;
+	&lt;/div&gt;
+	&lt;div class="fancybox subbox halfwidth" style="height:60px;"&gt;
+		&lt;h4 class="title"&gt;Money&lt;/h4&gt;
+		&lt;table width="100%"&gt;
+		&lt;tr&gt;
+			&lt;td style="text-align:center;" class="dsf dsf_wealth_total readonly"&gt;&lt;/td&gt;
+			&lt;td style="text-align:center;" class="dsf dsf_pp"&gt;&lt;/td&gt;
+			&lt;td style="text-align:center;" class="dsf dsf_gp"&gt;&lt;/td&gt;
+			&lt;td style="text-align:center;" class="dsf dsf_ep"&gt;&lt;/td&gt;
+			&lt;td style="text-align:center;" class="dsf dsf_sp"&gt;&lt;/td&gt;
+			&lt;td style="text-align:center;" class="dsf dsf_cp"&gt;&lt;/td&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;th&gt;Total&lt;/th&gt;
+			&lt;th&gt;PP&lt;/th&gt;
+			&lt;th&gt;GP&lt;/th&gt;
+			&lt;th&gt;EP&lt;/th&gt;
+			&lt;th&gt;SP&lt;/th&gt;
+			&lt;th&gt;CP&lt;/th&gt;
+		&lt;/tr&gt;
+		&lt;/table&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="fancybox spellbox"&gt;
+	&lt;h3 class="title"&gt;Spells&lt;/h3&gt;
+	&lt;div class="newSpellsDialog"&gt;&lt;b&gt;New Spells Section:&lt;/b&gt; &lt;input type="checkbox" name="spontaneous" /&gt;&lt;label for="spontaneous"&gt;Spontaneous Caster&lt;/label&gt; &lt;input type="checkbox" name="spellbook" /&gt;&lt;label for="spellbook"&gt;Uses Spellbook&lt;/label&gt; &lt;input type="checkbox" name="domains" /&gt;&lt;label for="domains"&gt;Domains&lt;/label&gt; &lt;input type="text" name="minSpellLevel" size="1" maxlength="1" value="0" /&gt;&lt;input type="text" name="maxSpellLevel" size="1" maxlength="1" value="9" /&gt; Spell Levels&lt;span class="ctlAddSpellSection addButton"&gt;+ Add&lt;/span&gt;&lt;/div&gt;
+	&lt;div class="dsf dsf_ctlSpellSectionCount" style="display:none"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+&lt;div class="fancybox"&gt;
+	&lt;h3 class="title"&gt;Character Bio&lt;/h3&gt;
+	&lt;table width="100%"&gt;
+		&lt;tr&gt;
+			&lt;td class="dsf dsf_personality"&gt;&lt;/td&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;th&gt;Personality Traits&lt;/th&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;td class="dsf dsf_ideals"&gt;&lt;/td&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;th&gt;Ideals&lt;/th&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;td class="dsf dsf_bonds"&gt;&lt;/td&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;th&gt;Bonds&lt;/th&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;td class="dsf dsf_flaws"&gt;&lt;/td&gt;
+		&lt;/tr&gt;&lt;tr&gt;
+			&lt;th&gt;Flaws&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/table&gt;
+	&lt;br /&gt;
+	&lt;div class="dsf dsf_bio readonly"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;div class="campaign"&gt;Campaign: &lt;span class="dsf readonly dsf_campaign"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class="player"&gt;Player: &lt;span class="dsf readonly dsf_player"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;DD 5e Sheet by: &lt;span class="dsf readonly dsf_dst_author"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/j:jelly&gt;]]&gt;&lt;/html&gt;&lt;name&gt;test&lt;/name&gt;&lt;processing_script/&gt;&lt;sys_class_name&gt;sys_ui_page&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2020-02-25 22:27:47&lt;/sys_created_on&gt;&lt;sys_id&gt;326227f32f870010a1fc808cf699b689&lt;/sys_id&gt;&lt;sys_mod_count&gt;8&lt;/sys_mod_count&gt;&lt;sys_name&gt;test&lt;/sys_name&gt;&lt;sys_package display_value="World Builder" source="x_262366_wld_bldr"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="World Builder"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_page_326227f32f870010a1fc808cf699b689&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2020-02-25 23:03:58&lt;/sys_updated_on&gt;&lt;/sys_ui_page&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-501804434</payload_hash>
+        <record_name>test</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-25 23:03:58</sys_created_on>
+        <sys_id>950e2b332fc70010a1fc808cf699b609</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1707e97bcc50000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-25 23:03:58</sys_updated_on>
+        <type>UI Page</type>
+        <update_guid>910e6bbfd1870010ddc954bda2128af6</update_guid>
+        <update_guid_history>910e6bbfd1870010ddc954bda2128af6:-501804434,6c4dabffd8870010d5c033dcf22f5e8a:-1785497603,393dabff758700104770a2c1c5bae796:735009964,30fc67ff908700102f9a93049b516064:714605731,addcabbf28870010622b65204cb9511e:-247675982,bd7cabb78b870010828914bbea207980:-2127514117,e05c2f7ba88700104f3ab2208689591c:1554311128,80972f7b99870010f5228bdb965dab0a:1405494920,1fb5ab33c28700106be25b61c0a338f3:245903753</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-26 18:27:50</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_page">sys_ui_page</sys_db_object>
+        <sys_id>46ad004e2af940fabbe48fbb82cd1bc4</sys_id>
+        <sys_metadata>326227f32f870010a1fc808cf699b689</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>test</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>sys_ui_page_326227f32f870010a1fc808cf699b689</sys_update_name>
+        <sys_update_version display_value="sys_ui_page_326227f32f870010a1fc808cf699b689">950e2b332fc70010a1fc808cf699b609</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-26 18:27:50</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,1702 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[//determine AC (equip armor) (don't forget the protection fighting style) //honestly, this should be it's own script include that gets called before an encountered creature is created, we just happen to call it when creating the character
+
+function loadPage(){
+	$j('#countG').val(0);
+	$j('#knownG').val(0);
+	$j('#langCountG').val(0);
+	$j('#addHPModG').val(0);
+	$j('#speedG').val(0);
+	$j('#strengthBonusG').val(0);
+	$j('#dexterityBonusG').val(0);
+	$j('#constitutionBonusG').val(0);
+	$j('#intelligenceBonusG').val(0);
+	$j('#wisdomBonusG').val(0);
+	$j('#charismaBonusG').val(0);
+	$j('#plusOneChoiceG').val(0);
+	$j('#genderlessG').val('false');
+	$j('#cantripsKnownG').val(0);
+	$j('#spellsKnownG').val(0);
+	$j('#classSkillsKnownG').val(0);
+	$j('#subclassSkillsKnownG').val(0);
+	$j('#subclassSkills2xKnownG').val(0);
+	$j('#raceSkillsChoiceCountG').val(0);
+	$j('#raceToolCountG').val(0);
+	$j('#classToolCountG').val(0);
+	$j('#prepareSpellbookSpellsG').val(0);
+	$j('#equipmentChoicesG').val(0);
+	$j('#specificEquipmentCountG').val(0);
+	$j('#backgroundEquipmentCountG').val(0);
+	
+	var init = new GlideAjax('CreateACharacterFast');
+	init.addParam('sysparm_name', 'initializeCharacter');
+	init.getXML(getToonId);
+	
+	//load static pages, like race and class
+	var raceMenu = new GlideAjax('CreateACharacterFast');
+	raceMenu.addParam('sysparm_name', 'getRaceHTML');
+	raceMenu.getXML(setRaceHTML);
+	
+	var classMenu = new GlideAjax('CreateACharacterFast');
+	classMenu.addParam('sysparm_name', 'getClassHTML');
+	classMenu.getXML(setClassHTML);
+	
+	var backMenu = new GlideAjax('CreateACharacterFast');
+	backMenu.addParam('sysparm_name', 'getBackgroundHTML');
+	backMenu.getXML(setBackHTML);
+	
+	var languages = new GlideAjax('CreateACharacterFast');
+	languages.addParam('sysparm_name', 'getLanguages');
+	languages.getXML(storeLangaugeData);
+}
+
+pickSubclassG = 'no';
+subraceCantripsG = 'no';
+subclassCantripsG = 'no';
+toolsG = '';
+cantripsG = '';
+allCantripsG = '';
+spellsG = '';
+skillsG = '';
+skillsDisplayG = '';
+skills2xG = '';
+skills2xDisplayG = '';
+guarenteedSkillsG = '';
+guarenteedSkillsDisplayG = '';
+classSkillOptionsG = '';
+classSkillOptionsDisplayG = '';
+subclassSkillOptionsG = '';
+subclassSkillOptionsDisplayG = '';
+skillIdsG = '';
+skillNamesG = '';
+languagesG = '';
+languageIdsG = '';
+languageNamesG = '';
+expertiseG = '';
+
+function getToonId(response){
+	var toonId = response.responseXML.documentElement.getAttribute("answer");
+	$j('#toonId').val(toonId);
+}
+
+function setRaceHTML(response){
+	var htmlStrings = response.responseXML.getElementsByTagName('htmlStrings');
+	
+	var raceHTML = htmlStrings[0].getAttribute('raceHTML');
+	var subRaceHTML = htmlStrings[0].getAttribute('subRaceHTML');
+	
+	document.getElementById('raceMenu').innerHTML = raceHTML;
+	document.getElementById('subraceMenu').innerHTML = subRaceHTML;
+	
+}
+
+function setClassHTML(response){
+	var htmlStrings = response.responseXML.getElementsByTagName('htmlStrings');
+	
+	var classHTML = htmlStrings[0].getAttribute('classHTML');
+	var subClassHTML = htmlStrings[0].getAttribute('subClassHTML');
+	var featureOptionsHTML = htmlStrings[0].getAttribute('featureOptionsHTML');
+
+	document.getElementById('classMenu').innerHTML = classHTML;
+	document.getElementById('subclassMenu').innerHTML = subClassHTML;
+	document.getElementById('classFeatureOptionsMenu').innerHTML = featureOptionsHTML;
+}
+
+function setBackHTML(response){
+	var htmlStrings = response.responseXML.getElementsByTagName('htmlStrings');
+	
+	var backHTML = htmlStrings[0].getAttribute('backHTML');
+	var toolHTML = htmlStrings[0].getAttribute('toolHTML');
+	
+	document.getElementById('backgroundMenu').innerHTML = backHTML;
+	document.getElementById('toolsMenu').innerHTML = toolHTML;
+}
+
+function storeLangaugeData(response){
+	var languages = response.responseXML.getElementsByTagName('languages');
+	
+	var languageIds = languages[0].getAttribute('languageIds');
+	var languageNames = languages[0].getAttribute('languageNames');
+	
+	languageIdsG = languageIds;
+	languageNamesG = languageNames;
+}
+
+function pickSubRace(raceId, genderless, hasSubRace){
+	$j('#race').hide();
+	
+	if(genderless == 'true'){
+		$j('#genderlessG').val('true');
+	}
+	
+	var setRace = new GlideAjax('CreateACharacterFast');
+	setRace.addParam('sysparm_name', 'setRace');
+	setRace.addParam('sysparm_toon_id', $j('#toonId').val());
+	setRace.addParam('sysparm_race_id', raceId);
+	setRace.getXML(setRaceVariables);
+	
+	if(hasSubRace == 'yes'){
+		$j('#subRace').show();
+		$j('#' + raceId).show();
+	}
+	else if(genderless == 'true'){
+		pickClass('');
+	}
+	else{
+		pickGender('');
+	}
+}
+
+function setRaceVariables(response){
+	var raceData = response.responseXML.getElementsByTagName('raceData');
+	
+	var skillProf = raceData[0].getAttribute('skillProf');
+	var skillProfDisplay = raceData[0].getAttribute('skillProfDisplay');
+	var skillProfRandom = raceData[0].getAttribute('skillProfRandom');
+	var languages = raceData[0].getAttribute('languages');
+	var plusOneChoice = raceData[0].getAttribute('plusOneChoice');
+	var defaultLanguages = raceData[0].getAttribute('defaultLanguages');
+	var extraLanguagesRandom = raceData[0].getAttribute('extraLanguagesRandom');
+	var baseStr = raceData[0].getAttribute('baseStr');
+	var baseDex = raceData[0].getAttribute('baseDex');
+	var baseCon = raceData[0].getAttribute('baseCon');
+	var baseInt = raceData[0].getAttribute('baseInt');
+	var baseWis = raceData[0].getAttribute('baseWis');
+	var baseCha = raceData[0].getAttribute('baseCha');
+	var skillIds = raceData[0].getAttribute('skillIds');
+	var skillNames = raceData[0].getAttribute('skillNames');
+	var raceToolHTML = raceData[0].getAttribute('raceToolHTML');
+	var raceToolCount = raceData[0].getAttribute('raceToolCount');
+	var defaultCantrip = raceData[0].getAttribute('defaultCantrip');
+	
+	
+	skillsG = skillProf;
+	skillsDisplayG = skillProfDisplay;
+	guarenteedSkillsG = skillProf;
+	guarenteedSkillsDisplayG = skillProfDisplay;
+	skillIdsG = skillIds;
+	skillNamesG = skillNames;
+	languagesG = defaultLanguages;
+	if(skillProfRandom > 0){
+		$j('#raceSkillsChoiceCountG').val(skillProfRandom);
+	}
+	
+	if(plusOneChoice){
+		$j('#plusOneChoiceG').val(plusOneChoice);
+	}
+	
+	if(extraLanguagesRandom > 0){
+		var ccount = $j('#langCountG').val();
+		ccount = parseFloat(ccount) + parseFloat(extraLanguagesRandom);
+		$j('#langCountG').val(ccount);
+	}
+	
+	if(defaultCantrip && defaultCantrip != ''){
+		if(allCantripsG != ''){
+			allCantripsG += ',';
+		}
+		allCantripsG += defaultCantrip;
+	}
+	
+	if(raceToolCount && raceToolCount > 0){
+		document.getElementById('raceToolsMenu').innerHTML = raceToolHTML;
+		$j('#raceToolCountG').val(raceToolCount);
+	}
+	
+	if(baseStr > 0){
+		if(baseStr < 3){
+			document.getElementById('strBon').innerHTML = ' +' + baseStr;
+			$j('#strengthBonusG').val(baseStr);
+		}
+		else{
+			document.getElementById('strBon').innerHTML = "<button onclick=increaseAbility('str')>+1</button>";
+		}
+	}
+	if(baseDex > 0){
+		if(baseDex < 3){
+			document.getElementById('dexBon').innerHTML = ' +' + baseDex;
+			$j('#dexterityBonusG').val(baseDex);
+		}
+		else{
+			document.getElementById('dexBon').innerHTML = "<button onclick=increaseAbility('dex')>+1</button>";
+		}
+	}
+	if(baseCon > 0){
+		if(baseCon < 3){
+			document.getElementById('conBon').innerHTML = ' +' + baseCon;
+			$j('#constitutionBonusG').val(baseCon);
+		}
+		else{
+			document.getElementById('conBon').innerHTML = "<button onclick=increaseAbility('con')>+1</button>";
+		}
+	}
+	if(baseInt > 0){
+		if(baseInt < 3){
+			document.getElementById('intBon').innerHTML = ' +' + baseInt;
+			$j('#intelligenceBonusG').val(baseInt);
+		}
+		else{
+			document.getElementById('intBon').innerHTML = "<button onclick=increaseAbility('int')>+1</button>";
+		}
+	}
+	if(baseWis > 0){
+		if(baseWis < 3){
+			document.getElementById('wisBon').innerHTML = ' +' + baseWis;
+			$j('#wisdomBonusG').val(baseWis);
+		}
+		else{
+			document.getElementById('wisBon').innerHTML = "<button onclick=increaseAbility('wis')>+1</button>";
+		}
+	}
+	if(baseCha > 0){
+		if(baseCha < 3){
+			document.getElementById('chaBon').innerHTML = ' +' + baseCha;
+			$j('#charismaBonusG').val(baseCha);
+		}
+		else{
+			document.getElementById('chaBon').innerHTML = "<button onclick=increaseAbility('cha')>+1</button>";
+		}
+	}
+	
+}
+
+function pickGender(subRaceId){
+	$j('#subRace').hide();
+	if(subRaceId != ''){
+		var setSubRace = new GlideAjax('CreateACharacterFast');
+		setSubRace.addParam('sysparm_name', 'setSubRace');
+		setSubRace.addParam('sysparm_toon_id', $j('#toonId').val());
+		setSubRace.addParam('sysparm_subrace_id', subRaceId);
+		setSubRace.getXML(setSubraceVariables);
+	}
+	
+	if($j('#genderlessG').val() == 'false'){
+		$j('#gender').show();
+	}
+	else{
+		pickClass('');
+	}
+}
+
+function setSubraceVariables(response){
+	var subRaceData = response.responseXML.getElementsByTagName('subRaceData');
+	
+	var extraLangRandom = subRaceData[0].getAttribute('extraLangRandom');
+	var baseStr = subRaceData[0].getAttribute('baseStr');
+	var baseDex = subRaceData[0].getAttribute('baseDex');
+	var baseCon = subRaceData[0].getAttribute('baseCon');
+	var baseInt = subRaceData[0].getAttribute('baseInt');
+	var baseWis = subRaceData[0].getAttribute('baseWis');
+	var baseCha = subRaceData[0].getAttribute('baseCha');
+	var subraceCantripsHTML = subRaceData[0].getAttribute('subraceCantripsHTML');
+	var defaultCantrip = subRaceData[0].getAttribute('defaultCantrip');
+	
+	if(subraceCantripsHTML && subraceCantripsHTML != ''){
+		document.getElementById('subRaceCantripsMenu').innerHTML = subraceCantripsHTML;
+		subraceCantripsG = 'yes';
+	}
+	
+	if(extraLangRandom > 0){
+		var ccount = $j('#langCountG').val();
+		ccount = parseFloat(ccount) + parseFloat(extraLangRandom);
+		$j('#langCountG').val(ccount);
+	}
+	
+	if(defaultCantrip && defaultCantrip != ''){
+		if(allCantripsG != ''){
+			allCantripsG += ',';
+		}
+		allCantripsG += defaultCantrip;
+	}
+	
+	if(baseStr > 0){
+		if(baseStr < 3){
+			document.getElementById('strBon').innerHTML = ' +' + baseStr;
+			$j('#strengthBonusG').val(baseStr);
+		}
+		else{
+			document.getElementById('strBon').innerHTML = "<button onclick=increaseAbility('str')>+1</button>";
+		}
+	}
+	if(baseDex > 0){
+		if(baseDex < 3){
+			document.getElementById('dexBon').innerHTML = ' +' + baseDex;
+			$j('#dexterityBonusG').val(baseDex);
+		}
+		else{
+			document.getElementById('dexBon').innerHTML = "<button onclick=increaseAbility('dex')>+1</button>";
+		}
+	}
+	if(baseCon > 0){
+		if(baseCon < 3){
+			document.getElementById('conBon').innerHTML = ' +' + baseCon;
+			$j('#constitutionBonusG').val(baseCon);
+		}
+		else{
+			document.getElementById('conBon').innerHTML = "<button onclick=increaseAbility('con')>+1</button>";
+		}
+	}
+	if(baseInt > 0){
+		if(baseInt < 3){
+			document.getElementById('intBon').innerHTML = ' +' + baseInt;
+			$j('#intelligenceBonusG').val(baseInt);
+		}
+		else{
+			document.getElementById('intBon').innerHTML = "<button onclick=increaseAbility('int')>+1</button>";
+		}
+	}
+	if(baseWis > 0){
+		if(baseWis < 3){
+			document.getElementById('wisBon').innerHTML = ' +' + baseWis;
+			$j('#wisdomBonusG').val(baseWis);
+		}
+		else{
+			document.getElementById('wisBon').innerHTML = "<button onclick=increaseAbility('wis')>+1</button>";
+		}
+	}
+	if(baseCha > 0){
+		if(baseCha < 3){
+			document.getElementById('chaBon').innerHTML = ' +' + baseCha;
+			$j('#charismaBonusG').val(baseCha);
+		}
+		else{
+			document.getElementById('chaBon').innerHTML = "<button onclick=increaseAbility('cha')>+1</button>";
+		}
+	}
+}
+
+function pickClass(toonGender){
+	$j('#gender').hide();
+	$j('#u_class').show();
+	
+	if($j('#genderlessG').val() == 'false'){
+		var gender = new GlideAjax('CreateACharacterFast');
+		gender.addParam('sysparm_name', 'setGender');
+		gender.addParam('sysparm_toon_id', $j('#toonId').val());
+		gender.addParam('sysparm_gender', toonGender);
+		gender.getXML();
+	}
+}
+
+function pickClassFeatureOption(classId, hasOptions, subclassLevel){
+	$j('#u_class').hide();
+	
+	if(subclassLevel == 1){
+		pickSubclassG = 'yes';
+	}
+	
+	if(parseFloat(hasOptions) > 0){
+		$j('#classFeatureOptions').show();
+		$j('#' + classId + 'options1').show();
+	}
+	else{
+		pickSubclass(classId);
+	}
+	
+	var setClass = new GlideAjax('CreateACharacterFast');
+	setClass.addParam('sysparm_name', 'setClass');
+	setClass.addParam('sysparm_toon_id', $j('#toonId').val());
+	setClass.addParam('sysparm_class_id', classId);
+	setClass.getXML(setClassVariables);
+	
+}
+
+function setClassVariables(response){
+	var classData = response.responseXML.getElementsByTagName('classData');
+	
+	var skillOptions = classData[0].getAttribute('skillOptions');
+	var skillOptionsDisplay = classData[0].getAttribute('skillOptionsDisplay');
+	var skillProfCount = classData[0].getAttribute('skillProfCount');
+	var cantripsKnown = classData[0].getAttribute('cantripsKnown');
+	var cantripsHTML = classData[0].getAttribute('cantripsHTML');
+	var spellsKnown = classData[0].getAttribute('spellsKnown');
+	var spellsHTML = classData[0].getAttribute('spellsHTML');
+	var toolOptions = classData[0].getAttribute('toolOptions');
+	var toolOptionsDisplay = classData[0].getAttribute('toolOptionsDisplay');
+	var toolProfCount = classData[0].getAttribute('toolProfCount');
+	var expertiseType = classData[0].getAttribute('expertiseType');
+	
+	
+	if(toolOptions && toolOptions != ''){
+		var tools = toolOptions.split(',');
+		var toolNames = toolOptionsDisplay.split(',');
+		if(tools.length == 1 && parseFloat(toolProfCount) == 1){
+			if(toolsG != ''){
+				toolsG += ',';
+			}
+			toolsG += tools[0];
+		}
+		else{
+			$j('#classToolCountG').val(parseFloat(toolProfCount));
+			//create html for class tools
+			var classToolHTML = '';
+			for(var i = 0; i < tools.length; ++i){
+				classToolHTML += "<a href='#' id='" + tools[i] + "c' onclick='classToolChosen(\"" + tools[i] + "\")'>" + toolNames[i] + "</a>";
+			}
+			document.getElementById('classToolsMenu').innerHTML = classToolHTML;
+			document.getElementById('classToolCount').innerHTML = 'Pick ' + toolProfCount + ':';
+		}
+	}
+	
+	if(cantripsKnown > 0){
+		$j('#cantripsKnownG').val(cantripsKnown);
+		document.getElementById('cantripsMenu').innerHTML = cantripsHTML;
+	}
+	if(spellsKnown > 0){
+		$j('#spellsKnownG').val(spellsKnown);
+		if(spellsHTML && spellsHTML != ''){
+			document.getElementById('spellsMenu').innerHTML = spellsHTML;
+		}
+	}
+	
+	$j('#classSkillsKnownG').val(skillProfCount);
+	
+	classSkillOptionsG = skillOptions;
+	classSkillOptionsDisplayG = skillOptionsDisplay;
+	
+	if(expertiseType && expertiseType != ''){
+		expertiseG = expertiseType;
+	}
+}
+
+function optionSelected(sysId, optionCount, classId){
+	var num = parseFloat(optionCount);
+	$j('#' + classId + 'options' + num).hide();
+	
+	if(!document.getElementById(classId + 'options' + (num+1))){
+		//move on
+		pickSubclass(classId);
+	}
+	else
+	{
+		//show it
+		$j('#' + classId + 'options' + (num+1)).show();
+	}
+	
+	//create character feature
+	var setCFO = new GlideAjax('CreateACharacterFast');
+	setCFO.addParam('sysparm_name', 'setClassFeatureOption');
+	setCFO.addParam('sysparm_toon_id', $j('#toonId').val());
+	setCFO.addParam('sysparm_feature_id', sysId);
+	setCFO.getXML();
+}
+
+function pickSubclass(classId){
+	if(pickSubclassG == 'yes'){
+		$j('#subclass').show();
+		$j('#' + classId).show();
+	}
+	else{
+		pickBackground('');
+	}
+}
+
+
+
+function pickBackground(subClassId){
+	$j('#subclass').hide();
+	$j('#background').show();
+	
+	//set subclass
+	if(subClassId && subClassId != ''){
+		var setsubclass = new GlideAjax('CreateACharacterFast');
+		setsubclass.addParam('sysparm_name', 'setSubClass');
+		setsubclass.addParam('sysparm_toon_id', $j('#toonId').val());
+		setsubclass.addParam('sysparm_subclass_id', subClassId);
+		setsubclass.getXML(setSubClassVariables);
+	}
+}
+
+function setSubClassVariables(response){
+	var subClassData = response.responseXML.getElementsByTagName('subClassData');
+	
+	var newLanguages = subClassData[0].getAttribute('newLanguages');
+	var skillProficiencyOptions = subClassData[0].getAttribute('skillProficiencyOptions');
+	var skillProficiencyOptionsDisplay = subClassData[0].getAttribute('skillProficiencyOptionsDisplay');
+	var skillProficiencyCount = subClassData[0].getAttribute('skillProficiencyCount');
+	var doubledSkillProficiencyCount = subClassData[0].getAttribute('doubledSkillProficiencyCount');
+	var defaultCantrip = subClassData[0].getAttribute('defaultCantrip');
+	var subclassCantripsHTML = subClassData[0].getAttribute('subclassCantripsHTML');
+	var subclassSpellsHTML = subClassData[0].getAttribute('subclassSpellsHTML');
+	var languageIds = subClassData[0].getAttribute('languageIds');
+	
+	if(subclassCantripsHTML && subclassCantripsHTML != ''){
+		document.getElementById('subClassCantripsMenu').innerHTML = subclassCantripsHTML;
+		subclassCantripsG = 'yes';
+	}
+	
+	if(subclassSpellsHTML && subclassSpellsHTML != ''){
+		document.getElementById('spellsMenu').innerHTML = subclassSpellsHTML;
+	}
+	
+	if(newLanguages > 0){
+		var ccount = $j('#langCountG').val();
+		ccount = parseFloat(ccount) + parseFloat(newLanguages);
+		$j('#langCountG').val(ccount);
+	}
+	
+	if(languageIds && languageIds != ''){
+		languagesG += ',' + languageIds;
+	}
+	
+	if(defaultCantrip && defaultCantrip != ''){
+		if(allCantripsG != ''){
+			allCantripsG += ',';
+		}
+		allCantripsG += defaultCantrip;
+	}
+	
+	subclassSkillOptionsG = skillProficiencyOptions;
+	subclassSkillOptionsDisplayG = skillProficiencyOptionsDisplay;
+	
+	if(skillProficiencyCount > 0){
+		$j('#subclassSkillsKnownG').val(skillProficiencyCount);
+	}
+	else if(doubledSkillProficiencyCount > 0){
+		$j('#subclassSkills2xKnownG').val(doubledSkillProficiencyCount);
+	}
+}
+
+function pickToolProficiencies(backgroundId, toolChoiceCount, toolProficiencies, skillProficiencies, skillProficienciesDisplay, newLanguages){
+	$j('#background').hide();
+	
+	//set background
+	var setBackground = new GlideAjax('CreateACharacterFast');
+	setBackground.addParam('sysparm_name', 'setBackground');
+	setBackground.addParam('sysparm_toon_id', $j('#toonId').val());
+	setBackground.addParam('sysparm_background_id', backgroundId);
+	setBackground.getXML(setEquipmentVariables);
+	
+	if(toolsG != ''){
+		toolsG += ',';
+	}
+	toolsG += toolProficiencies;
+	var knownSkills = guarenteedSkillsG.split(',');
+	var newSkills = skillProficiencies.split(',');
+	var newSkillsDisplay = skillProficienciesDisplay.split(',');
+	for(var i = 0; i < newSkills.length; ++i){
+		var alreadyLearned = 'no';
+		for(var j = 0; j < knownSkills.length; ++j){
+			if(knownSkills[j] == newSkills[i]){
+				alreadyLearned = 'yes';
+			}
+		}
+		if(alreadyLearned == 'no'){
+			if(guarenteedSkillsG != ''){
+				guarenteedSkillsG += ',';
+			}
+			if(skillsG != ''){
+				skillsG += ',';
+			}
+			if(guarenteedSkillsDisplayG != ''){
+				guarenteedSkillsDisplayG += ',';
+			}
+			if(skillsDisplayG != ''){
+				skillsDisplayG += ',';
+			}
+			
+			guarenteedSkillsG += newSkills[i];
+			skillsG += newSkills[i];
+			guarenteedSkillsDisplayG += newSkillsDisplay[i];
+			skillsDisplayG += newSkillsDisplay[i];
+		}
+		
+	}
+	
+	//set class skill html
+	var classSkillHTML = '';
+	var skillOptions = classSkillOptionsG.split(',');
+	var skillOptionsDisplay = classSkillOptionsDisplayG.split(',');
+	var learnedSkills = skillsG.split(',');
+	for(var ii = 0; ii < skillOptions.length; ++ii){
+		var skillAlreadyLearned = 'no';
+		for(var jj = 0; jj < learnedSkills.length; ++jj){
+			if(skillOptions[ii] == learnedSkills[jj]){
+				skillAlreadyLearned = 'yes';
+			}
+		}
+		
+		if(skillAlreadyLearned == 'no'){
+			classSkillHTML += "<a id='" + skillOptions[ii] + "' href='#' onclick='skillChosen(\"" + skillOptions[ii] + "\")'>" + skillOptionsDisplay[ii] + "</a>";
+		}
+	}
+	
+	var guarenteedSkillsHTML = '<p>You will learn these by default:</p>';
+	var guarenteedSkills = guarenteedSkillsDisplayG.split(',');
+	for(var kk = 0; kk < guarenteedSkills.length; ++ kk){
+		guarenteedSkillsHTML += '<p>' + guarenteedSkills[kk] + '</p>';
+	}
+	guarenteedSkillsHTML += '<p>Pick ' + $j('#classSkillsKnownG').val() + ':</p>';
+	
+	document.getElementById('guarenteedSkills').innerHTML = guarenteedSkillsHTML;
+	document.getElementById('skillsMenu').innerHTML = classSkillHTML;
+	
+	if(newLanguages > 0){
+		var ccount = $j('#langCountG').val();
+		ccount = parseFloat(ccount) + parseFloat(newLanguages);
+		$j('#langCountG').val(ccount);
+	}
+	
+	pickTools(toolChoiceCount,backgroundId);
+}
+
+function setEquipmentVariables(response){
+	var equipmentData = response.responseXML.getElementsByTagName('equipmentData');
+	
+	var equipmentHTML = equipmentData[0].getAttribute('equipmentHTML');
+	var weaponsHTML = equipmentData[0].getAttribute('weaponsHTML');
+	var equipmentChoices = equipmentData[0].getAttribute('equipmentChoices');
+	var backgroundEquipmentHTML = equipmentData[0].getAttribute('backgroundEquipmentHTML');
+	var backgroundEquipmentCount = equipmentData[0].getAttribute('backgroundEquipmentCount');
+	
+	document.getElementById('equipmentMenu').innerHTML = equipmentHTML;
+	document.getElementById('weaponsMenu').innerHTML = weaponsHTML;
+	$j('#equipmentChoicesG').val(equipmentChoices);
+	document.getElementById('backgroundEquipmentMenu').innerHTML = backgroundEquipmentHTML;
+	if(backgroundEquipmentCount > 0){
+		$j('#backgroundEquipmentCountG').val(backgroundEquipmentCount);
+	}
+}
+
+function pickTools(toolChoiceCount,backgroundId){
+	if(toolChoiceCount > 0){
+		$j('#countG').val(0);
+		$j('#knownG').val(toolChoiceCount);
+		document.getElementById('toolCount').innerHTML = 'Pick ' + toolChoiceCount + ':';
+		hideLearnedTools('');
+		$j('#tools').show();
+		$j('#' + backgroundId).show();
+	}
+	else{
+		pickRaceTools();
+	}
+}
+
+function toolChosen(sysId){
+	$j('#' + sysId).hide();
+	if(toolsG != ''){
+		toolsG += ',';
+	}
+	toolsG += sysId;
+	var ccount = $j('#countG').val();
+	++ccount;
+	$j('#countG').val(ccount);
+	if($j('#countG').val() == $j('#knownG').val()){		
+		$j('#tools').hide();
+		pickRaceTools();
+	}
+}
+
+function pickRaceTools(){
+	if($j('#raceToolCountG').val() > 0){
+		$j('#countG').val(0);
+		$j('#knownG').val($j('#raceToolCountG').val());
+		document.getElementById('raceToolCount').innerHTML = 'Pick ' + $j('#raceToolCountG').val() + ':';
+		hideLearnedTools('r');
+		$j('#raceTools').show();
+	}
+	else{
+		pickClassTools();
+	}
+}
+
+function raceToolChosen(toolId){
+	$j('#' + toolId + 'r').hide();
+	if(toolsG != ''){
+		toolsG += ',';
+	}
+	toolsG += toolId;
+	var ccount = $j('#countG').val();
+	++ccount;
+	$j('#countG').val(ccount);
+	if($j('#countG').val() == $j('#knownG').val()){	
+		$j('#raceTools').hide();
+		pickClassTools();
+	}
+}
+
+function pickClassTools(){
+	if($j('#classToolCountG').val() > 0){
+		$j('#countG').val(0);
+		$j('#knownG').val($j('#classToolCountG').val());
+		hideLearnedTools('c');
+		$j('#classTools').show();
+	}
+	else{
+		pickAbilityScores();
+	}
+}
+
+function classToolChosen(toolId){
+	$j('#' + toolId + 'c').hide();
+	if(toolsG != ''){
+		toolsG += ',';
+	}
+	toolsG += toolId;
+	var ccount = $j('#countG').val();
+	++ccount;
+	$j('#countG').val(ccount);
+	if($j('#countG').val() == $j('#knownG').val()){	
+		$j('#classTools').hide();
+		pickAbilityScores();
+	}
+	
+}
+
+function hideLearnedTools(character){
+	var tools = toolsG.split(',');
+	for(var i = 0; i < tools.length; ++i){
+		$j('#' + tools[i] + character).hide();
+	}
+}
+
+function pickAbilityScores(){
+	var setTools = new GlideAjax('CreateACharacterFast');
+	setTools.addParam('sysparm_name', 'setTools');
+	setTools.addParam('sysparm_toon_id', $j('#toonId').val());
+	setTools.addParam('sysparm_tools', toolsG);
+	setTools.getXML();
+	
+	$j('#countG').val(0);
+	$j('#knownG').val($j('#plusOneChoiceG').val());
+	$j('#abilityScores').show();
+}
+
+function increaseAbility(ability){
+	if(ability == 'str'){
+		$j('#strengthBonusG').val(1);
+		document.getElementById('strBon').innerHTML = ' +1';
+	}
+	else if(ability == 'dex'){
+		$j('#dexterityBonusG').val(1);
+		document.getElementById('dexBon').innerHTML = ' +1';
+	}
+	else if(ability == 'con'){
+		$j('#constitutionBonusG').val(1);
+		document.getElementById('conBon').innerHTML = ' +1';
+	}
+	else if(ability == 'int'){
+		$j('#intelligenceBonusG').val(1);
+		document.getElementById('intBon').innerHTML = ' +1';
+	}
+	else if(ability == 'wis'){
+		$j('#wisdomBonusG').val(1);
+		document.getElementById('wisBon').innerHTML = ' +1';
+	}
+	else if(ability == 'cha'){
+		$j('#charismaBonusG').val(1);
+		document.getElementById('chaBon').innerHTML = ' +1';
+	}
+	
+	var ccount = $j('#countG').val();
+	++ccount;
+	$j('#countG').val(ccount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		//remove remaining +1 buttons
+		
+		if($j('#strengthBonusG').val() == 0){
+			document.getElementById('strBon').innerHTML = '';
+		}
+		if($j('#dexterityBonusG').val() == 0){
+			document.getElementById('dexBon').innerHTML = '';
+		}
+		if($j('#constitutionBonusG').val() == 0){
+			document.getElementById('conBon').innerHTML = '';
+		}
+		if($j('#intelligenceBonusG').val() == 0){
+			document.getElementById('intBon').innerHTML = '';
+		}
+		if($j('#wisdomBonusG').val() == 0){
+			document.getElementById('wisBon').innerHTML = '';
+		}
+		if($j('#charismaBonusG').val() == 0){
+			document.getElementById('chaBon').innerHTML = '';
+		}
+	}
+}
+
+function determineRoute(){
+	
+	var str = $j('#str').val();
+	var dex = $j('#dex').val();
+	var con = $j('#con').val();
+	var intl = $j('#int').val();
+	var wis = $j('#wis').val();
+	var cha = $j('#cha').val();
+	
+	if(str > 0 && dex > 0 && con > 0 && intl > 0 && wis > 0 && cha > 0){
+
+		var setAS = new GlideAjax('CreateACharacterFast');
+		setAS.addParam('sysparm_name', 'setAbilityScores');
+		setAS.addParam('sysparm_toon_id', $j('#toonId').val());
+		setAS.addParam('sysparm_str', parseFloat(str) + parseFloat($j('#strengthBonusG').val()));
+		setAS.addParam('sysparm_dex', parseFloat(dex) + parseFloat($j('#dexterityBonusG').val()));
+		setAS.addParam('sysparm_con', parseFloat(con) + parseFloat($j('#constitutionBonusG').val()));
+		setAS.addParam('sysparm_int', parseFloat(intl) + parseFloat($j('#intelligenceBonusG').val()));
+		setAS.addParam('sysparm_wis', parseFloat(wis) + parseFloat($j('#wisdomBonusG').val()));
+		setAS.addParam('sysparm_cha', parseFloat(cha) + parseFloat($j('#charismaBonusG').val()));
+		setAS.getXML(setAbilityScoreData);
+		
+		$j('#abilityScores').hide();
+		
+		pickSubraceCantrip();
+	}
+	else{
+		$j('#asError').show();
+	}
+}
+
+function setAbilityScoreData(response){
+	var abilityScoreData = response.responseXML.getElementsByTagName('asData');
+	
+	var prepareSpellsHTML = abilityScoreData[0].getAttribute('prepareSpellsHTML');
+	var alreadyPreparedHTML = abilityScoreData[0].getAttribute('alreadyPreparedHTML');
+	var prepareCount = abilityScoreData[0].getAttribute('prepareCount');
+	
+	if(prepareSpellsHTML && prepareSpellsHTML != ''){
+		document.getElementById('spellsMenu').innerHTML = prepareSpellsHTML;
+		if(prepareCount && prepareCount > 0){
+			$j('#spellsKnownG').val(prepareCount);
+		}
+		if(alreadyPreparedHTML && alreadyPreparedHTML != ''){
+			document.getElementById('spellsPrepared').innerHTML = alreadyPreparedHTML;
+		}
+	}
+	
+}
+
+function pickSubraceCantrip(){
+	if(subraceCantripsG == 'yes'){
+		hideLearnedCantrips('sr');
+		$j('#subRaceCantrips').show();
+	}
+	else{
+		pickSubclassCantrips();
+	}
+	
+}
+
+function subraceCantripChosen(subraceCantripId){
+	$j('#subRaceCantrips').hide();
+	
+	if(allCantripsG != ''){
+		allCantripsG += ',';
+	}
+	allCantripsG += subraceCantripId;
+	
+	var setSubRaceCantrip = new GlideAjax('CreateACharacterFast');
+	setSubRaceCantrip.addParam('sysparm_name', 'setSubRaceCantrip');
+	setSubRaceCantrip.addParam('sysparm_toon_id', $j('#toonId').val());
+	setSubRaceCantrip.addParam('sysparm_subrace_cantrip', subraceCantripId);
+	setSubRaceCantrip.getXML();
+	
+	pickSubclassCantrips();
+}
+
+function pickSubclassCantrips(){
+	if(subclassCantripsG == 'yes'){
+		hideLearnedCantrips('sc');
+		$j('#subClassCantrips').show();
+	}
+	else{
+		pickCantrips();
+	}
+}
+
+function subclassCantripChosen(subclassCantripId){
+	$j('#subClassCantrips').hide();
+	
+	if(allCantripsG != ''){
+		allCantripsG += ',';
+	}
+	allCantripsG += subclassCantripId;
+	
+	var setSubclassCantrip = new GlideAjax('CreateACharacterFast');
+	setSubclassCantrip.addParam('sysparm_name', 'setSubclassCantrip');
+	setSubclassCantrip.addParam('sysparm_toon_id', $j('#toonId').val());
+	setSubclassCantrip.addParam('sysparm_subclass_cantrip', subclassCantripId);
+	setSubclassCantrip.getXML();
+	
+	pickCantrips();
+}
+
+function pickCantrips(){
+	if($j('#cantripsKnownG').val() > 0){
+		$j('#countG').val(0);
+		$j('#knownG').val($j('#cantripsKnownG').val());
+		document.getElementById('cantripsCount').innerHTML = 'Pick ' + $j('#cantripsKnownG').val() + ':';
+		hideLearnedCantrips('');
+		$j('#cantrips').show();
+	}
+	else{
+		pickSpells();
+	}
+}
+
+function hideLearnedCantrips(character){
+	var cantrips = allCantripsG.split(',');
+	for(var i = 0; i < cantrips.length; ++i){
+		$j('#' + cantrips[i] + character).hide();
+	}
+}
+
+function cantripChosen(sysId){
+	$j('#' + sysId).hide();
+	if(cantripsG != ''){
+		cantripsG += ',';
+	}
+	if(allCantripsG != ''){
+		allCantripsG += ',';
+	}
+	
+	allCantripsG += sysId;
+	cantripsG += sysId;
+	var ccount = $j('#countG').val();
+	++ccount;
+	$j('#countG').val(ccount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#cantrips').hide();
+		
+		var setCantrips = new GlideAjax('CreateACharacterFast');
+		setCantrips.addParam('sysparm_name', 'setCantrips');
+		setCantrips.addParam('sysparm_toon_id', $j('#toonId').val());
+		setCantrips.addParam('sysparm_cantrips', cantripsG);
+		setCantrips.getXML();
+		
+		pickSpells();
+	}
+}
+
+function pickSpells(){
+	if($j('#spellsKnownG').val() > 0){
+		$j('#countG').val(0);
+		$j('#knownG').val($j('#spellsKnownG').val());
+		document.getElementById('spellsCount').innerHTML = 'Pick ' + $j('#spellsKnownG').val() + ':';
+		$j('#spells').show();
+	}
+	else{
+		pickBackgroundEquipment();
+	}
+}
+
+function spellChosen(sysId){
+	$j('#' + sysId).hide();
+	if(spellsG != ''){
+		spellsG += ',';
+	}
+	spellsG += sysId;
+	var scount = $j('#countG').val();
+	++scount;
+	$j('#countG').val(scount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#spells').hide();
+		
+		var setSpells = new GlideAjax('CreateACharacterFast');
+		setSpells.addParam('sysparm_name', 'setSpells');
+		setSpells.addParam('sysparm_toon_id', $j('#toonId').val());
+		setSpells.addParam('sysparm_spells', spellsG);
+		setSpells.getXML(getSpellbookData);
+		
+		pickBackgroundEquipment();
+	}
+}
+
+function getSpellbookData(response){
+	var spellbookData = response.responseXML.getElementsByTagName('spellbookData');
+	
+	var spellbookHTML = spellbookData[0].getAttribute('spellbookHTML');
+	var spellbookPreparedCount = spellbookData[0].getAttribute('spellbookPreparedCount');
+	
+	if(spellbookHTML && spellbookHTML != ''){
+		$j('#prepareSpellbookSpellsG').val(spellbookPreparedCount);
+		document.getElementById('spellbookSpellsMenu').innerHTML = spellbookHTML;
+	}
+}
+
+function pickBackgroundEquipment(){
+	if($j('#backgroundEquipmentCountG').val() > 0){
+		$j('#countG').val(0);
+		$j('#knownG').val($j('#backgroundEquipmentCountG').val());
+		$j('#backgroundEquipment').show();
+	}
+	else{
+		pickEquipment();
+	}
+}
+
+function backgroundEquipmentSelected(equipmentId){
+	var setEquipment = new GlideAjax('CreateACharacterFast');
+	setEquipment.addParam('sysparm_name', 'setEquipment');
+	setEquipment.addParam('sysparm_toon_id', $j('#toonId').val());
+	setEquipment.addParam('sysparm_equipment_id', equipmentId);
+	setEquipment.addParam('sysparm_equipment_count', 1);
+	setEquipment.getXML();
+	
+	
+	var becount = $j('#countG').val();
+	++becount;
+	$j('#countG').val(becount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#backgroundEquipment').hide();
+		pickEquipment();
+	}
+}
+
+function pickEquipment(){
+	$j('#countG').val(0);
+	$j('#knownG').val($j('#equipmentChoicesG').val());
+	$j('#equipment').show();
+	$j('#equipment1').show();
+}
+
+function equipmentSelected(itemIds, itemCounts, group){
+	var items = itemIds.split(',');
+	var counts = itemCounts.split(',');
+	var moveOn = 'yes';
+	for(var i = 0; i < items.length; ++i){
+		if(items[i] == 'specific'){
+			//show weapons html
+			$j('#equipment').hide();
+			$j('#equipment' + group).hide();
+			
+			$j('#weapons').show();
+			$j('#weapons' + group).show();
+			$j('#weapons' + group + counts[i]).show();
+			i = items.length;
+			moveOn = 'no';
+		}
+		else{
+			//create owned item record
+			var setEquipment = new GlideAjax('CreateACharacterFast');
+			setEquipment.addParam('sysparm_name', 'setEquipment');
+			setEquipment.addParam('sysparm_toon_id', $j('#toonId').val());
+			setEquipment.addParam('sysparm_equipment_id', items[i]);
+			setEquipment.addParam('sysparm_equipment_count', counts[i]);
+			setEquipment.getXML();
+		}
+	}
+	
+	if(moveOn == 'yes'){
+		$j('#equipment' + group).hide();
+		//show next group or pickClassSkills()
+		if(parseFloat(group) < $j('#equipmentChoicesG').val()){
+			
+			$j('#equipment').show();
+			$j('#equipment' + (parseFloat(group) + 1)).show();
+		}
+		else{
+			$j('#equipment').hide();
+			pickClassSkills();
+		}
+	}
+}
+
+function specificEquipmentSelected(equipmentId ,equipmentCount, group){
+	var sescount = $j('#specificEquipmentCountG').val();
+	++sescount;
+	$j('#specificEquipmentCountG').val(sescount);
+	
+	var setEquipment = new GlideAjax('CreateACharacterFast');
+	setEquipment.addParam('sysparm_name', 'setEquipment');
+	setEquipment.addParam('sysparm_toon_id', $j('#toonId').val());
+	setEquipment.addParam('sysparm_equipment_id', equipmentId);
+	setEquipment.addParam('sysparm_equipment_count', 1);
+	setEquipment.getXML();
+	
+	if($j('#specificEquipmentCountG').val() < parseFloat(equipmentCount)){
+		$j('#weaponsConfirm').show();
+		
+		setTimeout(function () {
+			$j('#weaponsConfirm').hide();
+		}, 5000);
+	}
+	else{
+		$j('#weapons').hide();
+		$j('#weapons' + group).hide();
+		//check to see if need to pick another equipment else pickClassSkills();
+		if(parseFloat(group) < $j('#equipmentChoicesG').val()){
+			$j('#equipment').show();
+			$j('#equipment' + (parseFloat(group) + 1)).show();
+		}
+		else{
+			$j('#equipment').hide();
+			pickClassSkills();
+		}
+	}
+}
+
+function pickClassSkills(){
+	$j('#countG').val(0);
+	$j('#knownG').val($j('#classSkillsKnownG').val());
+	$j('#skills').show();
+}
+
+function skillChosen(sysId){
+	$j('#' + sysId).hide();
+	if(skillsG != ''){
+		skillsG += ',';
+	}
+	skillsG += sysId;
+	var skcount = $j('#countG').val();
+	++skcount;
+	$j('#countG').val(skcount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#skills').hide();
+		
+		$j('#countG').val(0);
+		var subclassSkillHTML = '';
+		var guarenteedSkillsHTML = '';
+		var subclassSkillOptions = subclassSkillOptionsG.split(',');
+		var subclassSkillOptionsDisplay = subclassSkillOptionsDisplayG.split(',');
+		var learnedSkills = skillsG.split(',');
+		//check if subclass skills to pick
+		
+		if($j('#subclassSkillsKnownG').val() > 0){
+			//set subclass skill html and show it
+			$j('#knownG').val($j('#subclassSkillsKnownG').val());
+			for(var iii = 0; iii < subclassSkillOptions.length; ++iii){
+				var subclassSkillAlreadyLearned = 'no';
+				for(var jjj = 0; jjj < learnedSkills.length; ++jjj){
+					if(subclassSkillOptions[iii] == learnedSkills[jjj]){
+						subclassSkillAlreadyLearned = 'yes';
+					}
+				}
+				
+				if(subclassSkillAlreadyLearned == 'no'){
+					subclassSkillHTML += "<a id='" + subclassSkillOptions[iii] + "2' href='#' onclick='skillChosen2(\"" + subclassSkillOptions[iii] + "\")'>" + subclassSkillOptionsDisplay[iii] + "</a>";
+				}
+			}
+			
+			guarenteedSkillsHTML += '<p>You will learn these by default:</p>';
+			var guarenteedSkills = guarenteedSkillsDisplayG.split(',');
+			for(var kk = 0; kk < guarenteedSkills.length; ++ kk){
+				guarenteedSkillsHTML += '<p>' + guarenteedSkills[kk] + '</p>';
+			}
+			guarenteedSkillsHTML += '<p>Pick ' + $j('#subclassSkillsKnownG').val() + ':</p>';
+			
+			
+			document.getElementById('guarenteedSkills2').innerHTML = guarenteedSkillsHTML;
+			document.getElementById('subclassSkillsMenu').innerHTML = subclassSkillHTML;
+
+			$j('#subclassSkills').show();
+		}
+		else if($j('#subclassSkills2xKnownG').val() > 0){
+			$j('#knownG').val($j('#subclassSkills2xKnownG').val());
+			for(var iv = 0; iv < subclassSkillOptions.length; ++iv){
+				subclassSkillHTML += "<a id='" + subclassSkillOptions[iv] + "2' href='#' onclick='skillChosenDoubled(\"" + subclassSkillOptions[iv] + "\")'>" + subclassSkillOptionsDisplay[iv] + "</a>";
+			}
+			guarenteedSkillsHTML += '<p>These skills will use twice your proficiency bonus. Pick ' + $j('#subclassSkills2xKnownG').val() + ':</p>';
+			
+			document.getElementById('guarenteedSkills2').innerHTML = guarenteedSkillsHTML;
+			document.getElementById('subclassSkillsMenu').innerHTML = subclassSkillHTML;
+
+			$j('#subclassSkills').show();
+		}
+		else if($j('#raceSkillsChoiceCountG').val() > 0){
+			pickRaceSkills();
+		}
+		else{
+			pickLanguages();
+		}
+	}
+}
+
+function skillChosen2(sysId){
+	$j('#' + sysId + '2').hide();
+	if(skillsG != ''){
+		skillsG += ',';
+	}
+	skillsG += sysId;
+	var skcount = $j('#countG').val();
+	++skcount;
+	$j('#countG').val(skcount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#subclassSkills').hide();
+		if($j('#raceSkillsChoiceCountG').val() > 0){
+			pickRaceSkills();
+		}
+		else{
+			pickLanguages();
+		}
+	}
+}
+
+function skillChosenDoubled(sysId){
+	$j('#' + sysId + '2').hide();
+	if(skills2xG != ''){
+		skills2xG += ',';
+	}
+	skills2xG += sysId;
+	if(skillsG != ''){
+		skillsG += ',';
+	}
+	skillsG += sysId;
+	var skcount = $j('#countG').val();
+	++skcount;
+	$j('#countG').val(skcount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#subclassSkills').hide();
+		if($j('#raceSkillsChoiceCountG').val() > 0){
+			pickRaceSkills();
+		}
+		else{
+			pickLanguages();
+		}
+	}
+}
+
+function pickRaceSkills(){
+	$j('#countG').val(0);
+	$j('#knownG').val(parseFloat($j('#raceSkillsChoiceCountG').val()));
+	var skillsHTML3 = '';
+	var skillIds = skillIdsG.split(',');
+	var skillNames = skillNamesG.split(',');
+	var guarenteedSkillsHTML = '<p>You will learn these by default:</p>';
+	for(var i = 0; i < skillIds.length; ++i){
+		var alreadyLearned = 'no';
+		var guarenteedSkills = guarenteedSkillsG.split(',');
+		for(var k = 0; k < guarenteedSkills.length; ++k){
+			if(skillIds[i] == guarenteedSkills[k]){
+				guarenteedSkillsHTML += '<p>' + skillNames[i] + '</p>';
+				alreadyLearned = 'yes';
+			}
+		}
+
+		
+		var learnedSkills = skillsG.split(',');
+		for(var j = 0; j < learnedSkills.length; ++j){
+			if(skillIds[i]  == learnedSkills[j]){
+				alreadyLearned = 'yes';
+			}
+		}
+
+		if(alreadyLearned == 'no'){
+			skillsHTML3 += "<a id='" + skillIds[i] + "3' href='#' onclick='skillChosen3(\"" + skillIds[i] + "\")'>" + skillNames[i] + "</a>";
+		}
+	}
+	guarenteedSkillsHTML += '<p>Pick ' + $j('#knownG').val() + ':</p>';
+	document.getElementById('raceSkillsMenu').innerHTML = skillsHTML3;
+	document.getElementById('guarenteedSkills3').innerHTML = guarenteedSkillsHTML;
+	$j('#raceSkills').show();
+}
+
+function skillChosen3(sysId){
+	$j('#' + sysId + '3').hide();
+	if(skillsG != ''){
+		skillsG += ',';
+	}
+	skillsG += sysId;
+	var skcount = $j('#countG').val();
+	++skcount;
+	$j('#countG').val(skcount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		pickLanguages();
+	}
+}
+
+function pickLanguages(){
+	$j('#raceSkills').hide();
+	
+	var setSkills = new GlideAjax('CreateACharacterFast');
+	setSkills.addParam('sysparm_name', 'setSkills');
+	setSkills.addParam('sysparm_toon_id', $j('#toonId').val());
+	setSkills.addParam('sysparm_skills', skillsG);
+	setSkills.addParam('sysparm_skills2x', skills2xG);
+	setSkills.addParam('sysparm_expertise', expertiseG);
+	setSkills.getXML(setExpertiseHTML);
+	
+	
+	var langCount = parseFloat($j('#langCountG').val());
+	if(langCount > 0){
+		$j('#countG').val(0);
+		$j('#knownG').val(langCount);
+		var languageIds = languageIdsG.split(',');
+		var languageNames = languageNamesG.split(',');
+		var defaultLangHTML = '<p>You will learn these by default:</p>';
+		var langHTML = '';
+		for(var i = 0; i < languageIds.length; ++i){
+			var alreadyLearned = 'no';
+			var langs = languagesG.split(',');
+			for(var j = 0; j < langs.length; ++j){
+				if(languageIds[i] == langs[j]){
+					defaultLangHTML += '<p>' + languageNames[i] + '</p>';
+					alreadyLearned = 'yes';
+				}
+			}
+
+			if(alreadyLearned == 'no'){
+				langHTML += "<a id='" + languageIds[i] + "' href='#' onclick='languageChosen(\"" + languageIds[i] + "\")'>" + languageNames[i] + "</a>";
+			}
+		}
+		
+		defaultLangHTML += '<p>Pick ' + $j('#knownG').val() + ':</p>';
+		document.getElementById('langMenu').innerHTML = langHTML;
+		document.getElementById('guarenteedLang').innerHTML = defaultLangHTML;
+		$j('#lang').show();
+	}
+	else{
+		prepareSpellbookSpells();
+	}
+}
+
+function setExpertiseHTML(response){
+	var expertiseData = response.responseXML.getElementsByTagName('expertiseData');
+	
+	var expertiseHTML = expertiseData[0].getAttribute('expertiseHTML');
+	
+	document.getElementById('expertiseMenu').innerHTML = expertiseHTML;
+}
+
+function languageChosen(sysId){
+	$j('#' + sysId).hide();
+	languagesG += ',' + sysId;
+	
+	var lcount = $j('#countG').val();
+	++lcount;
+	$j('#countG').val(lcount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#lang').hide();
+		prepareSpellbookSpells();
+	}
+}
+
+function prepareSpellbookSpells(){
+	//setLangauges ajax needs to be in this function in case the toon doesn't pick any extra languages
+	var setLanguages = new GlideAjax('CreateACharacterFast');
+	setLanguages.addParam('sysparm_name', 'setLanguages');
+	setLanguages.addParam('sysparm_toon_id', $j('#toonId').val());
+	setLanguages.addParam('sysparm_languages', languagesG);
+	setLanguages.getXML();
+
+	if($j('#prepareSpellbookSpellsG').val() > 0){
+		$j('#countG').val(0);
+		$j('#knownG').val($j('#prepareSpellbookSpellsG').val());
+
+		document.getElementById('spellbookSpellsCount').innerHTML = '<p>Prepare spells from your spellbook</p><p> Pick ' + $j('#prepareSpellbookSpellsG').val() + ':</p>';
+		$j('#spellbookSpells').show();
+	}
+	else{
+		pickExpertise();
+	}
+}
+
+
+function prepareSpell(spellId){
+	$j('#' + spellId + 'sb').hide();
+	
+	var prepareSpellbookSpell = new GlideAjax('CreateACharacterFast');
+	prepareSpellbookSpell.addParam('sysparm_name', 'prepareSpellbookSpell');
+	prepareSpellbookSpell.addParam('sysparm_toon_id', $j('#toonId').val());
+	prepareSpellbookSpell.addParam('sysparm_spellbook_spell_id', spellId);
+	prepareSpellbookSpell.getXML();
+	
+	var sbcount = $j('#countG').val();
+	++sbcount;
+	$j('#countG').val(sbcount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#spellbookSpells').hide();
+		pickExpertise();
+	}
+}
+
+function pickExpertise(){
+	if(expertiseG != ''){
+		$j('#countG').val(0);
+		$j('#knownG').val(2);
+		$j('#expertise').show();
+	}
+	else{
+		pickName();
+	}
+}
+
+function expertiseChosen(expertiseId){
+	$j('#' + expertiseId + 'ex').hide();
+	
+	var setExpertiseSkill = new GlideAjax('CreateACharacterFast');
+	setExpertiseSkill.addParam('sysparm_name', 'setExpertiseSkill');
+	setExpertiseSkill.addParam('sysparm_toon_id', $j('#toonId').val());
+	setExpertiseSkill.addParam('sysparm_expertise_id', expertiseId);
+	setExpertiseSkill.getXML();
+	
+	var excount = $j('#countG').val();
+	++excount;
+	$j('#countG').val(excount);
+	if($j('#countG').val() == $j('#knownG').val()){
+		$j('#expertise').hide();
+		pickName();
+	}
+}
+
+function pickName(){
+	$j('#equipment').hide();
+	$j('#name').show();
+}
+
+function createCharacterRecords(){
+	var toonName = $j('#toonName').val();
+	if(toonName != ''){
+		var setToonName = new GlideAjax('CreateACharacterFast');
+		setToonName.addParam('sysparm_name', 'setToonName');
+		setToonName.addParam('sysparm_toon_id', $j('#toonId').val());
+		setToonName.addParam('sysparm_toon_name', toonName);
+		setToonName.getXML();
+		$j('#name').hide();
+		
+		window.location.replace('x_262366_wld_bldr_charactersheet.do?sysparam_toon_id=' + $j('#toonId').val());
+	}
+	else{
+		alert('Please give your character a name');
+	}
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_262366_wld_bldr_createacharacterfast.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:700" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous" />
+	<link href="1a551f0a1308e300ecf230ded144b016.cssdbx" rel="stylesheet" type="text/css" />
+
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+	<style>
+		.menu {
+		float:left;
+		text-align:center;
+		}
+		.menu a {
+		background-color:#e5e5e5;
+		padding:8px;
+		margin-top:7px;
+		display:block;
+		width:100%;
+		color:black;
+		}
+		
+		.notProficient {
+		cursor:not-allowed;
+		}
+		
+		.main {
+		float:left;
+		width:30%;
+		padding:0 20px;
+		}
+		.right {
+		float:left;
+		width:50%;
+		text-align:center;
+		}
+	</style>
+	<body style="background:rgba(149, 157, 173);" onload="loadPage()">
+		
+		<div id='race'>
+			<div class='menu' id='raceMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='subRace'>
+			<div class='menu' id='subraceMenu'>
+			</div>
+		</div>
+
+		<div hidden='true' id='gender'>
+			<div class='menu'>
+				<a href='#' onclick='pickClass("Male")'>Male</a>
+				<a href='#' onclick='pickClass("Female")'>Female</a>
+			</div>
+		</div>
+		
+		<div hidden='true' id='u_class'>
+			<div class='menu' id='classMenu'>
+			</div>
+		</div>
+		
+		
+		<div hidden='true' id='classFeatureOptions'>
+			<div class='menu' id='classFeatureOptionsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='subclass'>
+			<div class='menu' id='subclassMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='background'>
+			<div class='menu' id='backgroundMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='tools'>
+			<div><p>Tool Proficiency</p></div>
+			<div id='toolCount'></div>
+			<div class='menu' id='toolsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='raceTools'>
+			<div><p>Tool Proficiency</p></div>
+			<div id='raceToolCount'></div>
+			<div class='menu' id='raceToolsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='classTools'>
+			<div><p>Tool Proficiency</p></div>
+			<div id='classToolCount'></div>
+			<div class='menu' id='classToolsMenu'>
+			</div>
+		</div>
+		
+		
+		<div hidden='true' id='abilityScores'>			
+			<div class='menu' style='text-align:right' id='subclassMenu'>
+				<span style='padding-right:0px'> Strength <input type='number' min='0' max='20' id='str' /></span><span id='strBon'></span><br/>
+				<span style='padding-right:0px'> Dexterity <input type='number' min='0' max='20' id='dex' /></span><span id='dexBon'></span><br/>
+				<span style='padding-right:0px'> Constitution <input type='number' min='0' max='20' id='con' /></span><span id='conBon'></span><br/>
+				<span style='padding-right:0px'> Intelligence <input type='number' min='0' max='20' id='int' /></span><span id='intBon'></span><br/>
+				<span style='padding-right:0px'> Wisdom <input type='number' min='0' max='20' id='wis' /></span><span id='wisBon'></span><br/>
+				<span style='padding-right:0px'> Charisma <input type='number' min='0' max='20' id='cha' /></span><span id='chaBon'></span><br/>
+				<button onclick='determineRoute()'>Done</button>
+				<div id='asError' hidden='true' style='background-color:yellow;text-align:center'>Please fill in all fields</div>
+			</div>
+		</div>
+		
+		<div hidden='true' id='subRaceCantrips'>
+			<div>Subrace Cantrip<br/>
+			Pick 1:</div>
+			<div class='menu' id='subRaceCantripsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='subClassCantrips'>
+			<div>Subclass Cantrip<br/>
+			Pick 1:</div>
+			<div class='menu' id='subClassCantripsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='cantrips'>
+			<div id='cantripsCount'></div>
+			<div class='menu' id='cantripsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='spells'>
+			<div id='spellsPrepared'></div>
+			<div id='spellsCount'></div>
+			<div class='menu' id='spellsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='backgroundEquipment'>
+			<div><p>Pick Equipment Granted by Background</p></div>
+			<div class='menu' id='backgroundEquipmentMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='equipment'>
+			<div><p>Pick Equipment Granted by Class</p></div>
+			<div class='menu' id='equipmentMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='weapons'>
+			<div hidden='true' id='weaponsConfirm'><p style='color:red'>Pick Another</p></div>
+			<div class='menu' id='weaponsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='skills'>
+			<div id='guarenteedSkills'></div>
+			<div class='menu' id='skillsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='subclassSkills'>
+			<div id='guarenteedSkills2'></div>
+			<div class='menu' id='subclassSkillsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='raceSkills'>
+			<div id='guarenteedSkills3'></div>
+			<div class='menu' id='raceSkillsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='lang'>
+			<div id='guarenteedLang'></div>
+			<div class='menu' id='langMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='spellbookSpells'>
+			<div id='spellbookSpellsCount'></div>
+			<div class='menu' id='spellbookSpellsMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='expertise'>
+			<div><p>Pick Skills to use double your proficiency (Expertise)</p></div>
+			<div class='menu' id='expertiseMenu'>
+			</div>
+		</div>
+		
+		<div hidden='true' id='name'>
+			<div class='menu' id='nameMenu'>
+				Name your character: <input type='text' id='toonName'/><br/>
+				<button type='submit' onclick='createCharacterRecords()'>Create my Character</button>
+			</div>
+		</div>
+		
+		<input hidden='true' id='toonId'/>
+		<input hidden='true' id='countG'/>
+		<input hidden='true' id='knownG'/>
+		<input hidden='true' id='langCountG'/>
+		<input hidden='true' id='strengthBonusG'/>
+		<input hidden='true' id='dexterityBonusG'/>
+		<input hidden='true' id='constitutionBonusG'/>
+		<input hidden='true' id='intelligenceBonusG'/>
+		<input hidden='true' id='wisdomBonusG'/>
+		<input hidden='true' id='charismaBonusG'/>
+		<input hidden='true' id='plusOneChoiceG'/>
+		<input hidden='true' id='addHPModG'/>
+		<input hidden='true' id='speedG'/>
+		<input hidden='true' id='genderlessG'/>
+		<input hidden='true' id='cantripsKnownG'/>
+		<input hidden='true' id='spellsKnownG'/>
+		<input hidden='true' id='classSkillsKnownG'/>
+		<input hidden='true' id='subclassSkillsKnownG'/>
+		<input hidden='true' id='subclassSkills2xKnownG'/>
+		<input hidden='true' id='raceSkillsChoiceCountG'/>
+		<input hidden='true' id='raceToolCountG'/>
+		<input hidden='true' id='classToolCountG'/>
+		<input hidden='true' id='prepareSpellbookSpellsG'/>
+		<input hidden='true' id='equipmentChoicesG'/>
+		<input hidden='true' id='specificEquipmentCountG'/>
+		<input hidden='true' id='backgroundEquipmentCountG'/>
+	</body>
+</j:jelly>]]></html>
+        <name>createacharacterfast</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-01-13 22:22:40</sys_created_on>
+        <sys_id>24efbdc2db16c4d049ac7e7dbf96198f</sys_id>
+        <sys_mod_count>263</sys_mod_count>
+        <sys_name>createacharacterfast</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_ui_page_24efbdc2db16c4d049ac7e7dbf96198f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-28 17:05:11</sys_updated_on>
+    </sys_ui_page>
+</record_update>

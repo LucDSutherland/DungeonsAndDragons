@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application">
+    <sys_app_application action="DELETE">
+        <active>true</active>
+        <category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category>
+        <description/>
+        <device_type>browser</device_type>
+        <hint/>
+        <name>Encountered Creature</name>
+        <order>100</order>
+        <roles>x_262366_wld_bldr.dungeon_master</roles>
+        <sys_class_name>sys_app_application</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-12 02:16:28</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>624f2858db97b38049ac7e7dbf961922</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Encountered Creature</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_app_application_624f2858db97b38049ac7e7dbf961922</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-12 02:16:28</sys_updated_on>
+        <title>Encountered Creature</title>
+        <view_name/>
+    </sys_app_application>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>sys_app_application_624f2858db97b38049ac7e7dbf961922</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application"><sys_app_application action="INSERT_OR_UPDATE"><active>true</active><category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category><description/><device_type>browser</device_type><hint/><name>Encountered Creature</name><order>100</order><roles>x_262366_wld_bldr.dungeon_master</roles><sys_class_name>sys_app_application</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2019-08-12 02:16:28</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>624f2858db97b38049ac7e7dbf961922</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Encountered Creature</sys_name><sys_overrides/><sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package><sys_policy/><sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope><sys_update_name>sys_app_application_624f2858db97b38049ac7e7dbf961922</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2019-08-12 02:16:28</sys_updated_on><title>Encountered Creature</title><view_name/></sys_app_application></record_update>]]></payload>
+        <payload_hash>807537690</payload_hash>
+        <record_name>Encountered Creature</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-12 02:16:28</sys_created_on>
+        <sys_id>3a4f2858db97b38049ac7e7dbf961924</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16c839cd3ed0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-12 02:16:28</sys_updated_on>
+        <type>Application Menu</type>
+        <update_guid>724f28587797b3809be95b8213c9d124</update_guid>
+        <update_guid_history>724f28587797b3809be95b8213c9d124:807537690</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Record deleted 08-12-2019 18:16:06">8e9f81a8db53f38049ac7e7dbf961995</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-12 23:16:06</sys_created_on>
+        <sys_db_object display_value="" name="sys_app_application">sys_app_application</sys_db_object>
+        <sys_id>5ea16d27c74d4f749b7763e158ea0b99</sys_id>
+        <sys_metadata>624f2858db97b38049ac7e7dbf961922</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Encountered Creature</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>sys_app_application_624f2858db97b38049ac7e7dbf961922</sys_update_name>
+        <sys_update_version display_value="sys_app_application_624f2858db97b38049ac7e7dbf961922">3a4f2858db97b38049ac7e7dbf961924</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-12 23:16:06</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

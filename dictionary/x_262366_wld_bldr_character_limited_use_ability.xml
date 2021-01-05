@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Character Limited Use Ability" max_length="40" name="x_262366_wld_bldr_character_limited_use_ability" type="collection">
+        <element label="Action" max_length="40" name="action" type="boolean"/>
+        <element label="Bonus Action" max_length="40" name="bonus_action" type="boolean"/>
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Description" max_length="4000" name="description" type="string"/>
+        <element label="Die Size" max_length="40" name="die_size" type="integer"/>
+        <element label="Limited Use Ability" max_length="32" name="limited_use_ability" reference="x_262366_wld_bldr_limited_use_ability" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;&#9;// Add your code here&#13;&#10;&#9;return current.limited_use_ability.getDisplayValue();  // return the calculated value&#13;&#10;&#13;&#10;})(current);" label="Name" max_length="100" name="name" type="string" virtual="true"/>
+        <element label="Reaction" max_length="40" name="reaction" type="boolean"/>
+        <element label="Refresh" max_length="32" name="refresh" reference="x_262366_wld_bldr_rest_type" type="reference"/>
+        <element label="Total Uses" max_length="40" name="total_uses" type="integer"/>
+        <element label="Uses" max_length="40" name="uses" type="integer"/>
+        <index name="index">
+            <element name="character"/>
+        </index>
+        <index name="index2">
+            <element name="limited_use_ability"/>
+        </index>
+        <index name="index3">
+            <element name="refresh"/>
+        </index>
+    </element>
+</database>

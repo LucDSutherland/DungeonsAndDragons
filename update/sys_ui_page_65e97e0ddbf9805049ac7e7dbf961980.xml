@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var encounterID = getParmVal('encounter');
+
+var eName = new GlideRecord('x_262366_wld_bldr_encounter');
+eName.addQuery('sys_id', encounterID);
+eName.query();
+if(eName.next()){
+	document.getElementById('title').innerHTML = '<h2>' + eName.name + '</h2>';
+}
+
+
+var encounter = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+encounter.addQuery('encounter', encounterID);
+encounter.orderByDesc('initiative');
+encounter.query();
+
+var tablehtml = '<table border="1"><thead><td>Name</td><td>Status Conditions</td><td>Max HP</td><td>Temp HP</td><td>Current HP</td><td>AC</td><td>Initiative</td></thead><tbody>';
+while(encounter.next()){
+	//make table
+	var statCon = encounter.status_conditions;
+	var conditions = [];
+	var conditionhtml = '';
+	if(statCon){
+		statArr = statCon.split(',');
+		
+		for(var i = 0; i < statArr.length; ++i){
+			var sc = new GlideRecord('x_262366_wld_bldr_status_condition');
+			sc.addQuery('sys_id', statArr[i]);
+			sc.query();
+			if(sc.next()){
+				conditionhtml += '<button onclick="removeCondition(\'' + encounter.sys_id + '\',\'' + statArr[i] + '\')">' + sc.getValue('name') + '</button>';
+				conditions[i] = sc.getValue('name');
+			}
+		}
+	}
+	
+	
+	//' + encounter.sys_id + '
+	tablehtml += '<tr><td><button onclick="addCreature(\'' + encounter.sys_id + '\',\'' + encounter.name + '\')">' + encounter.name + '</button></td><td>' + conditionhtml + '</td><td>' + encounter.max_hit_points + '</td><td>' + encounter.temporary_hit_points + '</td><td>' + encounter.current_hit_points + '</td><td>' + encounter.armor_class + '</td><td>' + encounter.initiative + '</td></tr>';
+	
+}
+
+tablehtml += '</tbody></table>';
+
+
+document.getElementById('contentDiv').innerHTML = tablehtml;
+
+
+
+function getParmVal(name) {
+  var url = document.URL.parseQuery();
+  if(url[name]){
+     return decodeURI(url[name]);
+  } else {
+     return;
+  }
+}
+
+function addCreature(sysId, creatureName){
+	if(!document.getElementById('attack').value){
+		document.getElementById('attack').value = sysId;
+		document.getElementById('attackLabel').innerHTML = 'Attacker: ' + creatureName;
+	}
+	else if(!document.getElementById('defend').value){
+		document.getElementById('defend').value = sysId;
+		document.getElementById('defendLabel').innerHTML = 'Defender: ' + creatureName;
+	}
+}
+
+function clearAttack(){
+	document.getElementById('attackLabel').innerHTML = 'Attacker:';
+	document.getElementById('attack').value = '';
+}
+function clearDefend(){
+	document.getElementById('defendLabel').innerHTML = 'Defender:';
+	document.getElementById('defend').value = '';
+}
+
+function calcDamage(){
+	//get attacker, defender, create interaction, then reload page
+	var attack = document.getElementById('attack').value;
+	var defend = document.getElementById('defend').value;
+	var damage = document.getElementById('damage').value;
+	var heals = document.getElementById('heals').value;
+	var conditions = $j('#stat_con').val();
+	
+	if(attack && defend && (damage || heals)){
+		var interaction = new GlideRecord('x_262366_wld_bldr_encounter_interaction');
+		interaction.initialize();
+		interaction.source = attack;
+		interaction.target = defend;
+		interaction.damage_dealt = damage;
+		interaction.hp_restored = heals;
+		interaction.condition_applied = conditions;
+		interaction.insert();
+		reloadWindow(window);
+	}
+}
+
+function removeCondition(creature, condition){
+	var ec = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+	ec.addQuery('sys_id', creature);
+	ec.query();
+	if(ec.next()){
+		var statList = ec.status_conditions.split(',');
+		var newList = '';
+		
+		for(var j = 0; j < statList.length; ++j){
+			if(newList != ''){
+				newList += ',';
+			}
+			if(statList[j] != condition){
+				newList += statList[j];
+			}
+		}
+		ec.status_conditions = newList;
+		ec.update();
+		reloadWindow(window);
+	}
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_262366_wld_bldr_encounteruipage.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:700" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+		  crossorigin="anonymous" />
+	<link href="1a551f0a1308e300ecf230ded144b016.cssdbx" rel="stylesheet" type="text/css" />
+
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
+
+	<style>
+		td {
+		text-align: center;
+		vertical-align: middle;
+		padding-right:10px;
+		padding-left:10px;
+		}
+	</style>
+	<span id='title'></span>
+	<div id='contentDiv'>
+	</div>
+	<p></p>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<label id="attackLabel">Attacker:</label><br/>
+				<input hidden='true' type="text" id="attack" /><button onclick="clearAttack()">Clear</button>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="form-group">
+				<label id="defendLabel">Defender: </label><br/>
+				<input hidden='true' type="text" id="defend" /><button onclick="clearDefend()">Clear</button>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="damage">Damage <i class="fas fa-caret-down" style="margin-left:5px;"></i></label><br/>
+				<input type="text" id="damage" />
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="damage">Heals <i class="fas fa-caret-down" style="margin-left:5px;"></i></label><br/>
+				<input type="text" id="heals" />
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="damage">Status Conditions <i class="fas fa-caret-down" style="margin-left:5px;"></i></label><br/>
+				<g:macro_invoke macro= "lightweight_glide_list" id="stat_con" control_name="stat_con" reference="x_262366_wld_bldr_status_condition" can_write="true" />
+			</div>
+		</div>
+		<div class="col-md-12">
+			<button onclick="calcDamage()">Calculate Damage</button>
+		</div>
+	</div>
+
+</j:jelly>]]></html>
+        <name>encounteruipage</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-12-17 03:13:22</sys_created_on>
+        <sys_id>65e97e0ddbf9805049ac7e7dbf961980</sys_id>
+        <sys_mod_count>57</sys_mod_count>
+        <sys_name>encounteruipage</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_ui_page_65e97e0ddbf9805049ac7e7dbf961980</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-01-18 04:16:58</sys_updated_on>
+    </sys_ui_page>
+</record_update>

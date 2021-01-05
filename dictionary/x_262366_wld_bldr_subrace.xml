@@ -18,30 +18,34 @@
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Saving Throws Advantage" max_length="1024" name="saving_throws_advantage" reference="x_262366_wld_bldr_damage_type" type="glide_list"/>
         <element label="Speed Boost" max_length="40" name="speed_boost" type="integer"/>
         <element label="Subrace Spellcasting Ability" max_length="32" name="subrace_spellcasting_ability" reference="x_262366_wld_bldr_ability_score" type="reference"/>
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiencies" max_length="1024" name="tool_proficiencies" reference="x_262366_wld_bldr_tools" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiencies" max_length="1024" name="tool_proficiencies" reference="x_262366_wld_bldr_item" type="glide_list"/>
         <element label="1st Level Cantrip" max_length="32" name="u_1st_level_cantrip" reference="x_262366_wld_bldr_spell" type="reference"/>
         <element label="3rd Level Spell" max_length="32" name="u_3rd_level_spell" reference="x_262366_wld_bldr_spell" type="reference"/>
         <element label="5th Level Spell" max_length="32" name="u_5th_level_spell" reference="x_262366_wld_bldr_spell" type="reference"/>
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Proficiencies" max_length="1024" name="weapon_proficiencies" reference="x_262366_wld_bldr_weapons" type="glide_list"/>
+        <element attributes="encode_utf8=false" label="Vision" max_length="32" name="vision" reference="x_262366_wld_bldr_vision" type="reference"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Proficiencies" max_length="1024" name="weapon_proficiencies" reference="x_262366_wld_bldr_item" type="glide_list"/>
         <index name="index">
-            <element name="subrace_spellcasting_ability"/>
+            <element name="vision"/>
         </index>
         <index name="index2">
-            <element name="race"/>
+            <element name="subrace_spellcasting_ability"/>
         </index>
         <index name="index3">
-            <element name="u_5th_level_spell"/>
+            <element name="race"/>
         </index>
         <index name="index4">
-            <element name="breath_attack"/>
+            <element name="u_5th_level_spell"/>
         </index>
         <index name="index5">
-            <element name="u_1st_level_cantrip"/>
+            <element name="breath_attack"/>
         </index>
         <index name="index6">
-            <element name="cantrip_choice"/>
+            <element name="u_1st_level_cantrip"/>
         </index>
         <index name="index7">
+            <element name="cantrip_choice"/>
+        </index>
+        <index name="index8">
             <element name="u_3rd_level_spell"/>
         </index>
     </element>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_262366_wld_bldr_encounter</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Create Encounter</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+
+	var parties = current.add_parties?current.add_parties.split(','):'';
+	for(var i = 0; i < parties.length; ++i){
+		var party = new GlideRecord('x_262366_wld_bldr_party');
+		party.addQuery('sys_id', parties[i]);
+		party.query();
+		if(party.next()){
+			//create an encountered creature for each party member
+			var partyMember = new GlideRecord('x_262366_wld_bldr_party_member');
+			partyMember.addQuery('party', parties[i]);
+			partyMember.query();
+			while(partyMember.next()){
+				var encounteredCreature = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+				encounteredCreature.initialize();
+				
+				if(partyMember.getValue('character')){
+					var toon = new GlideRecord('x_262366_wld_bldr_character');
+					toon.addQuery('sys_id', partyMember.getValue('character'));
+					toon.query();
+					if(toon.next()){
+						encounteredCreature.name = toon.getValue('name');
+						encounteredCreature.character = toon.getValue('sys_id');
+						encounteredCreature.initiative = parseFloat(new RollDice().RollDice(1,20,'sum')) + parseFloat(toon.getValue('dexterity_modifier')); //TODO: add initiative bonuses (eg rakish audacity or alert feat)
+						encounteredCreature.max_hit_points = toon.getValue('temporary_max_hit_points');
+						encounteredCreature.current_hit_points = toon.getValue('current_hit_points');
+						encounteredCreature.temporary_hit_points = toon.getValue('temporary_hit_points');
+						encounteredCreature.armor_class = toon.getValue('armor_class');
+						encounteredCreature.encounter = current.sys_id;
+					}
+					
+					
+				}
+				else if(partyMember.getValue('creature')){
+					var creature = new GlideRecord('x_262366_wld_bldr_creature');
+					creature.addQuery('sys_id', partyMember.getValue('creature'));
+					creature.query();
+					if(creature.next()){
+						encounteredCreature.name = creature.getValue('name');
+						encounteredCreature.creature = creature.getValue('sys_id');
+						encounteredCreature.initiative = parseFloat(new RollDice().RollDice(1,20,'sum')) + parseFloat(creature.getValue('dexterity_modifier')); //TODO: add initiative bonuses
+						encounteredCreature.max_hit_points = creature.getValue('max_hit_points');
+						encounteredCreature.current_hit_points = creature.getValue('current_hit_points');
+						encounteredCreature.armor_class = creature.getValue('armor_class');
+						encounteredCreature.encounter = current.sys_id;
+					}
+				}
+				else if(partyMember.getValue('animal_companion')){
+					var companion = new GlideRecord('x_262366_wld_bldr_animal_companion');
+					companion.addQuery('sys_id', partyMember.getValue('animal_companion'));
+					companion.query();
+					if(companion.next()){
+						encounteredCreature.name = companion.getValue('name');
+						encounteredCreature.animal_companion = companion.getValue('sys_id');
+						encounteredCreature.initiative = parseFloat(new RollDice().RollDice(1,20,'sum')) + parseFloat(companion.getValue('dexterity_modifier')); //TODO: add initiative bonuses
+						encounteredCreature.max_hit_points = companion.getValue('max_hit_points');
+						encounteredCreature.current_hit_points = companion.getValue('current_hit_points');
+						encounteredCreature.armor_class = companion.getValue('armor_class');
+						encounteredCreature.encounter = current.sys_id;
+					}
+				}
+				encounteredCreature.insert();
+			}
+		}
+	}
+	
+	var characters = current.add_characters?current.add_characters.split(','):'';
+	for(var j = 0; j < characters.length; ++j){
+		var addCharacter = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+		addCharacter.initialize();
+		
+		var chara = new GlideRecord('x_262366_wld_bldr_character');
+		chara.addQuery('sys_id', characters[j]);
+		chara.query();
+		if(chara.next()){
+			addCharacter.name = chara.getValue('name');
+			addCharacter.character = chara.getValue('sys_id');
+			addCharacter.initiative = parseFloat(new RollDice().RollDice(1,20,'sum')) + parseFloat(chara.getValue('dexterity_modifier')); //TODO: add initiative bonuses (eg rakish audacity or alert feat)
+			//or, you know, just use the initiative field, which will have already calculated those
+			addCharacter.max_hit_points = chara.getValue('temporary_max_hit_points');
+			addCharacter.current_hit_points = chara.getValue('current_hit_points');
+			addCharacter.armor_class = chara.getValue('armor_class');
+			addCharacter.encounter = current.sys_id;
+		}
+		addCharacter.insert();
+	}
+	
+	var animalCompanions = current.add_animal_companions?current.add_animal_companions.split(','):'';
+	for(var k = 0; k < animalCompanions.length; ++k){
+		var addCompanion = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+		addCompanion.initialize();
+		
+		var comp = new GlideRecord('x_262366_wld_bldr_animal_companion');
+		comp.addQuery('sys_id', animalCompanions[k]);
+		comp.query();
+		if(comp.next()){
+			addCompanion.name = comp.getValue('name');
+			addCompanion.character = comp.getValue('sys_id');
+			addCompanion.initiative = parseFloat(new RollDice().RollDice(1,20,'sum')) + parseFloat(comp.getValue('dexterity_modifier')); //TODO: add initiative bonuses
+			addCompanion.max_hit_points = comp.getValue('max_hit_points');
+			addCompanion.current_hit_points = comp.getValue('current_hit_points');
+			addCompanion.armor_class = comp.getValue('armor_class');
+			addCompanion.encounter = current.sys_id;
+		}
+		addCompanion.insert();
+	}
+	
+	var creatures = current.add_creatures?current.add_creatures.split(','):'';
+	for(var m = 0; m < creatures.length; ++m){
+		var addCreature = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+		addCreature.initialize();
+		
+		var creat = new GlideRecord('x_262366_wld_bldr_creatures');
+		creat.addQuery('sys_id', creatures[m]);
+		creat.query();
+		if(creat.next()){
+			addCreature.name = creat.getValue('name');
+			addCreature.creature = creat.getValue('sys_id');
+			addCreature.initiative = parseFloat(new RollDice().RollDice(1,20,'sum')) + parseFloat(creat.getValue('dexterity_modifier')); //TODO: add initiative bonuses
+			addCreature.max_hit_points = creat.getValue('max_hit_points');
+			addCreature.current_hit_points = creat.getValue('current_hit_points');
+			addCreature.armor_class = creat.getValue('armor_class');
+			addCreature.encounter = current.sys_id;
+		}
+		addCreature.insert();
+	}
+
+	
+	if(current.add_creature){
+		for(var l = 0; l < (current.creature_count?current.creature_count:1); ++l){
+			//create creature record; encountered creature added by insert Business Rule on creatures table
+			var baseCreature = new GlideRecord('x_262366_wld_bldr_creatures');
+			baseCreature.initialize();
+			baseCreature.creature = current.add_creature;
+			baseCreature.encounter = current.sys_id;
+			baseCreature.insert();
+		}
+	}
+	
+	var newCreatures = current.add_new_creatures_widget?current.add_new_creatures_widget.split(','):'';
+	for(var n = 0; n < newCreatures.length; ++n){
+		var newBaseCreature = new GlideRecord('x_262366_wld_bldr_creatures');
+		newBaseCreature.initialize();
+		newBaseCreature.creature = newCreatures[n];
+		newBaseCreature.encounter = current.sys_id;
+		newBaseCreature.insert();
+	}
+		
+	
+	
+	current.add_parties = '';
+	current.add_characters = '';
+	current.add_animal_companions = '';
+	current.add_creatures = '';
+	current.add_creature = '';
+	current.creature_count = '';
+	current.add_new_creatures_widget = '';
+	
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-15 19:10:25</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>6572771ddb57778049ac7e7dbf9619fe</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>Create Encounter</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_6572771ddb57778049ac7e7dbf9619fe</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-20 16:29:02</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=6572771ddb57778049ac7e7dbf9619fe"/>
+</record_update>

@@ -4,27 +4,27 @@
             <element>name</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>a50d0517db9d630049ac7e7dbf961910</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>f84146af2f070010a1fc808cf699b63e</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>class</element>
+            <element>u_class</element>
             <position>1</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>290d0517db9d630049ac7e7dbf961910</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>b04146af2f070010a1fc808cf699b63f</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -32,13 +32,13 @@
             <element>new_languages</element>
             <position>2</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>a90d0517db9d630049ac7e7dbf961910</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>344146af2f070010a1fc808cf699b63f</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -46,13 +46,13 @@
             <element>skill_proficiency_options</element>
             <position>3</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>2d0d0517db9d630049ac7e7dbf961910</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>b44146af2f070010a1fc808cf699b63f</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -60,13 +60,13 @@
             <element>skill_proficiencies</element>
             <position>4</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>ad0d0517db9d630049ac7e7dbf961910</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>384146af2f070010a1fc808cf699b63f</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -74,13 +74,13 @@
             <element>doubled_skill_proficiencies</element>
             <position>5</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>210d0517db9d630049ac7e7dbf961911</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>b84146af2f070010a1fc808cf699b63f</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -88,13 +88,13 @@
             <element>armor_proficiencies</element>
             <position>6</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>a10d0517db9d630049ac7e7dbf961911</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>3c4146af2f070010a1fc808cf699b63f</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -102,13 +102,13 @@
             <element>automatic_cantrip</element>
             <position>7</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>250d0517db9d630049ac7e7dbf961911</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>bc4146af2f070010a1fc808cf699b63f</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -116,41 +116,69 @@
             <element>cantrip_choice</element>
             <position>8</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>a50d0517db9d630049ac7e7dbf961911</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>304146af2f070010a1fc808cf699b640</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>weapon_proficiencies</element>
+            <element>simple_proficiency</element>
             <position>9</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>290d0517db9d630049ac7e7dbf961911</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>b04146af2f070010a1fc808cf699b640</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>martial_proficiency</element>
+            <position>10</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>344146af2f070010a1fc808cf699b640</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>hp_increase</element>
-            <position>10</position>
+            <position>11</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-10-27 05:51:25</sys_created_on>
-            <sys_id>a90d0517db9d630049ac7e7dbf961911</sys_id>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>b44146af2f070010a1fc808cf699b640</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-10-27 05:51:25</sys_updated_on>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>languages</element>
+            <position>12</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-24 20:30:18</sys_created_on>
+            <sys_id>384146af2f070010a1fc808cf699b640</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_262366_wld_bldr_subclass" sys_domain="global" view="Default view">029c700ddbb7130049ac7e7dbf96196b</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-24 20:30:18</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

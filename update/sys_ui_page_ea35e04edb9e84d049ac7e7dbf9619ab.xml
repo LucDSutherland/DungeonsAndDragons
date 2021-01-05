@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[function loadForm(){
+	loadRaces();
+}
+	
+function loadRaces(){
+	var raceHTML = '';
+	var races = new GlideRecord('x_262366_wld_bldr_race');
+	races.orderBy('name');
+	races.query();
+	var iteration = 0;
+	while(races.next()){
+		if(iteration == 0){
+			//have first value pre selected
+			raceHTML += "<a href='#' onclick='showRace(\"" + races.sys_id + "\")'>" + races.name + "</a>";
+			++iteration;
+		}
+		else{
+			raceHTML += "<a href='#' onclick='showRace(\"" + races.sys_id + "\")'>" + races.name + "</a>";
+		}
+		
+	}
+	document.getElementById('raceMenu').innerHTML = raceHTML;
+}
+
+function showRace(sysId){
+	var race = new GlideRecord('x_262366_wld_bldr_race');
+	race.addQuery('sys_id', sysId);
+	race.query();
+	if(race.next()){
+		//i guess i need to store the race's picture url (eg "elf.png") on the race table so I can set it as the image source. ...or just save the image as [name].png
+		document.getElementById('raceMain').innerHTML = '<img src="' + race.name + '.png" />';
+		
+		//get stats for race
+		var rightHTML = '<p><strong>Ability Score Increases:</strong></p>';
+		var str = race.base_strength_modifier;
+		var dex = race.base_dexterity_modifier;
+		var con = race.base_constitution_modifier;
+		var intl = race.base_intelligence_modifier;
+		var wis = race.base_wisdom_modifier;
+		var cha = race.base_charisma_modifier;
+		
+		if(race.sys_id == '2f12910cdbf3130049ac7e7dbf961972'){ //half-elf
+			rightHTML += '<p>Your Choice +1</p><p>Your Choice +1</p>';
+		}
+		if(str > 0 && str < 3){
+			rightHTML += '<p>Strength +' + str + '</p>';
+		}
+		if(dex > 0 && dex < 3){
+			rightHTML += '<p>Dexterity +' + dex + '</p>';
+		}
+		if(con > 0 && con < 3){
+			rightHTML += '<p>Constitution +' + con + '</p>';
+		}
+		if(intl > 0 && intl < 3){
+			rightHTML += '<p>Intelligence +' + intl + '</p>';
+		}
+		if(wis > 0 && wis < 3){
+			rightHTML += '<p>Wisdom +' + wis + '</p>';
+		}
+		if(cha > 0 && cha < 3){
+			rightHTML += '<p>Charisma +' + cha + '</p>';
+		}
+		
+		rightHTML += '<p><strong>Size:</strong>&nbsp;' + getName(race.size,'x_262366_wld_bldr_creature_size')  + '</p>';
+		
+		rightHTML += '<p><strong>Speed:</strong>&nbsp;' + race.speed + '</p>';
+		
+		rightHTML += '<p><strong>Vision:</strong>&nbsp;' + getName(race.vision, 'x_262366_wld_bldr_vision') + '</p>';
+		
+		if(race.saving_throws_advantage){
+			var savingAd = race.saving_throws_advantage.split(',');
+			for(var i = 0; i < savingAd.length; ++i){
+				savingAd[i] = getName(savingAd[i], 'x_262366_wld_bldr_damage_type');
+			}
+			var saving = savingAd.join(', ');
+			rightHTML += '<p><strong>Saving Thows Advantage:</strong>&nbsp;' + saving + '</p>';	
+		}
+		
+		if(race.damage_resistance){
+			var damageRes = race.damage_resistance.split(',');
+			for(var i = 0; i < damageRes.length; ++i){
+				damageRes[i] = getName(damageRes[i], 'x_262366_wld_bldr_damage_type');
+			}
+			var damage = damageRes.join(', ');
+			rightHTML += '<p><strong>Damage Resistances:</strong>&nbsp;' + damage + '</p>';	
+		}
+		
+		if(race.skill_proficiencies){
+			var skillProf = race.skill_proficiencies.split(',');
+			for(var i = 0; i < skillProf.length; ++i){
+				skillProf[i] = getName(skillProf[i], 'x_262366_wld_bldr_skills');
+			}
+			var skill = skillProf.join(', ');
+			rightHTML += '<p><strong>Skill Proficiencies:</strong>&nbsp;' + skill + '</p>';	
+		}
+		
+		if(race.skill_proficiencies_random){
+			rightHTML += '<p><strong>Skill Proficiencies of your choice:</strong>&nbsp;' + race.skill_proficiencies_random + '</p>';	
+		}
+		
+		if(race.weapon_proficiencies){
+			var weaponProf = race.weapon_proficiencies.split(',');
+			for(var i = 0; i < weaponProf.length; ++i){
+				weaponProf[i] = getName(weaponProf[i], 'x_262366_wld_bldr_weapons');
+			}
+			var weapon = weaponProf.join(', ');
+			rightHTML += '<p><strong>Weapon Proficiencies:</strong>&nbsp;' + weapon + '</p>';	
+		}
+		
+		if(race.tool_proficiencies){
+			var toolProf = race.tool_proficiency_options.split(',');
+			for(var i = 0; i < toolProf.length; ++i){
+				toolProf[i] = getName(toolProf[i], 'x_262366_wld_bldr_tools');
+			}
+			var tool = toolProf.join(', ');
+			rightHTML += '<p><strong>' + race.tool_proficiencies + ' of these Tool Proficiency Options:</strong>&nbsp;' + tool + '</p>';	
+		}
+		
+		var languages = race.languages.split(',');
+		for(var i = 0; i < languages.length; ++i){
+			languages[i] = getName(languages[i], 'x_262366_wld_bldr_languages');
+		}
+		var lang = languages.join(', ');
+		
+		rightHTML += '<p><strong>Languages:</strong>&nbsp;' + lang + (race.extra_languages_random?", plus " + race.extra_languages_random + " of your choice</p>":'</p>');
+		
+		if(race.race_spellcasting_ability){
+			rightHTML += '<p><strong>Cantrip:</strong>&nbsp;' + getName(race.u_1st_level_cantrip,'x_262366_wld_bldr_spell') + '</p>';
+			rightHTML += '<p><strong>3rd Level Spell:</strong>&nbsp;' + getName(race.u_3rd_level_spell,'x_262366_wld_bldr_spell') + '</p>';
+			rightHTML += '<p><strong>5th Level Spell:</strong>&nbsp;' + getName(race.u_5th_level_spell,'x_262366_wld_bldr_spell') + '</p>';
+		}
+		
+		
+		document.getElementById('raceRight').innerHTML = rightHTML;
+	}
+}
+
+function getName(sys_id, table){
+	var gr = new GlideRecord(table);
+	gr.addQuery('sys_id', sys_id);
+	gr.query();
+	if(gr.next()){
+		return gr.name;
+	}
+	return '';
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_262366_wld_bldr_createacharacter.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<style>
+		.menu {
+		float:left;
+		width:20%;
+		text-align:center;
+		}
+		.menu a {
+		background-color:#e5e5e5;
+		padding:8px;
+		margin-top:7px;
+		display:block;
+		width:100%;
+		color:black;
+		}
+		
+		.main {
+		float:left;
+		width:30%;
+		padding:0 20px;
+		}
+		.right {
+		float:left;
+		width:50%;
+		text-align:center;
+		}
+	</style>
+	<body style="background: linear-gradient(135deg, rgba(83,90,104,1) 0%, rgba(238,239,241,1) 100%);" onload="loadForm()">
+
+		<div id='race'>
+			<div>
+				Select Your Race
+			</div>
+
+			<div class='menu' id='raceMenu'>
+			</div>
+
+			<div class='main' id='raceMain'>
+			</div>
+			
+			<div class='right' id='raceRight'>
+			</div>
+		</div>
+	</body>
+</j:jelly>]]></html>
+        <name>createacharacter</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-01-13 15:15:23</sys_created_on>
+        <sys_id>ea35e04edb9e84d049ac7e7dbf9619ab</sys_id>
+        <sys_mod_count>36</sys_mod_count>
+        <sys_name>createacharacter</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_ui_page_ea35e04edb9e84d049ac7e7dbf9619ab</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-01-13 20:23:08</sys_updated_on>
+    </sys_ui_page>
+</record_update>

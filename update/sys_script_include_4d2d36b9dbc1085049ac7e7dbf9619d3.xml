@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_262366_wld_bldr.SellLoot</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>SellLoot</name>
+        <script><![CDATA[var SellLoot = Class.create();
+SellLoot.prototype = {
+    initialize: function() {
+    },
+
+	SellLoot: function(itemID){
+		var sellItem = new GlideRecord('x_262366_wld_bldr_owned_item');
+		sellItem.addQuery('sys_id', itemID);
+		sellItem.query();
+		if(sellItem.next()){
+			var magItem = new GlideRecord('x_262366_wld_bldr_item');
+			magItem.addQuery('sys_id', sellItem.getValue('item'));
+			magItem.query();
+			if(magItem.next()){
+				var character = new GlideRecord('x_262366_wld_bldr_character');
+				character.addQuery('sys_id', sellItem.getValue('character'));
+				character.query();
+				if(character.next()){
+					character.setValue('gold', parseFloat(character.getValue('gold')?character.getValue('gold'):0) + parseFloat(magItem.getValue('price_gp')?magItem.getValue('price_gp'):0) );
+					character.setValue('silver', parseFloat(character.getValue('silver')?character.getValue('silver'):0) + parseFloat(magItem.getValue('price_sp')?magItem.getValue('price_sp'):0) );
+					character.setValue('copper', parseFloat(character.getValue('copper')?character.getValue('copper'):0) + parseFloat(magItem.getValue('price_cp')?magItem.getValue('price_cp'):0) );
+					character.update();
+				}
+			}
+			sellItem.deleteRecord();
+		}
+	},
+	
+    type: 'SellLoot'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-12 04:19:11</sys_created_on>
+        <sys_id>4d2d36b9dbc1085049ac7e7dbf9619d3</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>SellLoot</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_include_4d2d36b9dbc1085049ac7e7dbf9619d3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-12 04:29:42</sys_updated_on>
+    </sys_script_include>
+</record_update>

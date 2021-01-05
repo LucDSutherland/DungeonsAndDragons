@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
+    <sys_ui_action action="INSERT_OR_UPDATE">
+        <action_name/>
+        <active>true</active>
+        <client>false</client>
+        <client_script_v2/>
+        <comments/>
+        <condition/>
+        <form_action>true</form_action>
+        <form_button>false</form_button>
+        <form_button_v2>false</form_button_v2>
+        <form_context_menu>false</form_context_menu>
+        <form_link>true</form_link>
+        <form_menu_button_v2>false</form_menu_button_v2>
+        <form_style/>
+        <hint/>
+        <isolate_script>false</isolate_script>
+        <list_action>false</list_action>
+        <list_banner_button>false</list_banner_button>
+        <list_button>false</list_button>
+        <list_choice>false</list_choice>
+        <list_context_menu>false</list_context_menu>
+        <list_link>false</list_link>
+        <list_save_with_form_button>false</list_save_with_form_button>
+        <list_style/>
+        <name>Assign Loot</name>
+        <onclick/>
+        <order>100</order>
+        <script><![CDATA[action.setRedirectURL(current);
+var cr = current.creature.challenge_rating;
+var roll1 = new RollDice().RollDice(1,100,'sum');
+var roll2 = new RollDice().RollDice(1,100,'sum');
+
+/*
+var deleteItem = new GlideRecord('x_262366_wld_bldr_owned_item');
+deleteItem.addQuery('encountered_creature', current.sys_id);
+deleteItem.query();
+deleteItem.deleteMultiple();
+
+/*
+current.gold = 0;
+current.silver = 0;
+current.copper = 0;
+current.max_hit_points = roll1;
+current.current_hit_points = roll2;
+*/
+
+var magicItems = [];
+
+if(cr <= 4){
+	if(roll1 <= 30){
+		current.copper = new RollDice().RollDice(5,6,'sum');
+	}
+	else if(roll1 <= 60){
+		current.silver = new RollDice().RollDice(4,6,'sum');
+	}
+	else if(roll1 <= 70){
+		current.silver = (new RollDice().RollDice(4,6,'sum'))*5;
+	}
+	else if(roll1 <= 95){
+		current.gold = new RollDice().RollDice(3,6,'sum');
+	}
+	else{
+		current.gold = (new RollDice().RollDice(1,6,'sum'))*10;
+	}
+	
+	if(roll2 >= 50){
+		magicItems.push('common');
+	}
+	
+	if(roll2 >80){
+		magicItems.push('common');
+	}
+	
+	if(roll2 >= 99){
+		magicItems.push('uncommon');
+	}
+	
+	if(roll2 == 100){
+		magicItems.push('uncommon');
+	}
+	
+}
+else if(cr <= 10){
+	if(roll1 <= 30){
+		current.copper = new RollDice().RollDice(4,6,'sum')*100;
+		current.silver = new RollDice().RollDice(1,6,'sum')*50;	
+	}
+	else if(roll1 <= 60){
+		current.silver = new RollDice().RollDice(6,6,'sum')*10;
+		current.gold = new RollDice().RollDice(2,6,'sum')*10;
+	}
+	else if(roll1 <= 70){
+		current.silver = (new RollDice().RollDice(3,6,'sum'))*50;
+		current.gold = new RollDice().RollDice(2,6,'sum')*10;
+	}
+	else if(roll1 <= 95){
+		current.gold = new RollDice().RollDice(4,6,'sum')*10;
+	}
+	else{
+		current.gold = ((new RollDice().RollDice(2,6,'sum'))*10) + ((new RollDice().RollDice(3,6,'sum'))*10);
+	}
+	
+	
+	if(roll2 >= 5){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,6,'sum')); ++ii){
+			magicItems.push('common');
+		}
+	}
+	
+	if(roll2 > 44){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,4,'sum')); ++ii){
+			magicItems.push('uncommon');
+		}
+	}
+	
+	if(roll2 > 81){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,4,'sum')); ++ii){
+			magicItems.push('rare');
+		}
+	}
+	
+	if(roll2 >= 99){
+		magicItems.push('very rare');
+	}
+}
+else if(cr <= 16){
+	if(roll1 <= 20){
+		current.silver = new RollDice().RollDice(4,6,'sum')*100;	
+		current.gold = new RollDice().RollDice(1,6,'sum')*100;
+	}
+	else if(roll1 <= 35){
+		current.silver = new RollDice().RollDice(1,6,'sum')*500;
+		current.gold = new RollDice().RollDice(1,6,'sum')*100;
+	}
+	else if(roll1 <= 75){
+		current.gold = ((new RollDice().RollDice(2,6,'sum'))*100) + ((new RollDice().RollDice(1,6,'sum'))*100);
+	}
+	else if(roll1 <= 100){
+		current.gold = ((new RollDice().RollDice(2,6,'sum'))*100) + ((new RollDice().RollDice(2,6,'sum'))*100);
+	}
+	
+	if(roll2 >= 4){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,4,'sum')); ++ii){
+			magicItems.push('common');
+		}
+	}
+	
+	if(roll2 > 15){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,4,'sum')); ++ii){
+			magicItems.push('common');
+		}
+		for(var ii = 0; ii < (new RollDice().RollDice(1,6,'sum')); ++ii){
+			magicItems.push('uncommon');
+		}
+	}
+	
+	if(roll2 >= 30){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,6,'sum')); ++ii){
+			magicItems.push('rare');
+		}
+	}
+	
+	if(roll2 >= 69){
+		magicItems.push('very rare');
+	}
+	
+	if(roll2 >= 75 && roll2 <= 82){
+		magicItems.push('very rare');
+		for(var ii = 0; ii < (new RollDice().RollDice(1,4,'sum')); ++ii){
+			magicItems.push('very rare');
+		}
+	}
+	
+	if(roll2 >= 83 && roll2 <= 92){
+		magicItems.push('very rare');
+		magicItems.push('very rare');
+		magicItems.push('very rare');
+		for(var ii = 0; ii < (new RollDice().RollDice(1,4,'sum')); ++ii){
+			magicItems.push('very rare');
+		}
+	}
+	
+	if(roll2 >= 83){
+		magicItems.push('legendary');
+	}
+	
+}
+else if(cr >= 17){
+	if(roll1 <= 15){
+		current.silver = new RollDice().RollDice(2,6,'sum')*5000;	
+		current.gold = new RollDice().RollDice(8,6,'sum')*100;
+	}
+	else if(roll1 <= 55){
+		current.gold = ((new RollDice().RollDice(2,6,'sum'))*100) + ((new RollDice().RollDice(1,6,'sum'))*1000);
+	}
+	else{
+		current.gold = ((new RollDice().RollDice(1,6,'sum'))*1000) + ((new RollDice().RollDice(2,6,'sum'))*1000);
+	}
+	
+	if(roll2 >= 2 && roll2 <= 14){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,8,'sum')); ++ii){
+			magicItems.push('uncommon');
+		}
+	}
+	
+	if(roll2 >= 15){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,6,'sum')); ++ii){
+			magicItems.push('rare');
+		}
+	}
+	
+	if(roll2 >= 47){
+		for(var ii = 0; ii < (new RollDice().RollDice(1,6,'sum')); ++ii){
+			magicItems.push('very rare');
+		}
+	}
+	
+	if(roll2 >= 69 && roll2 <= 72){
+		magicItems.push('legendary');
+	}
+	
+	if(roll2 >= 73 && roll2 <= 80){
+		magicItems.push('legendary');
+		magicItems.push('legendary');
+	}
+	
+	if(roll2 >= 81 && roll2 <= 90){
+		magicItems.push('legendary');
+		magicItems.push('legendary');
+		magicItems.push('legendary');
+	}
+	
+	if(roll2 >= 91){
+		magicItems.push('legendary');
+		magicItems.push('legendary');
+		magicItems.push('legendary');
+		magicItems.push('legendary');
+	}
+	
+}
+
+for(var i = 0; i < magicItems.length; ++i){
+	var item = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_item', 'rarity', magicItems[i]);
+	var ownedItem = new GlideRecord('x_262366_wld_bldr_owned_item');
+	ownedItem.initialize();
+	ownedItem.encountered_creature = current.sys_id;
+	ownedItem.item = item;
+
+	if(item == 'd89941a4db53f38049ac7e7dbf961921'){ //cantrip
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', '7d794748db90230049ac7e7dbf9619d0');
+	}
+	else if(item == '1c9941a4db53f38049ac7e7dbf961922'){ //1
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', '95a41e81db5c230049ac7e7dbf961939');
+	}
+	else if(item == 'dc9941a4db53f38049ac7e7dbf961922'){ //2
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', 'e6946874db10230049ac7e7dbf961937');
+	}
+	else if(item == '909941a4db53f38049ac7e7dbf961923'){ //3
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', '2ed21e41db5c230049ac7e7dbf9619dd');
+	}
+	else if(item == '549941a4db53f38049ac7e7dbf961923'){ //4
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', '69e25a01db5c230049ac7e7dbf9619d7');
+	}
+	else if(item == '189941a4db53f38049ac7e7dbf961923'){ //5
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', '1be21641db5c230049ac7e7dbf9619eb');
+	}
+	else if(item == 'd89941a4db53f38049ac7e7dbf961923'){ //6
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', '76f2de01db5c230049ac7e7dbf961919');
+	}
+	else if(item == '9c9941a4db53f38049ac7e7dbf961923'){ //7
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', 'b803da01db5c230049ac7e7dbf961928');
+	}
+	else if(item == '509941a4db53f38049ac7e7dbf961924'){ //8
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', '62035e01db5c230049ac7e7dbf9619eb');
+	}
+	else if(item == '149941a4db53f38049ac7e7dbf961924'){ //9
+		ownedItem.spell = new GenerateRandomNPC().GetSpecificRandomRecordInTable('x_262366_wld_bldr_spell', 'level', 'ec13da41db5c230049ac7e7dbf9619a0');
+	}
+
+	ownedItem.insert();
+}
+
+
+
+current.update();]]></script>
+        <show_insert>true</show_insert>
+        <show_multiple_update>false</show_multiple_update>
+        <show_query>false</show_query>
+        <show_update>true</show_update>
+        <sys_class_name>sys_ui_action</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-13 03:22:41</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>8923c268dbd3f38049ac7e7dbf961994</sys_id>
+        <sys_mod_count>24</sys_mod_count>
+        <sys_name>Assign Loot</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_ui_action_8923c268dbd3f38049ac7e7dbf961994</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-14 20:41:56</sys_updated_on>
+        <table>x_262366_wld_bldr_encountered_creature</table>
+        <ui11_compatible>true</ui11_compatible>
+        <ui16_compatible>false</ui16_compatible>
+    </sys_ui_action>
+</record_update>

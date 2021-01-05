@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_262366_wld_bldr.CharacterSheet</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <name>CharacterSheet</name>
+        <script><![CDATA[var CharacterSheet = Class.create();
+CharacterSheet.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+
+	getToonData: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+
+		var response = this.newItem('toonData');
+
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			response.setAttribute('toonName', toon.name);
+			response.setAttribute('toonRace', toon.race.getDisplayValue());
+			response.setAttribute('toonSubrace', toon.subrace.getDisplayValue()); //make sure this works when null
+			response.setAttribute('toonBackground', toon.getDisplayValue('background'));
+			response.setAttribute('toonGender', toon.getDisplayValue('gender'));
+			response.setAttribute('toonStr', toon.getValue('strength'));
+			response.setAttribute('toonStrMod', toon.getValue('strength_modifier'));
+			response.setAttribute('toonStrSave', toon.getValue('strength_save_modifier'));
+			response.setAttribute('toonDex', toon.getValue('dexterity'));
+			response.setAttribute('toonDexMod', toon.getValue('dexterity_modifier'));
+			response.setAttribute('toonDexSave', toon.getValue('dexterity_save_modifier'));
+			response.setAttribute('toonCon', toon.getValue('constitution'));
+			response.setAttribute('toonConMod', toon.getValue('constitution_modifier'));
+			response.setAttribute('toonConSave', toon.getValue('constitution_save_modifier'));
+			response.setAttribute('toonInt', toon.getValue('intelligence'));
+			response.setAttribute('toonIntMod', toon.getValue('intelligence_modifier'));
+			response.setAttribute('toonIntSave', toon.getValue('intelligence_save_modifier'));
+			response.setAttribute('toonWis', toon.getValue('wisdom'));
+			response.setAttribute('toonWisMod', toon.getValue('wisdom_modifier'));
+			response.setAttribute('toonWisSave', toon.getValue('wisdom_save_modifier'));
+			response.setAttribute('toonCha', toon.getValue('charisma'));
+			response.setAttribute('toonChaMod', toon.getValue('charisma_modifier'));
+			response.setAttribute('toonChaSave', toon.getValue('charisma_save_modifier'));
+			response.setAttribute('toonProfBonus', toon.getValue('proficiency_bonus'));
+			response.setAttribute('toonSavingThrowProficiencies', toon.getDisplayValue('saving_throw_proficiencies'));
+			response.setAttribute('toonSavingThrowAdvantage', toon.getDisplayValue('saving_throws_advantage'));
+			response.setAttribute('toonSkillProficiencies', toon.getDisplayValue('skill_proficiencies'));
+			response.setAttribute('toonDoubledSkillProficiencies', toon.getDisplayValue('doubled_skill_proficiencies'));
+			response.setAttribute('toonToolProficiencies', toon.getDisplayValue('tool_proficiencies'));
+			response.setAttribute('toonDoubledToolProficiencies', toon.getDisplayValue('doubled_tool_proficiencies'));
+			response.setAttribute('toonArmorProficiencies', toon.getDisplayValue('armor_proficiencies'));
+			response.setAttribute('toonSimpleProficiency', toon.getValue('simple_proficiency'));
+			response.setAttribute('toonMartialProficiency', toon.getValue('martial_proficiency'));
+			response.setAttribute('toonWeaponProficiencies', toon.getDisplayValue('weapon_proficiencies'));
+			response.setAttribute('toonLanguages', toon.getDisplayValue('languages'));
+			response.setAttribute('toonMaxHP', toon.getValue('max_hit_points'));
+			response.setAttribute('toonCurrentHP', toon.getValue('current_hit_points'));
+			response.setAttribute('toonTempHP', toon.getValue('temporary_hit_points'));
+			response.setAttribute('toonInitiative', toon.getValue('initiative'));
+			response.setAttribute('toonAC', toon.getValue('armor_class'));
+			response.setAttribute('toonSpeed', toon.getValue('speed'));
+			response.setAttribute('toonGold', toon.getValue('gold'));
+			response.setAttribute('toonSilver', toon.getValue('silver'));
+			response.setAttribute('toonCopper', toon.getValue('copper'));
+
+
+
+			var classAndLevel = '';
+			var charClass = new GlideRecord('x_262366_wld_bldr_character_class');
+			charClass.addQuery('character', toonId);
+			charClass.query();
+			while(charClass.next()){
+				if(classAndLevel != ''){
+					classAndLevel += ', ';
+				}
+				classAndLevel += charClass.name;
+			}
+			response.setAttribute('classAndLevel', classAndLevel);
+
+
+			//equipment
+			var tools = '';
+			var weapons = '<div class="weaponBox"><div class="weaponNameTitle">Name</div><div class="weaponAttackBonusTitle">Atk Bon</div><div class="weaponDamageTypeTitle">Damage/Type</div></div>';
+			var armor = '<div class="weaponBox"><div class="armorNameTitle">Name</div><div class="armorACBonusTitle">AC Bon</div><div class="armorEquippedTitle">Equipped</div></div>';
+			var magItems = '';
+
+			var equip = new GlideRecord('x_262366_wld_bldr_owned_item');
+			equip.addQuery('character', toonId);
+			equip.query();
+			while(equip.next()){
+				var type = equip.item.item_type;
+				if(type == 'Tool' || type == 'Pack' || type == 'Instrument' || type == 'Gear' || type == 'Ammo'){
+					//tools += '<div class="tooltip">' + equip.getDisplayValue('item') + '<span class="tooltiptext">' + equip.item.description + '</span></div>';
+					
+					if(type != 'Ammo'){
+						tools += equip.getDisplayValue('item') + '<br />';
+					}
+					else{
+						tools += equip.getDisplayValue('item') + ' (' + equip.getValue('count') + ')<br />';
+					}
+				}
+				else if(type == 'Weapon'){
+
+					var equipWeapon = new GlideRecord('x_262366_wld_bldr_item');
+					equipWeapon.addQuery('sys_id', equip.item);
+					equipWeapon.query();
+					if(equipWeapon.next()){
+
+						var atkBon = 0;
+						var strBon = toon.strength_modifier;
+						var dexBon = toon.dexterity_modifier;
+						var atkBonStr = 0;
+						var atkBonDex = 0;
+						var profBon = toon.proficiency_bonus;
+						var dmgBon = 0;
+						var baseWeaponId = equipWeapon.sys_id;
+
+						//is magic?
+						if(equipWeapon.magic_bonus > 0){
+							atkBon += equipWeapon.magic_bonus;
+							baseWeaponId = equipWeapon.base_weapon;
+							dmgBon += atkBon;
+						}
+
+						//are proficient?
+						if(toon.simple_proficiency == 1 && equipWeapon.weapon_type_skill == 'Simple'){
+							atkBon += parseFloat(profBon);
+						}
+						else if(toon.martial_proficiency == 1 && equipWeapon.weapon_type_skill == 'Martial'){
+							atkBon += parseFloat(profBon);
+						}
+						else if(toon.weapon_proficiencies.indexOf(baseWeaponId) > -1){
+							atkBon += parseFloat(profBon);
+						}
+
+						atkBonStr = strBon + atkBon;
+						atkBonDex = dexBon + atkBon;
+
+						var atkBonHTML = '<div class="atkBonBox">';
+
+						//which bonus?
+						if(equipWeapon.properties.indexOf('25b3bfbbdb7b130049ac7e7dbf96196d') > -1){ //ammunition, use dex only
+							dmgBon += dexBon;
+							atkBonHTML += '<div id="' + equipWeapon.sys_id +'dexBon"><div class="atkBon">+' + atkBonDex + '</div><div class="atkModDex" id="' + equipWeapon.sys_id + 'select">Dex</div>';
+							atkBonHTML += '<div class="atkType">' + equipWeapon.damage + ' + ' + dmgBon + ' ' + equipWeapon.damage_type.getDisplayValue() + '</div></div>';
+						}
+						else if(equipWeapon.properties.indexOf('ae04b77bdb7b130049ac7e7dbf9619a3') > -1 || equipWeapon.properties.indexOf('bac3ffbbdb7b130049ac7e7dbf961924') > -1){ //range or finesse, use both 
+							if(strBon > dexBon){
+								atkBonHTML += '<div id="' + equipWeapon.sys_id +'strBon"><div class="atkBon">+' + atkBonStr + '</div><div onclick="swapWeaponMod(\'' + equipWeapon.sys_id + '\',\'dex\')" class="atkModStr" id="' + equipWeapon.sys_id + 'select">Str</div>';
+								atkBonHTML += '<div class="atkType">' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(strBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '</div></div>';
+
+
+								atkBonHTML += '<div style="display:none!important;" hidden="true" id="' + equipWeapon.sys_id +'dexBon"><div class="atkBon">+' + atkBonDex + '</div><div onclick="swapWeaponMod(\'' + equipWeapon.sys_id + '\',\'str\')" class="atkModDex" id="' + equipWeapon.sys_id + 'select">Dex</div>';
+								atkBonHTML += '<div class="atkType">' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(dexBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '</div></div>';
+							}
+							else{
+								atkBonHTML += '<div id="' + equipWeapon.sys_id +'dexBon"><div class="atkBon">+' + atkBonDex + '</div><div onclick="swapWeaponMod(\'' + equipWeapon.sys_id + '\',\'str\')" class="atkModDex" id="' + equipWeapon.sys_id + 'select">Dex</div>';
+								atkBonHTML += '<div class="atkType">' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(dexBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '</div></div>';
+
+								atkBonHTML += '<div style="display:none!important;" hidden="true" id="' + equipWeapon.sys_id +'strBon"><div class="atkBon">+' + atkBonStr + '</div><div onclick="swapWeaponMod(\'' + equipWeapon.sys_id + '\',\'dex\')" class="atkModStr" id="' + equipWeapon.sys_id + 'select">Str</div>';
+								atkBonHTML += '<div class="atkType">' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(strBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '</div></div>';
+							}
+						}
+						else{ //only use strength
+							atkBonHTML += '<div id="' + equipWeapon.sys_id +'strBon"><div class="atkBon">+' + atkBonStr + '</div></div><div class="atkModStr" id="' + equipWeapon.sys_id + 'select">Str</div>';
+							atkBonHTML += '<div class="atkType">' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(strBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '</div></div>';
+						}
+
+						atkBonHTML += '</div>';
+
+						weapons += '<div class="weaponBox"><div class="weaponName">' + equipWeapon.name + '</div>' + atkBonHTML + '</div>';
+					}
+				}
+				else if(type == 'Armor'){
+					//look up the armor item
+					var equipArmor = new GlideRecord('x_262366_wld_bldr_item');
+					equipArmor.addQuery('sys_id', equip.item);
+					equipArmor.query();
+					if(equipArmor.next()){
+						var equipped = 'no';
+						var proficient = 'no';
+						var strongEnough = 'yes';
+						var armorClass = equipArmor.base_armor_class;
+						armorClass += parseFloat(equipArmor.magic_bonus) > 0?parseFloat(equipArmor.magic_bonus):0;
+
+
+						if(toon.armor_proficiencies.indexOf(equipArmor.armor_type) > -1){
+							proficient = 'yes';
+						}
+						if(equip.equipped && equip.equipped != ''){
+							equipped = 'yes';
+						}
+
+						//calc ac bonus
+						if(equipArmor.ac_modifier_bonus == 'Dex'){
+							armorClass += parseFloat(toon.dexterity_modifier);
+						}
+						else if(equipArmor.ac_modifier_bonus == 'Dex Max 2'){
+							armorClass += (parseFloat(toon.dexterity_modifier) > 2? 2 : parseFloat(toon.dexterity_modifier));
+						}
+
+
+						//check that they meet the str prerequisite
+						if(equipArmor.strength_prerequisite && equipArmor.strength_prerequisite > 0){
+							if(toon.strength < equipArmor.strength_prerequisite){
+								strongEnough = 'no';
+							}
+						}
+
+						//if not proficient & equipped, set encumbered, else warn
+						//if not strong enough & equippped, set encumbered, else warn
+						//set class to the id of the equipment slot. that way if
+						//something is equipped, all others with the same class get unequipped
+
+						armor += '<div class="weaponBox"><div class="armorName">' + equipArmor.name + '</div>';
+						armor += '<div class="armorACBon">+ ' + armorClass + '</div>';
+						armor += '<div class="armorEquipBox">';
+						armor += '<div class="armorEquippedBox" onclick="equipArmor(\'' + equipArmor.sys_id + '\',\'' + equipArmor.equipment_slot + '\')"><div class="armorEquipped' + equipArmor.equipment_slot + '" id="' + equipArmor.sys_id + '">' + (equipped == 'yes'?'e':'') + '</div></div>';
+						armor += '<div class="armorSlot">' + equipArmor.equipment_slot.getDisplayValue() + '</div>';
+						armor += '<div class="armorEncumberBox"><div class="armorEncumbered">' + (proficient=='no' || strongEnough == 'no'?'ENC':'') + '</div></div>';
+						armor += '</div></div>';
+
+					}
+
+				}
+				else if(type == 'Ammo'){
+					/*if()
+					➳
+					➵
+					*/
+				}
+				else if(type == 'Magic Item'){
+					if(magItems == ''){
+						magItems += '<div class="magItemsSection"><div class="magItemsTitle">Magic Items</div>';
+					}
+					magItems += '<div class="magItemBox"><div class="magItemName" onclick="toggleMagItem(\'' + equip.sys_id + '\')" >' + (equip.count > 1?'(' + equip.count + ') ':'') + equip.item.name + (equip.max_charges > 0?'</div><div class="charges">&#160;' + equip.charges + '/' + equip.max_charges + ' charges':'') + '</div><div hidden="true" class="magItemDesc" id="' + equip.sys_id +'">' + equip.item.description + '</div></div>';
+				}
+			}
+
+			if(magItems != ''){
+				magItems += '</div>';
+			}
+
+			//spells
+			var spellBoxHTML = '';
+			var spellsHTML = ['','','','','','','','','',''];
+			var spellDescriptionHTML = '';
+			var toonSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+			toonSpell.addQuery('character', toonId);
+			toonSpell.query();
+			while(toonSpell.next()){
+				if(spellBoxHTML == ''){
+					spellBoxHTML += '<div class="weaponsTitle">Spells</div>';
+				}
+				var spell = new GlideRecord('x_262366_wld_bldr_spell');
+				spell.addQuery('sys_id', toonSpell.spell);
+				spell.query();
+				if(spell.next()){
+					var level = spell.getValue('level');
+					if(level == '7d794748db90230049ac7e7dbf9619d0'){ //cantrip
+						if(spellsHTML[0] == ''){
+							spellsHTML[0] += '<div class="spellLevelBox"><div class="spellLevelTitle">Cantrips</div>';
+						}
+						spellsHTML[0] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == '95a41e81db5c230049ac7e7dbf961939'){ //1st
+						if(spellsHTML[1] == ''){
+							spellsHTML[1] += '<div class="spellLevelBox"><div class="spellLevelTitle">1st Level</div>';
+						}
+						spellsHTML[1] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == 'e6946874db10230049ac7e7dbf961937'){ //2nd
+						if(spellsHTML[2] == ''){
+							spellsHTML[2] += '<div class="spellLevelBox"><div class="spellLevelTitle">2nd Level</div>';
+						}
+						spellsHTML[2] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == '2ed21e41db5c230049ac7e7dbf9619dd'){ //3rd
+						if(spellsHTML[3] == ''){
+							spellsHTML[3] += '<div class="spellLevelBox"><div class="spellLevelTitle">3rd Level</div>';
+						}
+						spellsHTML[3] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == '69e25a01db5c230049ac7e7dbf9619d7'){ //4th
+						if(spellsHTML[4] == ''){
+							spellsHTML[4] += '<div class="spellLevelBox"><div class="spellLevelTitle">4th Level</div>';
+						}
+						spellsHTML[4] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == '1be21641db5c230049ac7e7dbf9619eb'){ //5th
+						if(spellsHTML[5] == ''){
+							spellsHTML[5] += '<div class="spellLevelBox"><div class="spellLevelTitle">5th Level</div>';
+						}
+						spellsHTML[5] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+					else if(level == '76f2de01db5c230049ac7e7dbf961919'){ //6th
+						if(spellsHTML[6] == ''){
+							spellsHTML[6] += '<div class="spellLevelBox"><div class="spellLevelTitle">6th Level</div>';
+						}
+						spellsHTML[6] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+					else if(level == 'b803da01db5c230049ac7e7dbf961928'){ //7th
+						if(spellsHTML[7] == ''){
+							spellsHTML[7] += '<div class="spellLevelBox"><div class="spellLevelTitle">7th Level</div>';
+						}
+						spellsHTML[7] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+					else if(level == '62035e01db5c230049ac7e7dbf9619eb'){ //8th
+						if(spellsHTML[8] == ''){
+							spellsHTML[8] += '<div class="spellLevelBox"><div class="spellLevelTitle">8th Level</div>';
+						}
+						spellsHTML[8] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+					else if(level == 'ec13da41db5c230049ac7e7dbf9619a0'){ //9th
+						if(spellsHTML[9] == ''){
+							spellsHTML[9] += '<div class="spellLevelBox"><div class="spellLevelTitle">9th Level</div>';
+						}
+						spellsHTML[9] += '<div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')">' + spell.getValue('name') + '</div>';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+				}
+			}
+
+			if(spellsHTML[0] != ''){
+				spellsHTML[0] += '</div>';
+			}
+			if(spellsHTML[1] != ''){
+				spellsHTML[1] += '</div>';
+			}
+			if(spellsHTML[2] != ''){
+				spellsHTML[2] += '</div>';
+			}
+			if(spellsHTML[3] != ''){
+				spellsHTML[3] += '</div>';
+			}
+			if(spellsHTML[4] != ''){
+				spellsHTML[4] += '</div>';
+			}
+			if(spellsHTML[5] != ''){
+				spellsHTML[5] += '</div>';
+			}
+			if(spellsHTML[6] != ''){
+				spellsHTML[6] += '</div>';
+			}
+			if(spellsHTML[7] != ''){
+				spellsHTML[7] += '</div>';
+			}
+			if(spellsHTML[8] != ''){
+				spellsHTML[8] += '</div>';
+			}
+			if(spellsHTML[9] != ''){
+				spellsHTML[9] += '</div>';
+			}
+
+			spellBoxHTML += '<div class="spellLevelGroup">' + spellsHTML[0] + spellsHTML[1] + spellsHTML[2] + '</div><div class="spellLevelGroup">' + spellsHTML[3] + spellsHTML[4] + spellsHTML[5] + '</div><div class="spellLevelGroup">' + spellsHTML[6] + spellsHTML[7] + spellsHTML[8] + '</div><div class="spellLevelGroup">' + spellsHTML[9] + '</div>' + spellDescriptionHTML;
+
+
+			var toonFeatureHTML = '';
+			//get character features
+			var feature = new GlideRecord('x_262366_wld_bldr_character_feature');
+			feature.addQuery('character', toonId);
+			feature.query();
+			while(feature.next()){
+				toonFeatureHTML += '<div class="toonFeatureName">' + feature.getValue('name') + '</div>';
+				
+				toonFeatureHTML += '<div class="featureUsesBox">';
+				var totalUses = parseFloat(feature.getValue('total_uses'));
+				var currentUses = parseFloat(feature.getValue('uses'));
+				if(totalUses > 0){
+					for(var i = 0; i < totalUses; ++i){
+						toonFeatureHTML += '<div class="featureUsesCounter" id="' + feature.getValue('sys_id') + i + '">';
+						if(i < currentUses){
+							//filled in
+							toonFeatureHTML += '&#9899;';
+						}
+						else{
+							//open circle
+							toonFeatureHTML += '&#9898;';
+						}
+						toonFeatureHTML += '</div>';
+					}
+				}
+				toonFeatureHTML += '</div>';
+				
+				toonFeatureHTML += '<div class="featureDescription">' + feature.getValue('feature') + '</div>';
+			}
+			
+			response.setAttribute('toonTools', tools);
+			response.setAttribute('toonWeapons', weapons);
+			response.setAttribute('toonArmor', armor);
+			response.setAttribute('toonMagItems', magItems);
+			response.setAttribute('toonSpells', spellBoxHTML);
+			response.setAttribute('toonFeatures', toonFeatureHTML);
+		}
+	},
+
+	equipArmor: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var itemId = this.getParameter('sysparm_equipped_item');
+		var action = this.getParameter('sysparm_action');
+
+		var response = this.newItem('toonArmorClass');
+
+		var item = new GlideRecord('x_262366_wld_bldr_item');
+		item.addQuery('sys_id', itemId);
+		item.query();
+		if(item.next()){
+			var toonItems = new GlideRecord('x_262366_wld_bldr_owned_item');
+			toonItems.addQuery('character', toonId);
+			toonItems.query();
+			while(toonItems.next()){
+				if(toonItems.item.equipment_slot == item.equipment_slot){
+					if(toonItems.item == itemId){
+						if(action == 'don'){
+							toonItems.equipped = item.equipment_slot;
+						}
+						else if(action == 'doff'){
+							toonItems.equipped = '';
+						}
+					}
+					else{
+						toonItems.equipped = '';
+					}
+					toonItems.update();
+				}
+			}
+
+			var armorClass = new CalculateArmorClass().getArmorClass(toonId);
+
+			response.setAttribute('armorClass', armorClass);
+		}
+
+	},
+
+	_getSpellHTML: function(spellId, castMod, saveDC, atkMod){
+		var spellDescriptionHTML = '<div class="spellDescBox" hidden="true" id="' + spellId + '">';
+		var spell = new GlideRecord('x_262366_wld_bldr_spell');
+		spell.addQuery('sys_id', spellId);
+		spell.query();
+		if(spell.next()){
+			var castingTime = spell.getValue('casting_time');
+			if(castingTime == 'd79e11c1dbd8230049ac7e7dbf9619c7'){ //action
+				castingTime = 'Action';
+			}
+			else if(castingTime == '37ae51c1dbd8230049ac7e7dbf9619e3'){ //bonus action
+				castingTime = 'Bonus Action';
+			}
+			else if(castingTime == 'adbe1d81dbd8230049ac7e7dbf9619b3'){ //reaction
+				castingTime = 'Reaction';
+			}
+			else if(castingTime == '28ee91c1dbd8230049ac7e7dbf961945'){ //concentration
+				castingTime = spell.getValue('concentration_time_min') + ' minute' + (spell.getValue('concentration_time_min') != 1?'s':'');
+			}
+
+			var duration = spell.getValue('duration');
+			if(duration == '2aa371cddbd8230049ac7e7dbf961926'){ //concentration
+				duration = 'Concentraion, up to ' + spell.getValue('duration_time') + ' ' + spell.getDisplayValue('duration_measurement') + (spell.getValue('duration_time') != 1?'s':'');
+			}
+			else if(duration == '3f233d8ddbd8230049ac7e7dbf961918'){ //instantaneous
+				duration = 'Instantaneous';
+			}
+			else if(duration == '071431cddbd8230049ac7e7dbf9619fb'){ //permanent
+				duration = 'Permanent';
+			}
+			else if(duration == '3c8c4a4ddb1c230049ac7e7dbf96194b'){ //special
+				duration = 'Special';
+			}
+			else if(duration == '82bcb505db1c230049ac7e7dbf961900'){ //timed
+				duration = spell.getValue('duration_time') + ' ' + spell.getDisplayValue('duration_measurement') + (spell.getValue('duration_time') != 1?'s':'');
+			}
+
+			var level = spell.getDisplayValue('level');
+			var levelType = spell.getDisplayValue('type');
+			if(level == 'Cantrip'){
+				levelType += ' Cantrip';
+			}
+			else{
+				levelType = level + ' ' + levelType;
+			}
+
+			var materialComponents = spell.getValue('material_components');
+			if(!materialComponents){
+				materialComponents = '';
+			}
+			else{
+				materialComponents = ' (' + materialComponents + ')';
+			}
+
+			spellDescriptionHTML += '<div class="spellDescName">' + spell.getValue('name') + '</div>';
+			spellDescriptionHTML += '<div class="spellDescModifiers"><div class="spellDescModifierBox"><div class="spellDescModifierTitle">Spellcasting Ability</div><div class="spellDescModifierData">' + castMod + '</div></div><div class="spellDescModifierBox"><div class="spellDescModifierTitle">Save DC</div><div class="spellDescModifierData">' + saveDC + '</div></div><div class="spellDescModifierBox"><div class="spellDescModifierTitle">Attack Modifier</div><div class="spellDescModifierData">+ ' + atkMod + '</div></div></div><br />';
+			spellDescriptionHTML += '<div class="spellDescLevelType">' + levelType + '</div>';
+			spellDescriptionHTML += '<div class="spellDescDataBox"><div class="spellDescDataTitle">Casting Time:&#160;</div><div class="spellDescData">' + castingTime + '</div></div>';
+			spellDescriptionHTML += '<div class="spellDescDataBox"><div class="spellDescDataTitle">Range:&#160;</div><div class="spellDescData">' + spell.getValue('range_ft') + ' ft</div></div>';
+			spellDescriptionHTML += '<div class="spellDescDataBox"><div class="spellDescDataTitle">Components:&#160;</div><div class="spellDescData">' + spell.getDisplayValue('components').replace('erbal','').replace('omatic', '').replace('aterial', '') + materialComponents + '</div></div>';
+			spellDescriptionHTML += '<div class="spellDescDataBox"><div class="spellDescDataTitle">Duration:&#160;</div><div class="spellDescData">' + duration + '</div></div>';
+			spellDescriptionHTML += '<div class="spellDesc">' + spell.getValue('effect') + '</div>';
+			var higherLevels = spell.getValue('at_higher_levels');
+			if(higherLevels && higherLevels != ''){
+				spellDescriptionHTML += '<div class="spellDesc"><div class="spellDescDataTitle">At Higher Levels.&#160;</div>' + higherLevels + '</div>';
+			}
+			spellDescriptionHTML += '</div>';
+		}
+		return spellDescriptionHTML;
+	},
+
+	type: 'CharacterSheet'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-03-13 19:47:53</sys_created_on>
+        <sys_id>b224e2952feb4010a1fc808cf699b6d0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>CharacterSheet</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_include_b224e2952feb4010a1fc808cf699b6d0</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-03-13 19:47:53</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>sys_script_include_b224e2952feb4010a1fc808cf699b6d0</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_262366_wld_bldr.CharacterSheet&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;true&lt;/client_callable&gt;&lt;description/&gt;&lt;name&gt;CharacterSheet&lt;/name&gt;&lt;script&gt;&lt;![CDATA[var CharacterSheet = Class.create();
+CharacterSheet.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+
+	getToonData: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+
+		var response = this.newItem('toonData');
+
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			response.setAttribute('toonName', toon.name);
+			response.setAttribute('toonRace', toon.race.getDisplayValue());
+			response.setAttribute('toonSubrace', toon.subrace.getDisplayValue()); //make sure this works when null
+			response.setAttribute('toonBackground', toon.getDisplayValue('background'));
+			response.setAttribute('toonGender', toon.getDisplayValue('gender'));
+			response.setAttribute('toonStr', toon.getValue('strength'));
+			response.setAttribute('toonStrMod', toon.getValue('strength_modifier'));
+			response.setAttribute('toonStrSave', toon.getValue('strength_save_modifier'));
+			response.setAttribute('toonDex', toon.getValue('dexterity'));
+			response.setAttribute('toonDexMod', toon.getValue('dexterity_modifier'));
+			response.setAttribute('toonDexSave', toon.getValue('dexterity_save_modifier'));
+			response.setAttribute('toonCon', toon.getValue('constitution'));
+			response.setAttribute('toonConMod', toon.getValue('constitution_modifier'));
+			response.setAttribute('toonConSave', toon.getValue('constitution_save_modifier'));
+			response.setAttribute('toonInt', toon.getValue('intelligence'));
+			response.setAttribute('toonIntMod', toon.getValue('intelligence_modifier'));
+			response.setAttribute('toonIntSave', toon.getValue('intelligence_save_modifier'));
+			response.setAttribute('toonWis', toon.getValue('wisdom'));
+			response.setAttribute('toonWisMod', toon.getValue('wisdom_modifier'));
+			response.setAttribute('toonWisSave', toon.getValue('wisdom_save_modifier'));
+			response.setAttribute('toonCha', toon.getValue('charisma'));
+			response.setAttribute('toonChaMod', toon.getValue('charisma_modifier'));
+			response.setAttribute('toonChaSave', toon.getValue('charisma_save_modifier'));
+			response.setAttribute('toonProfBonus', toon.getValue('proficiency_bonus'));
+			response.setAttribute('toonSavingThrowProficiencies', toon.getDisplayValue('saving_throw_proficiencies'));
+			response.setAttribute('toonSavingThrowAdvantage', toon.getDisplayValue('saving_throws_advantage'));
+			response.setAttribute('toonSkillProficiencies', toon.getDisplayValue('skill_proficiencies'));
+			response.setAttribute('toonDoubledSkillProficiencies', toon.getDisplayValue('doubled_skill_proficiencies'));
+			response.setAttribute('toonToolProficiencies', toon.getDisplayValue('tool_proficiencies'));
+			response.setAttribute('toonDoubledToolProficiencies', toon.getDisplayValue('doubled_tool_proficiencies'));
+			response.setAttribute('toonArmorProficiencies', toon.getDisplayValue('armor_proficiencies'));
+			response.setAttribute('toonSimpleProficiency', toon.getValue('simple_proficiency'));
+			response.setAttribute('toonMartialProficiency', toon.getValue('martial_proficiency'));
+			response.setAttribute('toonWeaponProficiencies', toon.getDisplayValue('weapon_proficiencies'));
+			response.setAttribute('toonLanguages', toon.getDisplayValue('languages'));
+			response.setAttribute('toonMaxHP', toon.getValue('max_hit_points'));
+			response.setAttribute('toonCurrentHP', toon.getValue('current_hit_points'));
+			response.setAttribute('toonTempHP', toon.getValue('temporary_hit_points'));
+			response.setAttribute('toonInitiative', toon.getValue('initiative'));
+			response.setAttribute('toonAC', toon.getValue('armor_class'));
+			response.setAttribute('toonSpeed', toon.getValue('speed'));
+			response.setAttribute('toonGold', toon.getValue('gold'));
+			response.setAttribute('toonSilver', toon.getValue('silver'));
+			response.setAttribute('toonCopper', toon.getValue('copper'));
+
+
+
+			var classAndLevel = '';
+			var charClass = new GlideRecord('x_262366_wld_bldr_character_class');
+			charClass.addQuery('character', toonId);
+			charClass.query();
+			while(charClass.next()){
+				if(classAndLevel != ''){
+					classAndLevel += ', ';
+				}
+				classAndLevel += charClass.name;
+			}
+			response.setAttribute('classAndLevel', classAndLevel);
+
+
+			//equipment
+			var tools = '';
+			var weapons = '&lt;div class="weaponBox"&gt;&lt;div class="weaponNameTitle"&gt;Name&lt;/div&gt;&lt;div class="weaponAttackBonusTitle"&gt;Atk Bon&lt;/div&gt;&lt;div class="weaponDamageTypeTitle"&gt;Damage/Type&lt;/div&gt;&lt;/div&gt;';
+			var armor = '&lt;div class="weaponBox"&gt;&lt;div class="armorNameTitle"&gt;Name&lt;/div&gt;&lt;div class="armorACBonusTitle"&gt;AC Bon&lt;/div&gt;&lt;div class="armorEquippedTitle"&gt;Equipped&lt;/div&gt;&lt;/div&gt;';
+			var magItems = '';
+
+			var equip = new GlideRecord('x_262366_wld_bldr_owned_item');
+			equip.addQuery('character', toonId);
+			equip.query();
+			while(equip.next()){
+				var type = equip.item.item_type;
+				if(type == 'Tool' || type == 'Pack' || type == 'Instrument' || type == 'Gear' || type == 'Ammo'){
+					//tools += '&lt;div class="tooltip"&gt;' + equip.getDisplayValue('item') + '&lt;span class="tooltiptext"&gt;' + equip.item.description + '&lt;/span&gt;&lt;/div&gt;';
+					
+					if(type != 'Ammo'){
+						tools += equip.getDisplayValue('item') + '&lt;br /&gt;';
+					}
+					else{
+						tools += equip.getDisplayValue('item') + ' (' + equip.getValue('count') + ')&lt;br /&gt;';
+					}
+				}
+				else if(type == 'Weapon'){
+
+					var equipWeapon = new GlideRecord('x_262366_wld_bldr_item');
+					equipWeapon.addQuery('sys_id', equip.item);
+					equipWeapon.query();
+					if(equipWeapon.next()){
+
+						var atkBon = 0;
+						var strBon = toon.strength_modifier;
+						var dexBon = toon.dexterity_modifier;
+						var atkBonStr = 0;
+						var atkBonDex = 0;
+						var profBon = toon.proficiency_bonus;
+						var dmgBon = 0;
+						var baseWeaponId = equipWeapon.sys_id;
+
+						//is magic?
+						if(equipWeapon.magic_bonus &gt; 0){
+							atkBon += equipWeapon.magic_bonus;
+							baseWeaponId = equipWeapon.base_weapon;
+							dmgBon += atkBon;
+						}
+
+						//are proficient?
+						if(toon.simple_proficiency == 1 &amp;&amp; equipWeapon.weapon_type_skill == 'Simple'){
+							atkBon += parseFloat(profBon);
+						}
+						else if(toon.martial_proficiency == 1 &amp;&amp; equipWeapon.weapon_type_skill == 'Martial'){
+							atkBon += parseFloat(profBon);
+						}
+						else if(toon.weapon_proficiencies.indexOf(baseWeaponId) &gt; -1){
+							atkBon += parseFloat(profBon);
+						}
+
+						atkBonStr = strBon + atkBon;
+						atkBonDex = dexBon + atkBon;
+
+						var atkBonHTML = '&lt;div class="atkBonBox"&gt;';
+
+						//which bonus?
+						if(equipWeapon.properties.indexOf('25b3bfbbdb7b130049ac7e7dbf96196d') &gt; -1){ //ammunition, use dex only
+							dmgBon += dexBon;
+							atkBonHTML += '&lt;div id="' + equipWeapon.sys_id +'dexBon"&gt;&lt;div class="atkBon"&gt;+' + atkBonDex + '&lt;/div&gt;&lt;div class="atkModDex" id="' + equipWeapon.sys_id + 'select"&gt;Dex&lt;/div&gt;';
+							atkBonHTML += '&lt;div class="atkType"&gt;' + equipWeapon.damage + ' + ' + dmgBon + ' ' + equipWeapon.damage_type.getDisplayValue() + '&lt;/div&gt;&lt;/div&gt;';
+						}
+						else if(equipWeapon.properties.indexOf('ae04b77bdb7b130049ac7e7dbf9619a3') &gt; -1 || equipWeapon.properties.indexOf('bac3ffbbdb7b130049ac7e7dbf961924') &gt; -1){ //range or finesse, use both 
+							if(strBon &gt; dexBon){
+								atkBonHTML += '&lt;div id="' + equipWeapon.sys_id +'strBon"&gt;&lt;div class="atkBon"&gt;+' + atkBonStr + '&lt;/div&gt;&lt;div onclick="swapWeaponMod(\'' + equipWeapon.sys_id + '\',\'dex\')" class="atkModStr" id="' + equipWeapon.sys_id + 'select"&gt;Str&lt;/div&gt;';
+								atkBonHTML += '&lt;div class="atkType"&gt;' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(strBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '&lt;/div&gt;&lt;/div&gt;';
+
+
+								atkBonHTML += '&lt;div style="display:none!important;" hidden="true" id="' + equipWeapon.sys_id +'dexBon"&gt;&lt;div class="atkBon"&gt;+' + atkBonDex + '&lt;/div&gt;&lt;div onclick="swapWeaponMod(\'' + equipWeapon.sys_id + '\',\'str\')" class="atkModDex" id="' + equipWeapon.sys_id + 'select"&gt;Dex&lt;/div&gt;';
+								atkBonHTML += '&lt;div class="atkType"&gt;' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(dexBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '&lt;/div&gt;&lt;/div&gt;';
+							}
+							else{
+								atkBonHTML += '&lt;div id="' + equipWeapon.sys_id +'dexBon"&gt;&lt;div class="atkBon"&gt;+' + atkBonDex + '&lt;/div&gt;&lt;div onclick="swapWeaponMod(\'' + equipWeapon.sys_id + '\',\'str\')" class="atkModDex" id="' + equipWeapon.sys_id + 'select"&gt;Dex&lt;/div&gt;';
+								atkBonHTML += '&lt;div class="atkType"&gt;' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(dexBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '&lt;/div&gt;&lt;/div&gt;';
+
+								atkBonHTML += '&lt;div style="display:none!important;" hidden="true" id="' + equipWeapon.sys_id +'strBon"&gt;&lt;div class="atkBon"&gt;+' + atkBonStr + '&lt;/div&gt;&lt;div onclick="swapWeaponMod(\'' + equipWeapon.sys_id + '\',\'dex\')" class="atkModStr" id="' + equipWeapon.sys_id + 'select"&gt;Str&lt;/div&gt;';
+								atkBonHTML += '&lt;div class="atkType"&gt;' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(strBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '&lt;/div&gt;&lt;/div&gt;';
+							}
+						}
+						else{ //only use strength
+							atkBonHTML += '&lt;div id="' + equipWeapon.sys_id +'strBon"&gt;&lt;div class="atkBon"&gt;+' + atkBonStr + '&lt;/div&gt;&lt;/div&gt;&lt;div class="atkModStr" id="' + equipWeapon.sys_id + 'select"&gt;Str&lt;/div&gt;';
+							atkBonHTML += '&lt;div class="atkType"&gt;' + equipWeapon.damage + ' + ' + (parseFloat(dmgBon) + parseFloat(strBon)) + ' ' + equipWeapon.damage_type.getDisplayValue() + '&lt;/div&gt;&lt;/div&gt;';
+						}
+
+						atkBonHTML += '&lt;/div&gt;';
+
+						weapons += '&lt;div class="weaponBox"&gt;&lt;div class="weaponName"&gt;' + equipWeapon.name + '&lt;/div&gt;' + atkBonHTML + '&lt;/div&gt;';
+					}
+				}
+				else if(type == 'Armor'){
+					//look up the armor item
+					var equipArmor = new GlideRecord('x_262366_wld_bldr_item');
+					equipArmor.addQuery('sys_id', equip.item);
+					equipArmor.query();
+					if(equipArmor.next()){
+						var equipped = 'no';
+						var proficient = 'no';
+						var strongEnough = 'yes';
+						var armorClass = equipArmor.base_armor_class;
+						armorClass += parseFloat(equipArmor.magic_bonus) &gt; 0?parseFloat(equipArmor.magic_bonus):0;
+
+
+						if(toon.armor_proficiencies.indexOf(equipArmor.armor_type) &gt; -1){
+							proficient = 'yes';
+						}
+						if(equip.equipped &amp;&amp; equip.equipped != ''){
+							equipped = 'yes';
+						}
+
+						//calc ac bonus
+						if(equipArmor.ac_modifier_bonus == 'Dex'){
+							armorClass += parseFloat(toon.dexterity_modifier);
+						}
+						else if(equipArmor.ac_modifier_bonus == 'Dex Max 2'){
+							armorClass += (parseFloat(toon.dexterity_modifier) &gt; 2? 2 : parseFloat(toon.dexterity_modifier));
+						}
+
+
+						//check that they meet the str prerequisite
+						if(equipArmor.strength_prerequisite &amp;&amp; equipArmor.strength_prerequisite &gt; 0){
+							if(toon.strength &lt; equipArmor.strength_prerequisite){
+								strongEnough = 'no';
+							}
+						}
+
+						//if not proficient &amp; equipped, set encumbered, else warn
+						//if not strong enough &amp; equippped, set encumbered, else warn
+						//set class to the id of the equipment slot. that way if
+						//something is equipped, all others with the same class get unequipped
+
+						armor += '&lt;div class="weaponBox"&gt;&lt;div class="armorName"&gt;' + equipArmor.name + '&lt;/div&gt;';
+						armor += '&lt;div class="armorACBon"&gt;+ ' + armorClass + '&lt;/div&gt;';
+						armor += '&lt;div class="armorEquipBox"&gt;';
+						armor += '&lt;div class="armorEquippedBox" onclick="equipArmor(\'' + equipArmor.sys_id + '\',\'' + equipArmor.equipment_slot + '\')"&gt;&lt;div class="armorEquipped' + equipArmor.equipment_slot + '" id="' + equipArmor.sys_id + '"&gt;' + (equipped == 'yes'?'e':'') + '&lt;/div&gt;&lt;/div&gt;';
+						armor += '&lt;div class="armorSlot"&gt;' + equipArmor.equipment_slot.getDisplayValue() + '&lt;/div&gt;';
+						armor += '&lt;div class="armorEncumberBox"&gt;&lt;div class="armorEncumbered"&gt;' + (proficient=='no' || strongEnough == 'no'?'ENC':'') + '&lt;/div&gt;&lt;/div&gt;';
+						armor += '&lt;/div&gt;&lt;/div&gt;';
+
+					}
+
+				}
+				else if(type == 'Ammo'){
+					/*if()
+					➳
+					➵
+					*/
+				}
+				else if(type == 'Magic Item'){
+					if(magItems == ''){
+						magItems += '&lt;div class="magItemsSection"&gt;&lt;div class="magItemsTitle"&gt;Magic Items&lt;/div&gt;';
+					}
+					magItems += '&lt;div class="magItemBox"&gt;&lt;div class="magItemName" onclick="toggleMagItem(\'' + equip.sys_id + '\')" &gt;' + (equip.count &gt; 1?'(' + equip.count + ') ':'') + equip.item.name + (equip.max_charges &gt; 0?'&lt;/div&gt;&lt;div class="charges"&gt;&amp;#160;' + equip.charges + '/' + equip.max_charges + ' charges':'') + '&lt;/div&gt;&lt;div hidden="true" class="magItemDesc" id="' + equip.sys_id +'"&gt;' + equip.item.description + '&lt;/div&gt;&lt;/div&gt;';
+				}
+			}
+
+			if(magItems != ''){
+				magItems += '&lt;/div&gt;';
+			}
+
+			//spells
+			var spellBoxHTML = '';
+			var spellsHTML = ['','','','','','','','','',''];
+			var spellDescriptionHTML = '';
+			var toonSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+			toonSpell.addQuery('character', toonId);
+			toonSpell.query();
+			while(toonSpell.next()){
+				if(spellBoxHTML == ''){
+					spellBoxHTML += '&lt;div class="weaponsTitle"&gt;Spells&lt;/div&gt;';
+				}
+				var spell = new GlideRecord('x_262366_wld_bldr_spell');
+				spell.addQuery('sys_id', toonSpell.spell);
+				spell.query();
+				if(spell.next()){
+					var level = spell.getValue('level');
+					if(level == '7d794748db90230049ac7e7dbf9619d0'){ //cantrip
+						if(spellsHTML[0] == ''){
+							spellsHTML[0] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;Cantrips&lt;/div&gt;';
+						}
+						spellsHTML[0] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == '95a41e81db5c230049ac7e7dbf961939'){ //1st
+						if(spellsHTML[1] == ''){
+							spellsHTML[1] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;1st Level&lt;/div&gt;';
+						}
+						spellsHTML[1] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == 'e6946874db10230049ac7e7dbf961937'){ //2nd
+						if(spellsHTML[2] == ''){
+							spellsHTML[2] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;2nd Level&lt;/div&gt;';
+						}
+						spellsHTML[2] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == '2ed21e41db5c230049ac7e7dbf9619dd'){ //3rd
+						if(spellsHTML[3] == ''){
+							spellsHTML[3] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;3rd Level&lt;/div&gt;';
+						}
+						spellsHTML[3] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == '69e25a01db5c230049ac7e7dbf9619d7'){ //4th
+						if(spellsHTML[4] == ''){
+							spellsHTML[4] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;4th Level&lt;/div&gt;';
+						}
+						spellsHTML[4] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+					}
+					else if(level == '1be21641db5c230049ac7e7dbf9619eb'){ //5th
+						if(spellsHTML[5] == ''){
+							spellsHTML[5] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;5th Level&lt;/div&gt;';
+						}
+						spellsHTML[5] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+					else if(level == '76f2de01db5c230049ac7e7dbf961919'){ //6th
+						if(spellsHTML[6] == ''){
+							spellsHTML[6] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;6th Level&lt;/div&gt;';
+						}
+						spellsHTML[6] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+					else if(level == 'b803da01db5c230049ac7e7dbf961928'){ //7th
+						if(spellsHTML[7] == ''){
+							spellsHTML[7] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;7th Level&lt;/div&gt;';
+						}
+						spellsHTML[7] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+					else if(level == '62035e01db5c230049ac7e7dbf9619eb'){ //8th
+						if(spellsHTML[8] == ''){
+							spellsHTML[8] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;8th Level&lt;/div&gt;';
+						}
+						spellsHTML[8] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+					else if(level == 'ec13da41db5c230049ac7e7dbf9619a0'){ //9th
+						if(spellsHTML[9] == ''){
+							spellsHTML[9] += '&lt;div class="spellLevelBox"&gt;&lt;div class="spellLevelTitle"&gt;9th Level&lt;/div&gt;';
+						}
+						spellsHTML[9] += '&lt;div class="spellName" onclick="showSpellDescription(\'' + spell.getValue('sys_id') + '\')"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+
+						spellDescriptionHTML += this._getSpellHTML(spell.getValue('sys_id'), toonSpell.getDisplayValue('spellcasting_ability'), toonSpell.getValue('save_dc'), toonSpell.getValue('attack_modifier'));
+
+					}
+				}
+			}
+
+			if(spellsHTML[0] != ''){
+				spellsHTML[0] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[1] != ''){
+				spellsHTML[1] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[2] != ''){
+				spellsHTML[2] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[3] != ''){
+				spellsHTML[3] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[4] != ''){
+				spellsHTML[4] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[5] != ''){
+				spellsHTML[5] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[6] != ''){
+				spellsHTML[6] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[7] != ''){
+				spellsHTML[7] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[8] != ''){
+				spellsHTML[8] += '&lt;/div&gt;';
+			}
+			if(spellsHTML[9] != ''){
+				spellsHTML[9] += '&lt;/div&gt;';
+			}
+
+			spellBoxHTML += '&lt;div class="spellLevelGroup"&gt;' + spellsHTML[0] + spellsHTML[1] + spellsHTML[2] + '&lt;/div&gt;&lt;div class="spellLevelGroup"&gt;' + spellsHTML[3] + spellsHTML[4] + spellsHTML[5] + '&lt;/div&gt;&lt;div class="spellLevelGroup"&gt;' + spellsHTML[6] + spellsHTML[7] + spellsHTML[8] + '&lt;/div&gt;&lt;div class="spellLevelGroup"&gt;' + spellsHTML[9] + '&lt;/div&gt;' + spellDescriptionHTML;
+
+
+			var toonFeatureHTML = '';
+			//get character features
+			var feature = new GlideRecord('x_262366_wld_bldr_character_feature');
+			feature.addQuery('character', toonId);
+			feature.query();
+			while(feature.next()){
+				toonFeatureHTML += '&lt;div class="toonFeatureName"&gt;' + feature.getValue('name') + '&lt;/div&gt;';
+				
+				toonFeatureHTML += '&lt;div class="featureUsesBox"&gt;';
+				var totalUses = parseFloat(feature.getValue('total_uses'));
+				var currentUses = parseFloat(feature.getValue('uses'));
+				if(totalUses &gt; 0){
+					for(var i = 0; i &lt; totalUses; ++i){
+						toonFeatureHTML += '&lt;div class="featureUsesCounter" id="' + feature.getValue('sys_id') + i + '"&gt;';
+						if(i &lt; currentUses){
+							//filled in
+							toonFeatureHTML += '&amp;#9899;';
+						}
+						else{
+							//open circle
+							toonFeatureHTML += '&amp;#9898;';
+						}
+						toonFeatureHTML += '&lt;/div&gt;';
+					}
+				}
+				toonFeatureHTML += '&lt;/div&gt;';
+				
+				toonFeatureHTML += '&lt;div class="featureDescription"&gt;' + feature.getValue('feature') + '&lt;/div&gt;';
+			}
+			
+			response.setAttribute('toonTools', tools);
+			response.setAttribute('toonWeapons', weapons);
+			response.setAttribute('toonArmor', armor);
+			response.setAttribute('toonMagItems', magItems);
+			response.setAttribute('toonSpells', spellBoxHTML);
+			response.setAttribute('toonFeatures', toonFeatureHTML);
+		}
+	},
+
+	equipArmor: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var itemId = this.getParameter('sysparm_equipped_item');
+		var action = this.getParameter('sysparm_action');
+
+		var response = this.newItem('toonArmorClass');
+
+		var item = new GlideRecord('x_262366_wld_bldr_item');
+		item.addQuery('sys_id', itemId);
+		item.query();
+		if(item.next()){
+			var toonItems = new GlideRecord('x_262366_wld_bldr_owned_item');
+			toonItems.addQuery('character', toonId);
+			toonItems.query();
+			while(toonItems.next()){
+				if(toonItems.item.equipment_slot == item.equipment_slot){
+					if(toonItems.item == itemId){
+						if(action == 'don'){
+							toonItems.equipped = item.equipment_slot;
+						}
+						else if(action == 'doff'){
+							toonItems.equipped = '';
+						}
+					}
+					else{
+						toonItems.equipped = '';
+					}
+					toonItems.update();
+				}
+			}
+
+			var armorClass = new CalculateArmorClass().getArmorClass(toonId);
+
+			response.setAttribute('armorClass', armorClass);
+		}
+
+	},
+
+	_getSpellHTML: function(spellId, castMod, saveDC, atkMod){
+		var spellDescriptionHTML = '&lt;div class="spellDescBox" hidden="true" id="' + spellId + '"&gt;';
+		var spell = new GlideRecord('x_262366_wld_bldr_spell');
+		spell.addQuery('sys_id', spellId);
+		spell.query();
+		if(spell.next()){
+			var castingTime = spell.getValue('casting_time');
+			if(castingTime == 'd79e11c1dbd8230049ac7e7dbf9619c7'){ //action
+				castingTime = 'Action';
+			}
+			else if(castingTime == '37ae51c1dbd8230049ac7e7dbf9619e3'){ //bonus action
+				castingTime = 'Bonus Action';
+			}
+			else if(castingTime == 'adbe1d81dbd8230049ac7e7dbf9619b3'){ //reaction
+				castingTime = 'Reaction';
+			}
+			else if(castingTime == '28ee91c1dbd8230049ac7e7dbf961945'){ //concentration
+				castingTime = spell.getValue('concentration_time_min') + ' minute' + (spell.getValue('concentration_time_min') != 1?'s':'');
+			}
+
+			var duration = spell.getValue('duration');
+			if(duration == '2aa371cddbd8230049ac7e7dbf961926'){ //concentration
+				duration = 'Concentraion, up to ' + spell.getValue('duration_time') + ' ' + spell.getDisplayValue('duration_measurement') + (spell.getValue('duration_time') != 1?'s':'');
+			}
+			else if(duration == '3f233d8ddbd8230049ac7e7dbf961918'){ //instantaneous
+				duration = 'Instantaneous';
+			}
+			else if(duration == '071431cddbd8230049ac7e7dbf9619fb'){ //permanent
+				duration = 'Permanent';
+			}
+			else if(duration == '3c8c4a4ddb1c230049ac7e7dbf96194b'){ //special
+				duration = 'Special';
+			}
+			else if(duration == '82bcb505db1c230049ac7e7dbf961900'){ //timed
+				duration = spell.getValue('duration_time') + ' ' + spell.getDisplayValue('duration_measurement') + (spell.getValue('duration_time') != 1?'s':'');
+			}
+
+			var level = spell.getDisplayValue('level');
+			var levelType = spell.getDisplayValue('type');
+			if(level == 'Cantrip'){
+				levelType += ' Cantrip';
+			}
+			else{
+				levelType = level + ' ' + levelType;
+			}
+
+			var materialComponents = spell.getValue('material_components');
+			if(!materialComponents){
+				materialComponents = '';
+			}
+			else{
+				materialComponents = ' (' + materialComponents + ')';
+			}
+
+			spellDescriptionHTML += '&lt;div class="spellDescName"&gt;' + spell.getValue('name') + '&lt;/div&gt;';
+			spellDescriptionHTML += '&lt;div class="spellDescModifiers"&gt;&lt;div class="spellDescModifierBox"&gt;&lt;div class="spellDescModifierTitle"&gt;Spellcasting Ability&lt;/div&gt;&lt;div class="spellDescModifierData"&gt;' + castMod + '&lt;/div&gt;&lt;/div&gt;&lt;div class="spellDescModifierBox"&gt;&lt;div class="spellDescModifierTitle"&gt;Save DC&lt;/div&gt;&lt;div class="spellDescModifierData"&gt;' + saveDC + '&lt;/div&gt;&lt;/div&gt;&lt;div class="spellDescModifierBox"&gt;&lt;div class="spellDescModifierTitle"&gt;Attack Modifier&lt;/div&gt;&lt;div class="spellDescModifierData"&gt;+ ' + atkMod + '&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;br /&gt;';
+			spellDescriptionHTML += '&lt;div class="spellDescLevelType"&gt;' + levelType + '&lt;/div&gt;';
+			spellDescriptionHTML += '&lt;div class="spellDescDataBox"&gt;&lt;div class="spellDescDataTitle"&gt;Casting Time:&amp;#160;&lt;/div&gt;&lt;div class="spellDescData"&gt;' + castingTime + '&lt;/div&gt;&lt;/div&gt;';
+			spellDescriptionHTML += '&lt;div class="spellDescDataBox"&gt;&lt;div class="spellDescDataTitle"&gt;Range:&amp;#160;&lt;/div&gt;&lt;div class="spellDescData"&gt;' + spell.getValue('range_ft') + ' ft&lt;/div&gt;&lt;/div&gt;';
+			spellDescriptionHTML += '&lt;div class="spellDescDataBox"&gt;&lt;div class="spellDescDataTitle"&gt;Components:&amp;#160;&lt;/div&gt;&lt;div class="spellDescData"&gt;' + spell.getDisplayValue('components').replace('erbal','').replace('omatic', '').replace('aterial', '') + materialComponents + '&lt;/div&gt;&lt;/div&gt;';
+			spellDescriptionHTML += '&lt;div class="spellDescDataBox"&gt;&lt;div class="spellDescDataTitle"&gt;Duration:&amp;#160;&lt;/div&gt;&lt;div class="spellDescData"&gt;' + duration + '&lt;/div&gt;&lt;/div&gt;';
+			spellDescriptionHTML += '&lt;div class="spellDesc"&gt;' + spell.getValue('effect') + '&lt;/div&gt;';
+			var higherLevels = spell.getValue('at_higher_levels');
+			if(higherLevels &amp;&amp; higherLevels != ''){
+				spellDescriptionHTML += '&lt;div class="spellDesc"&gt;&lt;div class="spellDescDataTitle"&gt;At Higher Levels.&amp;#160;&lt;/div&gt;' + higherLevels + '&lt;/div&gt;';
+			}
+			spellDescriptionHTML += '&lt;/div&gt;';
+		}
+		return spellDescriptionHTML;
+	},
+
+	type: 'CharacterSheet'
+});]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2020-03-13 19:47:53&lt;/sys_created_on&gt;&lt;sys_id&gt;b224e2952feb4010a1fc808cf699b6d0&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;CharacterSheet&lt;/sys_name&gt;&lt;sys_package display_value="World Builder" source="x_262366_wld_bldr"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="World Builder"&gt;b3fcc508dbf3130049ac7e7dbf96195b&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_b224e2952feb4010a1fc808cf699b6d0&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2020-03-13 19:47:53&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-2126160497</payload_hash>
+        <record_name>CharacterSheet</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-03-13 19:47:53</sys_created_on>
+        <sys_id>b624e2952feb4010a1fc808cf699b6d3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>170d57055180000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-03-13 19:47:53</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>fe24e2951ceb4010cdcbf6b797ae79d2</update_guid>
+        <update_guid_history>fe24e2951ceb4010cdcbf6b797ae79d2:-2126160497</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-03-13 19:48:46</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>9ba55c367ebd4200afa963aff5f10100</sys_id>
+        <sys_metadata>b224e2952feb4010a1fc808cf699b6d0</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>CharacterSheet</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>sys_script_include_b224e2952feb4010a1fc808cf699b6d0</sys_update_name>
+        <sys_update_version display_value="sys_script_include_b224e2952feb4010a1fc808cf699b6d0">b624e2952feb4010a1fc808cf699b6d3</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-03-13 19:48:46</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

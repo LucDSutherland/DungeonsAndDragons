@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[function loadPage(){
+	$j('#countG').val(1);
+	createTable();
+}
+
+function createTable(){
+	var encounterID = getParmVal('encounter');
+
+	var eName = new GlideRecord('x_262366_wld_bldr_encounter');
+	eName.addQuery('sys_id', encounterID);
+	eName.query();
+	if(eName.next()){
+		document.getElementById('title').innerHTML = '<h2>' + eName.name + '</h2>';
+	}
+
+	var encounter = new GlideRecord('x_262366_wld_bldr_encountered_creature');
+	encounter.addQuery('encounter', encounterID);
+	encounter.orderByDesc('initiative');
+	encounter.query();
+
+	var tablehtml = '<table border="1"><thead><td>Name</td><td>Status Conditions</td><td>Current HP</td><td>Initiative</td></thead><tbody>';
+	
+	var loop = 0;
+	while(encounter.next()){
+		if(loop < $j('#countG').val()){
+			++loop;
+			//make table
+			var statCon = encounter.status_conditions;
+			var conditions = [];
+			var conditionhtml = '';
+			if(statCon){
+				statArr = statCon.split(',');
+
+				for(var i = 0; i < statArr.length; ++i){
+					var sc = new GlideRecord('x_262366_wld_bldr_status_condition');
+					sc.addQuery('sys_id', statArr[i]);
+					sc.query();
+					if(sc.next()){
+						if(conditionhtml != ''){
+							conditionhtml += ', ';
+						}
+						conditionhtml += sc.getValue('name');
+						conditions[i] = sc.getValue('name');
+					}
+				}
+			}
+
+			var color = 'green';
+			var max = parseFloat(encounter.max_hit_points);
+			var cur = parseFloat(encounter.current_hit_points);
+
+			if(cur <= 0){
+				color = 'black';
+			}
+			else if(cur*4 < max){
+				color = 'red';
+			}
+			else if(cur*2 < max){
+				color = 'orange';
+			}
+			else if(cur < max){
+				color = 'yellow';
+			}
+
+			tablehtml += '<tr><td>' + encounter.name + '</td><td>' + conditionhtml + '</td><td style="background-color:' + color + '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>' + encounter.initiative + '</td></tr>';
+			
+		}
+	}
+	
+	$j('#countG').val(loop + 1);
+	
+	tablehtml += '</tbody></table>';
+
+
+	document.getElementById('contentDiv').innerHTML = tablehtml;
+}
+
+
+
+function getParmVal(name) {
+  var url = document.URL.parseQuery();
+  if(url[name]){
+     return decodeURI(url[name]);
+  } else {
+     return;
+  }
+}
+]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_262366_wld_bldr_playerencounteruipage.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:700" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+		  crossorigin="anonymous" />
+	<link href="1a551f0a1308e300ecf230ded144b016.cssdbx" rel="stylesheet" type="text/css" />
+
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
+	
+		<style>
+			td {
+			text-align: center;
+			vertical-align: middle;
+			padding-right:10px;
+			padding-left:10px;
+			}
+		</style>
+	
+		<body  onload="loadPage()">
+		<span id='title'></span>
+		<div id='contentDiv'>
+		</div>
+		<br/><br/>
+		<button onclick="createTable()">Advance Turn</button>
+		
+		<input hidden='true' id='countG'/>
+	</body>
+
+</j:jelly>]]></html>
+        <name>playerencounteruipage</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-01-18 04:27:28</sys_created_on>
+        <sys_id>df6f3f17dbde0cd049ac7e7dbf961935</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>playerencounteruipage</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_ui_page_df6f3f17dbde0cd049ac7e7dbf961935</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-01-18 04:53:19</sys_updated_on>
+    </sys_ui_page>
+</record_update>

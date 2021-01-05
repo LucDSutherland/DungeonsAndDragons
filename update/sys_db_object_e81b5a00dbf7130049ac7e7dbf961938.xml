@@ -3,6 +3,7 @@
         <access>public</access>
         <actions_access>false</actions_access>
         <alter_access>false</alter_access>
+        <caller_access/>
         <client_scripts_access>false</client_scripts_access>
         <configuration_access>false</configuration_access>
         <create_access>false</create_access>
@@ -23,16 +24,16 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-08-03 20:18:49</sys_created_on>
         <sys_id>e81b5a00dbf7130049ac7e7dbf961938</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_name>Creatures</sys_name>
         <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
         <sys_policy/>
         <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
         <sys_update_name>sys_db_object_e81b5a00dbf7130049ac7e7dbf961938</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-03 20:18:49</sys_updated_on>
+        <sys_updated_on>2019-08-15 16:49:01</sys_updated_on>
         <update_access>false</update_access>
-        <user_role/>
+        <user_role display_value="x_262366_wld_bldr.dungeon_master" name="x_262366_wld_bldr.dungeon_master">b29d7ce4db77530049ac7e7dbf961975</user_role>
         <ws_access>true</ws_access>
     </sys_db_object>
 </record_update>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_262366_wld_bldr.CalculateArmorClass</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>CalculateArmorClass</name>
+        <script><![CDATA[var CalculateArmorClass = Class.create();
+CalculateArmorClass.prototype = {
+	initialize: function() {
+	},
+
+	getArmorClass: function(toonId){
+		var ac = 0;
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+
+			var baseAC = 10 + parseFloat(toon.getValue('dexterity_modifier'));
+			ac = baseAC;
+
+			//check owned items for armor, shields, magic items
+			var ownedItem = new GlideRecord('x_262366_wld_bldr_owned_item');
+			ownedItem.addQuery('character', toonId);
+			ownedItem.addNotNullQuery('equipped');
+			ownedItem.query();
+			while(ownedItem.next()){
+				var item = new GlideRecord('x_262366_wld_bldr_item');
+				item.addQuery('sys_id', ownedItem.item);
+				item.query();
+				if(item.next()){
+
+					var itemAC = parseFloat(item.getValue('base_armor_class'));
+					itemAC += parseFloat(item.getValue('magic_bonus')) > 0?parseFloat(item.getValue('magic_bonus')):0;
+
+
+					if(item.getValue('ac_modifier_bonus') == 'Dex'){
+						itemAC += parseFloat(toon.getValue('dexterity_modifier'));
+					}
+					else if(item.getValue('ac_modifier_bonus') == 'Dex Max 2'){
+						itemAC += (parseFloat(toon.getValue('dexterity_modifier')) > 2? 2 : parseFloat(toon.getValue('dexterity_modifier')));
+					}
+
+					var proficient = 'no';
+					var strongEnough = 'yes';		
+					var armorType = item.getValue('armor_type');
+
+					if(toon.armor_proficiencies.indexOf(armorType) > -1){
+						proficient = 'yes';
+					}
+					//check that they meet the str prerequisite
+					if(item.getValue('strength_prerequisite') > 0){
+						if(toon.getValue('strength') < item.getValue('strength_prerequisite')){
+							strongEnough = 'no';
+						}
+					}
+
+					if(armorType == '6cfd0084db88230049ac7e7dbf961905' || armorType == '87ed0cc8db88230049ac7e7dbf96196d' || armorType == 'badd88c8db88230049ac7e7dbf961997'){ //Heavy, Medium, or Light
+						itemAC -= baseAC;
+					}
+					ac += itemAC;
+					toon.encumbered = (proficient=='no' || strongEnough == 'no'?true:false);
+				}
+			}
+
+			//check spell effects
+
+			//check ability effects
+
+			toon.armor_class = ac;
+			toon.update();
+		}
+		return ac;
+	},
+
+	type: 'CalculateArmorClass'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-03-06 07:40:43</sys_created_on>
+        <sys_id>16e377fe2f134010a1fc808cf699b677</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>CalculateArmorClass</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_include_16e377fe2f134010a1fc808cf699b677</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-03-06 08:50:05</sys_updated_on>
+    </sys_script_include>
+</record_update>

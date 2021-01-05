@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Item" max_length="40" name="x_262366_wld_bldr_item" type="collection">
+        <element attributes="edge_encryption_enabled=true" choice="1" label="AC Modifier Bonus" max_length="40" name="ac_modifier_bonus" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Dex" sequence="0" value="Dex"/>
+                <element inactive_on_update="false" label="Dex Max 2" sequence="1" value="Dex Max 2"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Ammo Type" max_length="40" name="ammo_type" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Arrow" sequence="0" value="Arrow"/>
+                <element inactive_on_update="false" label="Bolt" sequence="1" value="Bolt"/>
+            </choice>
+        </element>
+        <element attributes="encode_utf8=false" label="Armor Type" max_length="32" name="armor_type" reference="x_262366_wld_bldr_armor_type" type="reference"/>
+        <element label="Base Armor Class" max_length="40" name="base_armor_class" type="integer"/>
+        <element attributes="encode_utf8=false" label="Base Item" max_length="32" name="base_item" reference="x_262366_wld_bldr_item" type="reference"/>
+        <element attributes="encode_utf8=false" label="Base Weapon" max_length="32" name="base_weapon" reference="x_262366_wld_bldr_item" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Damage" max_length="40" name="damage" type="string"/>
+        <element attributes="encode_utf8=false" label="Damage Type" max_length="32" name="damage_type" reference="x_262366_wld_bldr_damage_type" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Description" max_length="1000" name="description" type="string"/>
+        <element attributes="encode_utf8=false" label="Equipment Slot" max_length="32" name="equipment_slot" reference="x_262366_wld_bldr_equipment_slot" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Item Type" max_length="40" name="item_type" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Magic Item" sequence="0" value="Magic Item"/>
+                <element inactive_on_update="false" label="Weapon" sequence="1" value="Weapon"/>
+                <element inactive_on_update="false" label="Armor" sequence="2" value="Armor"/>
+                <element inactive_on_update="false" label="Tool" sequence="3" value="Tool"/>
+                <element inactive_on_update="false" label="Pack" sequence="4" value="Pack"/>
+                <element inactive_on_update="false" label="Instrument" sequence="5" value="Instrument"/>
+                <element inactive_on_update="false" label="Ammo" sequence="6" value="Ammo"/>
+                <element inactive_on_update="false" label="Gear" sequence="7" value="Gear"/>
+            </choice>
+        </element>
+        <element label="Magic Bonus" max_length="40" name="magic_bonus" type="integer"/>
+        <element label="Max Range" max_length="40" name="max_range" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="100" name="name" type="string"/>
+        <element label="Price (cp)" max_length="40" name="price_cp" type="integer"/>
+        <element label="Price (gp)" max_length="40" name="price_gp" type="integer"/>
+        <element label="Price (sp)" max_length="40" name="price_sp" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Properties" max_length="1024" name="properties" reference="x_262366_wld_bldr_weapon_property" type="glide_list"/>
+        <element label="Range" max_length="40" name="range" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Rarity" max_length="40" name="rarity" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Common" sequence="0" value="Common"/>
+                <element inactive_on_update="false" label="Uncommon" sequence="1" value="Uncommon"/>
+                <element inactive_on_update="false" label="Rare" sequence="2" value="Rare"/>
+                <element inactive_on_update="false" label="Very Rare" sequence="3" value="Very Rare"/>
+                <element inactive_on_update="false" label="Legendary" sequence="4" value="Legendary"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" label="Special Effect" max_length="1000" name="special_effect" type="string"/>
+        <element label="Stealth Disadvantage" max_length="40" name="stealth_disadvantage" type="boolean"/>
+        <element label="Strength Prerequisite" max_length="40" name="strength_prerequisite" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Versatile Damage" max_length="40" name="versatile_damage" type="string"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Weapon Type Range" max_length="40" name="weapon_type_range" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Melee" sequence="0" value="Melee"/>
+                <element inactive_on_update="false" label="Ranged" sequence="1" value="Ranged"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Weapon Type Skill" max_length="40" name="weapon_type_skill" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Martial" sequence="0" value="Martial"/>
+                <element inactive_on_update="false" label="Simple" sequence="1" value="Simple"/>
+            </choice>
+        </element>
+        <element label="Weight" max_length="40" name="weight" type="float"/>
+        <index name="index">
+            <element name="armor_type"/>
+        </index>
+        <index name="index2">
+            <element name="damage_type"/>
+        </index>
+        <index name="index3">
+            <element name="base_item"/>
+        </index>
+        <index name="index4">
+            <element name="base_weapon"/>
+        </index>
+        <index name="index5">
+            <element name="equipment_slot"/>
+        </index>
+    </element>
+</database>

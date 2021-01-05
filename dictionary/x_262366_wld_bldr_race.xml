@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Race" max_length="40" name="x_262366_wld_bldr_race" type="collection">
         <element attributes="edge_encryption_enabled=true" label="Additional Features" max_length="1000" name="additional_features" type="string"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Armor Proficiency" max_length="1024" name="armor_proficiency" reference="x_262366_wld_bldr_armor_type" type="glide_list"/>
         <element label="Base Charisma Modifier" max_length="40" name="base_charisma_modifier" type="integer"/>
         <element label="Base Constitution Modifier" max_length="40" name="base_constitution_modifier" type="integer"/>
         <element label="Base Dexterity Modifier" max_length="40" name="base_dexterity_modifier" type="integer"/>
         <element label="Base Intelligence Modifier" max_length="40" name="base_intelligence_modifier" type="integer"/>
         <element label="Base Strength Modifier" max_length="40" name="base_strength_modifier" type="integer"/>
         <element label="Base Wisdom Modifier" max_length="40" name="base_wisdom_modifier" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Condition Immunity" max_length="1024" name="condition_immunity" reference="x_262366_wld_bldr_status_condition" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Damage Immunity" max_length="1024" name="damage_immunity" reference="x_262366_wld_bldr_damage_type" type="glide_list"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Damage Resistance" max_length="1024" name="damage_resistance" reference="x_262366_wld_bldr_damage_type" type="glide_list"/>
         <element label="Extra Languages (random)" max_length="40" name="extra_languages_random" type="integer"/>
+        <element label="Genderless" max_length="40" name="genderless" type="boolean"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Languages" max_length="1024" name="languages" reference="x_262366_wld_bldr_languages" type="glide_list"/>
         <element label="Lifespan" max_length="40" name="lifespan" type="integer"/>
+        <element label="Martial Weapon Proficiencies" max_length="40" name="martial_weapon_proficiencies" type="integer"/>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element label="Plus One Choice" max_length="40" name="plus_one_choice" type="integer"/>
         <element label="Race Spellcasting Ability" max_length="32" name="race_spellcasting_ability" reference="x_262366_wld_bldr_ability_score" type="reference"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Saving Throws Advantage" max_length="1024" name="saving_throws_advantage" reference="x_262366_wld_bldr_damage_type" type="glide_list"/>
         <element label="Size" max_length="32" name="size" reference="x_262366_wld_bldr_creature_size" type="reference"/>
         <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Skill Proficiencies" max_length="1024" name="skill_proficiencies" reference="x_262366_wld_bldr_skills" type="glide_list"/>
         <element label="Skill Proficiencies (random)" max_length="40" name="skill_proficiencies_random" type="integer"/>
+        <element label="Skill Proficiency Count" max_length="40" name="skill_proficiency_count" type="integer"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Skill Proficiency Options" max_length="1024" name="skill_proficiency_options" reference="x_262366_wld_bldr_skills" type="glide_list"/>
         <element label="Speed" max_length="40" name="speed" type="integer"/>
+        <element label="Swim" max_length="40" name="swim" type="integer"/>
         <element label="Tool Proficiencies" max_length="40" name="tool_proficiencies" type="integer"/>
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiency Options" max_length="1024" name="tool_proficiency_options" reference="x_262366_wld_bldr_tools" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Tool Proficiency Options" max_length="1024" name="tool_proficiency_options" reference="x_262366_wld_bldr_item" type="glide_list"/>
         <element label="1st Level Cantrip" max_length="32" name="u_1st_level_cantrip" reference="x_262366_wld_bldr_spell" type="reference"/>
         <element label="3rd Level Spell" max_length="32" name="u_3rd_level_spell" reference="x_262366_wld_bldr_spell" type="reference"/>
         <element label="5th Level Spell" max_length="32" name="u_5th_level_spell" reference="x_262366_wld_bldr_spell" type="reference"/>
         <element label="Vision" max_length="32" name="vision" reference="x_262366_wld_bldr_vision" type="reference"/>
-        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Proficiencies" max_length="1024" name="weapon_proficiencies" reference="x_262366_wld_bldr_weapons" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Weapon Proficiencies" max_length="1024" name="weapon_proficiencies" reference="x_262366_wld_bldr_item" type="glide_list"/>
         <index name="index">
             <element name="vision"/>
         </index>

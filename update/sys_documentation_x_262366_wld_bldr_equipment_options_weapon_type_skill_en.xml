@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="weapon_type_skill" label="Weapon Type Skill" language="en" table="x_262366_wld_bldr_equipment_options">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>weapon_type_skill</element>
+            <help/>
+            <hint/>
+            <label>Weapon Type Skill</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_equipment_options</name>
+            <plural>Weapon Type Skills</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2020-02-20 16:40:01</sys_created_on>
+            <sys_id>9036ac962f830010a1fc808cf699b609</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Weapon Type Skill</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_documentation_x_262366_wld_bldr_equipment_options_weapon_type_skill_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2020-02-20 16:40:01</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

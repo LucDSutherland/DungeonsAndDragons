@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_fix">
+    <sys_script_fix action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <before>false</before>
+        <description/>
+        <flush_cache>false</flush_cache>
+        <name>Return LUAs to Character Features</name>
+        <record_for_rollback>false</record_for_rollback>
+        <run_once>true</run_once>
+        <script><![CDATA[var cf = new GlideRecord('x_262366_wld_bldr_subclass_feature');
+cf.addEncodedQuery('limited_use_abilityISNOTEMPTY');
+cf.query();
+
+while(cf.next()){
+	var lua = new GlideRecord('x_262366_wld_bldr_limited_use_ability');
+	lua.addQuery('sys_id', cf.getValue('limited_use_ability'));
+	lua.query();
+	if(lua.next()){
+		cf.setValue('description', lua.getValue('description'));
+		cf.setValue('limited_use', 'true');
+		cf.setValue('limited_use_ability_modifier', lua.getValue('stat'));
+		cf.update();
+	}
+}]]></script>
+        <sys_class_name>sys_script_fix</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-08-27 17:14:11</sys_created_on>
+        <sys_id>4e6b4d15dbe7770049ac7e7dbf9619d5</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Return LUAs to Character Features</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_fix_4e6b4d15dbe7770049ac7e7dbf9619d5</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-08-27 17:20:32</sys_updated_on>
+        <unloadable>false</unloadable>
+    </sys_script_fix>
+</record_update>

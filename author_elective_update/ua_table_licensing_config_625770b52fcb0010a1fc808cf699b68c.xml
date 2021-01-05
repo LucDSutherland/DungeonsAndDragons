@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="ua_table_licensing_config">
+    <ua_table_licensing_config action="DELETE">
+        <is_fulfillment>false</is_fulfillment>
+        <license_condition/>
+        <license_model>none</license_model>
+        <license_roles/>
+        <name>x_262366_wld_bldr_character_equipment</name>
+        <op_delete>true</op_delete>
+        <op_insert>true</op_insert>
+        <op_update>true</op_update>
+        <owner_condition/>
+        <sys_class_name>ua_table_licensing_config</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-19 04:38:01</sys_created_on>
+        <sys_id>625770b52fcb0010a1fc808cf699b68c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_262366_wld_bldr_character_equipment</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>ua_table_licensing_config_625770b52fcb0010a1fc808cf699b68c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-19 04:38:01</sys_updated_on>
+    </ua_table_licensing_config>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</application>
+        <file_path/>
+        <instance_id>8e621892db92fa407d8cf22ebf96191a</instance_id>
+        <instance_name>dev35256</instance_name>
+        <name>ua_table_licensing_config_625770b52fcb0010a1fc808cf699b68c</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="ua_table_licensing_config"><ua_table_licensing_config action="INSERT_OR_UPDATE"><is_fulfillment>false</is_fulfillment><license_condition/><license_model>none</license_model><license_roles/><name>x_262366_wld_bldr_character_equipment</name><op_delete>true</op_delete><op_insert>true</op_insert><op_update>true</op_update><owner_condition/><sys_class_name>ua_table_licensing_config</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2020-02-19 04:38:01</sys_created_on><sys_id>625770b52fcb0010a1fc808cf699b68c</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_262366_wld_bldr_character_equipment</sys_name><sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package><sys_policy/><sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope><sys_update_name>ua_table_licensing_config_625770b52fcb0010a1fc808cf699b68c</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2020-02-19 04:38:01</sys_updated_on></ua_table_licensing_config></record_update>]]></payload>
+        <payload_hash>-1714225948</payload_hash>
+        <record_name>x_262366_wld_bldr_character_equipment</record_name>
+        <reverted_from/>
+        <source>480d4948dbf3130049ac7e7dbf9619a4</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-19 04:38:01</sys_created_on>
+        <sys_id>e65770b52fcb0010a1fc808cf699b68d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1705bbd0e710000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-19 04:38:01</sys_updated_on>
+        <type>Table Subscription Configuration</type>
+        <update_guid>225770b522cb00101850d4ebb172748d</update_guid>
+        <update_guid_history>225770b522cb00101850d4ebb172748d:-1714225948</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-02-20 16:55:00</sys_created_on>
+        <sys_db_object display_value="" name="ua_table_licensing_config">ua_table_licensing_config</sys_db_object>
+        <sys_id>4888819b3a4549759f856317527cf641</sys_id>
+        <sys_metadata>625770b52fcb0010a1fc808cf699b68c</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_262366_wld_bldr_character_equipment</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_scope_delete display_value="">135a754032e94ff282051c014f812924</sys_scope_delete>
+        <sys_update_name>ua_table_licensing_config_625770b52fcb0010a1fc808cf699b68c</sys_update_name>
+        <sys_update_version display_value="ua_table_licensing_config_625770b52fcb0010a1fc808cf699b68c">e65770b52fcb0010a1fc808cf699b68d</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-02-20 16:55:00</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Encountered Creature" max_length="40" name="x_262366_wld_bldr_encountered_creature" type="collection">
+        <element label="Animal Companion" max_length="32" name="animal_companion" reference="x_262366_wld_bldr_animal_companion" type="reference"/>
+        <element label="Armor Class" max_length="40" name="armor_class" type="integer"/>
+        <element label="Character" max_length="32" name="character" reference="x_262366_wld_bldr_character" type="reference"/>
+        <element label="Creature" max_length="32" name="creature" reference="x_262366_wld_bldr_creatures" type="reference"/>
+        <element label="Current Hit Points" max_length="40" name="current_hit_points" type="integer"/>
+        <element label="Dead" max_length="40" name="dead" type="boolean"/>
+        <element label="Encounter" max_length="32" name="encounter" reference="x_262366_wld_bldr_encounter" type="reference"/>
+        <element label="Initiative" max_length="40" name="initiative" type="integer"/>
+        <element label="Max Hit Points" max_length="40" name="max_hit_points" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Status Conditions" max_length="1024" name="status_conditions" reference="x_262366_wld_bldr_status_condition" type="glide_list"/>
+        <element label="Temporary Hit Points" max_length="40" name="temporary_hit_points" type="integer"/>
+        <index name="index">
+            <element name="character"/>
+        </index>
+        <index name="index2">
+            <element name="encounter"/>
+        </index>
+        <index name="index3">
+            <element name="animal_companion"/>
+        </index>
+        <index name="index4">
+            <element name="creature"/>
+        </index>
+    </element>
+</database>

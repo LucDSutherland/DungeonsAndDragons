@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="" label="Personality Type" language="en" table="x_262366_wld_bldr_personality_type">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element/>
+            <help/>
+            <hint/>
+            <label>Personality Type</label>
+            <language>en</language>
+            <name>x_262366_wld_bldr_personality_type</name>
+            <plural>Personality Types</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2019-08-09 19:22:45</sys_created_on>
+            <sys_id>fa6d3c27db8b338049ac7e7dbf96197d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Personality Type</sys_name>
+            <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+            <sys_update_name>sys_documentation_x_262366_wld_bldr_personality_type__en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2019-08-09 19:22:45</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

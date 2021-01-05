@@ -1,0 +1,1580 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_262366_wld_bldr.CreateACharacterFast</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <name>CreateACharacterFast</name>
+        <script><![CDATA[var CreateACharacterFast = Class.create();
+CreateACharacterFast.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	initializeCharacter: function(){
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.initialize();
+		toon.level = 1;
+		toon.experience_points = 0;
+		toon.proficiency_bonus = 2;
+		return toon.insert();
+	},
+
+	getRaceHTML: function(){
+		var raceHTML = '';
+		var subRaceHTML = '';
+		var races = new GlideRecord('x_262366_wld_bldr_race');
+		races.orderBy('name');
+		races.query();
+		while(races.next()){
+			
+			var hasSubRace = 'no';
+			subRaceHTML += '<div hidden="true" id="' + races.sys_id + '">';
+			var subRace = new GlideRecord('x_262366_wld_bldr_subrace');
+			subRace.addQuery('race', races.sys_id);
+			subRace.query();
+			while(subRace.next()){
+				subRaceHTML += "<a href='#' onclick='pickGender(\"" + subRace.sys_id + "\")'>" + subRace.name + "</a>";
+				hasSubRace = 'yes';
+			}
+			subRaceHTML += '</div>';
+			
+			raceHTML += "<a href='#' onclick='pickSubRace(\"" + races.sys_id + "\",\"" + races.genderless + "\",\"" + hasSubRace + "\")'>" + races.name + "</a>";
+		}
+		
+		var response = this.newItem('htmlStrings');
+		response.setAttribute('raceHTML', raceHTML);
+		response.setAttribute('subRaceHTML', subRaceHTML);
+	},
+
+	getClassHTML: function(){
+		var classHTML = '';
+		var featureOptionsHTML = '';
+		var subClassHTML = '';
+		var classes = new GlideRecord('x_262366_wld_bldr_class');
+		classes.addQuery('sys_id', '!=', '246cc942dbb5230049ac7e7dbf96195b');
+		classes.orderBy('name');
+		classes.query();
+		var hasOptions = 0;
+		
+		while(classes.next()){
+			hasOptions = 0;
+			var classFeatures = new GlideRecord('x_262366_wld_bldr_class_feature');
+			classFeatures.addQuery('u_class', classes.sys_id);
+			classFeatures.addQuery('level', 1);
+			classFeatures.orderBy('name');
+			classFeatures.query();
+			while(classFeatures.next()){
+				if(classFeatures.class_feature_options > 0){
+					hasOptions++;
+					featureOptionsHTML += '<div hidden="true" id="' + classes.sys_id + 'options'+ hasOptions + '">';
+					var options = new GlideRecord('x_262366_wld_bldr_class_feature_option');
+					options.addQuery('class_features', 'CONTAINS', classFeatures.sys_id);
+					options.query();
+					while(options.next()){
+						featureOptionsHTML += "<a href='#' onclick='optionSelected(\"" + options.sys_id + "\"," + hasOptions + ",\"" + classes.sys_id + "\")'>" + options.name + "</a>";
+					}
+					featureOptionsHTML += '</div>';
+				}
+			}
+			
+			if(classes.pick_subclass == 1){
+				subClassHTML += '<div hidden="true" id="' + classes.sys_id + '">';
+				var subClass = new GlideRecord('x_262366_wld_bldr_subclass');
+				subClass.addQuery('u_class', classes.sys_id);
+				subClass.orderBy('name');
+				subClass.query();
+				var subclassCount = subClass.getRowCount();
+				while(subClass.next()){
+					subClassHTML +=  "<a href='#' onclick='pickBackground(\"" + subClass.sys_id + "\")'>" + subClass.name + "</a>";
+				}
+				subClassHTML += '</div>';
+			}
+			
+			
+			classHTML += "<a href='#' onclick='pickClassFeatureOption(\"" + classes.sys_id + "\"," + hasOptions + "," + classes.pick_subclass + ")'>" + classes.name + "</a>";
+		}
+		
+		var response = this.newItem('htmlStrings');
+		response.setAttribute('classHTML', classHTML);
+		response.setAttribute('subClassHTML', subClassHTML);
+		response.setAttribute('featureOptionsHTML', featureOptionsHTML);		
+	},
+	
+	getBackgroundHTML: function(){
+		var backHTML = '';
+		var toolHTML = '';
+		var back = new GlideRecord('x_262366_wld_bldr_backgrounds');
+		back.orderBy('name');
+		back.query();
+		
+		while(back.next()){
+			backHTML += "<a href='#' onclick='pickToolProficiencies(\"" + back.sys_id + "\"," + back.tool_proficiency_choices + ",\"" + back.tool_proficiencies + "\",\"" + back.skill_proficiencies + "\",\"" + back.skill_proficiencies.getDisplayValue() + "\"," + back.languages + ")'>" + back.name + "</a>";
+			if(back.tool_proficiency_choices > 0){
+				toolHTML += '<div hidden="true" id="' + back.sys_id + '">';
+				
+				var tools = new GlideRecord('x_262366_wld_bldr_item');
+				tools.addQuery('sys_id', 'IN', back.tool_proficiency_options);
+				
+				tools.orderBy('name');
+				tools.query();
+				while(tools.next()){
+					toolHTML += "<a href='#' id='" + tools.sys_id + "' onclick='toolChosen(\"" + tools.sys_id + "\")'>" + tools.name + "</a>";
+				}
+				
+				toolHTML += '</div>';
+			}
+			
+		}
+		
+		
+		var response = this.newItem('htmlStrings');
+		response.setAttribute('backHTML', backHTML);
+		response.setAttribute('toolHTML', toolHTML);
+		
+	},
+	
+	getLanguages: function(){
+		var languageIds = '';
+		var languageNames = '';
+		var response = this.newItem('languages');
+		
+		var lang = new GlideRecord('x_262366_wld_bldr_languages');
+		lang.orderBy('name');
+		lang.query();
+		while(lang.next()){
+			if(languageIds != ''){
+				languageIds += ',';
+			}
+			if(languageNames != ''){
+				languageNames += ',';
+			}
+			languageIds += lang.sys_id;
+			languageNames += lang.name;
+		}
+		
+		response.setAttribute('languageIds', languageIds);
+		response.setAttribute('languageNames', languageNames);
+	},
+	
+	
+	//----------------------------------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------------------------------
+	
+	setGender: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var gender = this.getParameter('sysparm_gender');
+		
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.gender = gender;
+			toon.update();
+		}
+	},
+	
+	setRace: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var raceId = this.getParameter('sysparm_race_id');
+		
+		var response = this.newItem('raceData');
+		
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.race = raceId;
+			
+			var race = new GlideRecord('x_262366_wld_bldr_race');
+			race.addQuery('sys_id', raceId);
+			race.query();
+			if(race.next()){
+				toon.speed = race.speed;
+				toon.vision = race.vision;
+				toon.saving_throws_advantage = race.saving_throws_advantage;
+				toon.weapon_proficiencies = race.weapon_proficiencies;
+				toon.damage_resistance = race.damage_resistance;
+				toon.damage_immunity = race.damage_immunity;
+				toon.condition_immunity = race.condition_immunity;
+				
+				response.setAttribute('skillProf', race.skill_proficiencies);
+				response.setAttribute('skillProfDisplay', race.skill_proficiencies.getDisplayValue());
+				response.setAttribute('skillProfRandom', race.skill_proficiencies_random);
+				response.setAttribute('languages', race.languages);
+				response.setAttribute('plusOneChoice', race.plus_one_choice);
+				response.setAttribute('defaultLanguages', race.languages);
+				response.setAttribute('extraLanguagesRandom', race.extra_languages_random);
+				response.setAttribute('baseStr', race.base_strength_modifier);
+				response.setAttribute('baseDex', race.base_dexterity_modifier);
+				response.setAttribute('baseCon', race.base_constitution_modifier);
+				response.setAttribute('baseInt', race.base_intelligence_modifier);
+				response.setAttribute('baseWis', race.base_wisdom_modifier);
+				response.setAttribute('baseCha', race.base_charisma_modifier);
+				response.setAttribute('defaultCantrip', race.u_1st_level_cantrip);
+				
+				var skillIds = '';
+				var skillNames = '';
+				if(race.skill_proficiencies_random > 0){
+					//return list of all skills (and display values)
+					var skills = new GlideRecord('x_262366_wld_bldr_skills');
+					skills.orderBy('name');
+					skills.query();
+					while(skills.next()){
+						if(skillIds != ''){
+							skillIds += ',';
+						}
+						if(skillNames != ''){
+							skillNames += ',';
+						}
+						skillIds += skills.sys_id;
+						skillNames += skills.name;
+						
+					}
+				}
+				response.setAttribute('skillIds', skillIds);
+				response.setAttribute('skillNames', skillNames);
+				
+				if(race.tool_proficiencies > 0){
+					var raceToolHTML = '';
+					var tools = new GlideRecord('x_262366_wld_bldr_item');
+					tools.addQuery('sys_id', 'IN', race.tool_proficiency_options);
+					tools.orderBy('name');
+					tools.query();
+					while(tools.next()){
+						raceToolHTML += "<a href='#' id='" + tools.sys_id + "r' onclick='raceToolChosen(\"" + tools.sys_id + "\")'>" + tools.name + "</a>";
+					}
+					
+					response.setAttribute('raceToolHTML', raceToolHTML);
+					response.setAttribute('raceToolCount', race.tool_proficiencies);
+				}
+				
+			}
+			
+			//add race features
+			var raceFeature = new GlideRecord('x_262366_wld_bldr_race_features');
+			raceFeature.addQuery('race', raceId);
+			raceFeature.query();
+			while(raceFeature.next()){
+				var rcf = new GlideRecord('x_262366_wld_bldr_character_feature');
+				rcf.initialize();
+				if(raceFeature.limited_use){
+					rcf.total_uses = raceFeature.getValue('limited_use_ability_base_limit');
+					rcf.uses = 0;
+					rcf.refresh = raceFeature.getValue('limited_use_ability_refresh');
+				}
+
+				rcf.character = toon.sys_id;
+				rcf.source = toon.race.getDisplayValue();
+				rcf.feature = raceFeature.feature;
+				rcf.name = raceFeature.name;
+				rcf.active = 'true';
+				rcf.insert();
+			}
+			
+			toon.update();
+		}
+	},
+	
+	setSubRace: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var subRaceId = this.getParameter('sysparm_subrace_id');
+		var subraceCantripsHTML = '';
+		
+		var response = this.newItem('subRaceData');
+		
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.subrace = subRaceId;
+			
+			var subrace = new GlideRecord('x_262366_wld_bldr_subrace');
+			subrace.addQuery('sys_id', subRaceId);
+			subrace.query();
+			if(subrace.next()){
+				toon.damage_resistance += (toon.damage_resistance == ''?'':',') + subrace.damage_resistance;
+				toon.saving_throws_advantage += (toon.saving_throws_advantage == ''?'':',') + subrace.saving_throws_advantage;
+				toon.weapon_proficiencies += (toon.weapon_proficiencies == ''?'':',') + subrace.weapon_proficiencies;
+				toon.armor_proficiencies += (toon.armor_proficiencies == ''?'':',') + subrace.armor_proficiencies;
+				toon.bonus_hp_per_level = subrace.additional_hp_modifier;
+				if(subrace.speed_boost > 0){
+					toon.speed += subrace.speed_boost;
+				}
+				toon.tool_proficiencies = subrace.tool_proficiencies;
+				
+				response.setAttribute('extraLangRandom', subrace.extra_languages_random);
+				response.setAttribute('baseStr', subrace.base_strength_modifier);
+				response.setAttribute('baseDex', subrace.base_dexterity_modifier);
+				response.setAttribute('baseCon', subrace.base_constitution_modifier);
+				response.setAttribute('baseInt', subrace.base_intelligence_modifier);
+				response.setAttribute('baseWis', subrace.base_wisdom_modifier);
+				response.setAttribute('baseCha', subrace.base_charisma_modifier);
+				response.setAttribute('defaultCantrip', subrace.u_1st_level_cantrip);
+				
+				if(subrace.cantrip_choice){
+					var cantrips = new GlideRecord('x_262366_wld_bldr_spell');
+					cantrips.addQuery('level', '7d794748db90230049ac7e7dbf9619d0'); //cantrip
+					cantrips.addQuery('classes', 'CONTAINS', subrace.cantrip_choice);
+					cantrips.orderBy('name');
+					cantrips.query();
+					while(cantrips.next()){
+						subraceCantripsHTML += "<a id='" + cantrips.sys_id + "sr' href='#' onclick='subraceCantripChosen(\"" + cantrips.sys_id + "\")'>" + cantrips.name + "</a>";
+					}
+				}
+				
+				response.setAttribute('subraceCantripsHTML', subraceCantripsHTML);
+			}
+			
+			toon.update();
+		}
+	},
+	
+	setClass: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var classId = this.getParameter('sysparm_class_id');
+		
+		var response = this.newItem('classData');
+		
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.u_class = classId;
+			
+			//add class features
+			var classFeature = new GlideRecord('x_262366_wld_bldr_class_feature');
+			classFeature.addQuery('u_class', classId);
+			classFeature.addQuery('level', 1);
+			classFeature.query();
+			while(classFeature.next()){
+				if(classFeature.expertise_type && classFeature.expertise_type != ''){
+					response.setAttribute('expertiseType', classFeature.expertise_type);
+				}
+				
+				if(classFeature.class_feature_options > 0){
+					//do nothing
+				}
+				else{
+					var cf = new GlideRecord('x_262366_wld_bldr_character_feature');
+					cf.initialize();
+					if(classFeature.limited_use){
+						cf.limited_use_ability_modifier = classFeature.limited_use_ability_modifier;
+						cf.limited_use_base_limit = classFeature.limited_use_ability_base_use_limit;
+						cf.total_uses = classFeature.limited_use_ability_base_use_limit;
+						cf.die_count = classFeature.limited_use_ability_die_count;
+						cf.die_size = classFeature.limited_use_ability_die_size;
+						cf.uses = 0;
+						cf.refresh = classFeature.limited_use_ability_refresh;
+					}
+
+					cf.character = toon.sys_id;
+					cf.source = toon.u_class.getDisplayValue();
+					cf.feature = classFeature.description;
+					cf.name = classFeature.name;
+					cf.action = classFeature.action;
+					cf.bonus_action = classFeature.bonus_action;
+					cf.reaction = classFeature.reaction;
+					cf.active = 'true';
+					cf.insert();
+				}
+			}
+			
+			var classGR = new GlideRecord('x_262366_wld_bldr_class');
+			classGR.addQuery('sys_id', classId);
+			classGR.query();
+			if(classGR.next()){
+				toon.saving_throw_proficiencies = classGR.saving_throw_proficiencies;
+				toon.armor_proficiencies += (toon.armor_proficiencies == ''?'':',') + classGR.armor_proficiencies;
+				toon.weapon_proficiencies += (toon.weapon_proficiencies == ''?'':',') + classGR.weapon_proficiencies;
+				if(classGR.simple_proficiency){
+					toon.simple_proficiency = true;
+				}
+				if(classGR.martial_proficiency){
+					toon.martial_proficiency = true;
+				}
+				toon.max_hit_points = classGR.hit_dice;
+				
+				response.setAttribute('skillOptions', classGR.skill_proficiency_options);
+				response.setAttribute('skillOptionsDisplay', classGR.skill_proficiency_options.getDisplayValue());
+				response.setAttribute('skillProfCount', classGR.skill_proficiencies);
+				response.setAttribute('toolOptions', classGR.tool_proficiency_options);
+				response.setAttribute('toolOptionsDisplay', classGR.tool_proficiency_options.getDisplayValue());
+				response.setAttribute('toolProfCount', classGR.tool_proficiencies);
+				
+				var cTable = new GlideRecord('x_262366_wld_bldr_class_table');
+				cTable.addQuery('u_class', classId);
+				cTable.addQuery('level', 1);
+				cTable.query();
+				if(cTable.next()){
+					if(cTable.cantrips_known > 0){
+						response.setAttribute('cantripsKnown', cTable.cantrips_known);
+
+						var cantrips = new GlideRecord('x_262366_wld_bldr_spell');
+						cantrips.addQuery('level', '7d794748db90230049ac7e7dbf9619d0'); //cantrip
+						cantrips.addQuery('classes', 'CONTAINS', classId);
+						cantrips.orderBy('name');
+						cantrips.query();
+						var cantripsHTML = '';
+						while(cantrips.next()){
+							cantripsHTML += "<a id='" + cantrips.sys_id + "' href='#' onclick='cantripChosen(\"" + cantrips.sys_id + "\")'>" + cantrips.name + "</a>";
+						}
+
+						response.setAttribute('cantripsHTML', cantripsHTML);
+					}
+
+					if(cTable.spells_known > 0 ){
+						response.setAttribute('spellsKnown', cTable.spells_known);
+
+						if(classGR.subclass_expanded_spell_type != 'Expanded List'){
+							var spells = new GlideRecord('x_262366_wld_bldr_spell');
+							spells.addQuery('level', '95a41e81db5c230049ac7e7dbf961939'); //1st level
+							spells.addQuery('classes', 'CONTAINS', classId);
+							spells.orderBy('name');
+							spells.query();
+							var spellsHTML = '';
+							while(spells.next()){
+								spellsHTML += "<a id='" + spells.sys_id + "' href='#' onclick='spellChosen(\"" + spells.sys_id + "\")'>" + spells.name + "</a>";
+							}
+						}
+						
+						response.setAttribute('spellsHTML', spellsHTML);
+					}
+				}
+			}
+			toon.update();
+		}
+	},
+	
+	setClassFeatureOption: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var featureId = this.getParameter('sysparm_feature_id');
+		
+		var cfo = new GlideRecord('x_262366_wld_bldr_class_feature_option');
+		cfo.addQuery('sys_id', featureId);
+		cfo.query();
+		if(cfo.next()){
+			//create character feature and character class feature option
+			var ccfo = new GlideRecord('x_262366_wld_bldr_character_class_feature_option');
+			ccfo.initialize();
+			ccfo.character = toonId;
+			ccfo.class_feature_option = featureId;
+			ccfo.level_obtained = 1;
+			ccfo.insert();
+			
+			var cf = new GlideRecord('x_262366_wld_bldr_character_feature');
+			cf.initialize();
+			cf.character = toonId;
+			cf.source = cfo.class_features.getDisplayValue().split(',')[0];
+			cf.feature = cfo.description;
+			cf.name = cfo.name;
+			cf.active = 'true';
+			cf.insert();
+		}
+	},
+	
+	setSubClass: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var subClassId = this.getParameter('sysparm_subclass_id');
+		
+		var response = this.newItem('subClassData');
+		
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.subclass = subClassId;
+			
+			var subClassFeature = new GlideRecord('x_262366_wld_bldr_subclass_feature');
+			subClassFeature.addQuery('subclass', subClassId);
+			subClassFeature.addQuery('level', 1);
+			subClassFeature.query();
+			while(subClassFeature.next()){
+				var cf = new GlideRecord('x_262366_wld_bldr_character_feature');
+				cf.initialize();
+				if(subClassFeature.limited_use){
+					cf.limited_use_ability_modifier = subClassFeature.limited_use_ability_modifier;
+					cf.limited_use_base_limit = subClassFeature.limited_use_ability_base_use_limit;
+					cf.total_uses = subClassFeature.limited_use_ability_base_use_limit;
+					cf.die_count = subClassFeature.limited_use_ability_die_count;
+					cf.die_size = subClassFeature.limited_use_ability_die_size;
+					cf.uses = 0;
+					cf.refresh = subClassFeature.limited_use_ability_refresh;
+				}
+
+				cf.character = toon.sys_id;
+				cf.source = toon.subclass.getDisplayValue();
+				cf.feature = subClassFeature.description;
+				cf.name = subClassFeature.name;
+				cf.action = subClassFeature.action;
+				cf.bonus_action = subClassFeature.bonus_action;
+				cf.reaction = subClassFeature.reaction;
+				cf.active = 'true';
+				cf.insert();
+			}
+			
+			var subClass = new GlideRecord('x_262366_wld_bldr_subclass');
+			subClass.addQuery('sys_id', subClassId);
+			subClass.query();
+			if(subClass.next()){
+				toon.armor_proficiencies += (toon.armor_proficiencies == ''?'':',') + subClass.armor_proficiencies;
+				if(subClass.simple_proficiency){
+					toon.simple_proficiency = true;
+				}
+				if(subClass.marital_proficiency){
+					toon.marital_proficiency = true;
+				}
+				
+				if(subClass.hp_increase > 0){
+					toon.bonus_hp_from_class_subclass = toon.u_class;
+				}
+				
+				response.setAttribute('newLanguages', subClass.new_languages);
+				response.setAttribute('skillProficiencyOptions', subClass.skill_proficiency_options);
+				response.setAttribute('skillProficiencyOptionsDisplay', subClass.skill_proficiency_options.getDisplayValue());
+				response.setAttribute('skillProficiencyCount', subClass.skill_proficiencies);
+				response.setAttribute('doubledSkillProficiencyCount', subClass.doubled_skill_proficiencies);
+				response.setAttribute('defaultCantrip', subClass.automatic_cantrip);
+				response.setAttribute('languageIds', subClass.languages);
+				
+				var subclassCantripsHTML = '';
+				if(subClass.cantrip_choice){
+					var cantrips = new GlideRecord('x_262366_wld_bldr_spell');
+					cantrips.addQuery('level', '7d794748db90230049ac7e7dbf9619d0'); //cantrip
+					cantrips.addQuery('classes', 'CONTAINS', subClass.cantrip_choice);
+					cantrips.orderBy('name');
+					cantrips.query();
+					while(cantrips.next()){
+						subclassCantripsHTML += "<a id='" + cantrips.sys_id + "sc' href='#' onclick='subclassCantripChosen(\"" + cantrips.sys_id + "\")'>" + cantrips.name + "</a>";
+					}
+				}
+				response.setAttribute('subclassCantripsHTML', subclassCantripsHTML);
+				
+				var subclassSpellsHTML = '';
+				var castType = subClass.u_class.subclass_expanded_spell_type;
+				if(castType && castType == 'Expanded List'){
+					//need to add the extra spells to the spell options
+					var spells = new GlideRecord('x_262366_wld_bldr_spell');
+					spells.addQuery('level', '95a41e81db5c230049ac7e7dbf961939'); //1st level
+					spells.addEncodedQuery('classesLIKE' + subClass.u_class + '^ORexpanded_for_subclassLIKE' + subClass.sys_id);
+					spells.orderBy('name');
+					spells.query();
+					while(spells.next()){
+						subclassSpellsHTML += "<a id='" + spells.sys_id + "' href='#' onclick='spellChosen(\"" + spells.sys_id + "\")'>" + spells.name + "</a>";
+					}
+				}
+				response.setAttribute('subclassSpellsHTML', subclassSpellsHTML);
+			}
+			toon.update();
+		}
+	},
+	
+	setAbilityScores: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var str = this.getParameter('sysparm_str');
+		var dex = this.getParameter('sysparm_dex');
+		var con = this.getParameter('sysparm_con');
+		var intl = this.getParameter('sysparm_int');
+		var wis = this.getParameter('sysparm_wis');
+		var cha = this.getParameter('sysparm_cha');
+		
+		var response = this.newItem('asData');
+		
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.strength = str;
+			toon.dexterity = dex;
+			toon.constitution = con;
+			toon.intelligence = intl;
+			toon.wisdom = wis;
+			toon.charisma = cha;
+			
+			var strMod = Math.floor((parseFloat(str)-10)/2);
+			var dexMod = Math.floor((parseFloat(dex)-10)/2);
+			var conMod = Math.floor((parseFloat(con)-10)/2);
+			var intMod = Math.floor((parseFloat(intl)-10)/2);
+			var wisMod = Math.floor((parseFloat(wis)-10)/2);
+			var chaMod = Math.floor((parseFloat(cha)-10)/2);
+			
+			toon.strength_modifier = strMod;
+			toon.dexterity_modifier = dexMod;
+			toon.constitution_modifier = conMod;
+			toon.intelligence_modifier = intMod;
+			toon.wisdom_modifier = wisMod;
+			toon.charisma_modifier = chaMod;
+			
+			var strSave = strMod;
+			var dexSave = dexMod;
+			var conSave = conMod;
+			var intSave = intMod;
+			var wisSave = wisMod;
+			var chaSave = chaMod;
+			
+			var proficiencies = toon.saving_throw_proficiencies.split(',');
+			
+			for(var i = 0; i < proficiencies.length; ++i){
+				if(proficiencies[i] == 'cc08f67edb04a30049ac7e7dbf961919'){
+					strSave += 2;
+				}
+				else if(proficiencies[i] == '8a183a7edb04a30049ac7e7dbf96196c'){
+					dexSave += 2;
+				}
+				else if(proficiencies[i] == 'b0283a7edb04a30049ac7e7dbf961953'){
+					conSave += 2;
+				}
+				else if(proficiencies[i] == 'ee28f67edb04a30049ac7e7dbf9619f5'){
+					intSave += 2;
+				}
+				else if(proficiencies[i] == 'e438f67edb04a30049ac7e7dbf96194b'){
+					wisSave += 2;
+				}
+				else if(proficiencies[i] == '0638f67edb04a30049ac7e7dbf9619a1'){
+					chaSave += 2;
+				}
+			}
+			
+			toon.strength_save_modifier = strSave;
+			toon.dexterity_save_modifier = dexSave;
+			toon.constitution_save_modifier = conSave;
+			toon.intelligence_save_modifier = intSave;
+			toon.wisdom_save_modifier = wisSave;
+			toon.charisma_save_modifier = chaSave;
+			
+			toon.initiative = dexMod;
+			var hp = toon.max_hit_points + conMod + toon.bonus_hp_per_level + (toon.bonus_hp_from_class_subclass == toon.u_class?1:0);
+			toon.max_hit_points = hp;
+			toon.temporary_max_hit_points = hp;
+			toon.current_hit_points = hp;
+			
+			var cc = new GlideRecord('x_262366_wld_bldr_character_class');
+			cc.initialize();
+			cc.character = toonId;
+			cc.level = 1;
+			cc.u_class = toon.u_class;
+			cc.subclass = toon.subclass;
+			var ccId = cc.insert();
+			
+			var asi = new GlideRecord('x_262366_wld_bldr_ability_score_increase');
+			asi.initialize();
+			asi.character = toonId;
+			asi.character_class = ccId;
+			asi.hit_points_increase = hp - (conMod + toon.bonus_hp_per_level);
+			asi.level = 1;
+			asi.name = toon.u_class.getDisplayValue() + ' 1';
+			asi.strength_increase = 0;
+			asi.dexterity_increase = 0;
+			asi.constitution_increase = 0;
+			asi.intelligence_increase = 0;
+			asi.wisdom_increase = 0;
+			asi.charisma_increase = 0;
+			asi.insert();
+			
+			//todo: update race/subrace/class/subclass spells/features with correct total use values
+			var toonFeatures = new GlideRecord('x_262366_wld_bldr_character_feature');
+			toonFeatures.addQuery('character', toonId);
+			toonFeatures.query();
+			while(toonFeatures.next()){
+				if(toonFeatures.limited_use_ability_modifier && toonFeatures.limited_use_ability_modifier != ''){
+					if(toonFeatures.limited_use_ability_modifier == 'cc08f67edb04a30049ac7e7dbf961919'){ //str
+						toonFeatures.total_uses = parseFloat(toon.strength_modifier) + parseFloat(toonFeatures.limited_use_base_limit);
+					}
+					else if(toonFeatures.limited_use_ability_modifier == '8a183a7edb04a30049ac7e7dbf96196c'){ //dex
+						toonFeatures.total_uses = parseFloat(toon.dexterity_modifier) + parseFloat(toonFeatures.limited_use_base_limit);
+					}
+					else if(toonFeatures.limited_use_ability_modifier == 'b0283a7edb04a30049ac7e7dbf961953'){ //con
+						toonFeatures.total_uses = parseFloat(toon.constitution_modifier) + parseFloat(toonFeatures.limited_use_base_limit);
+					}
+					else if(toonFeatures.limited_use_ability_modifier == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+						toonFeatures.total_uses = parseFloat(toon.intelligence_modifier) + parseFloat(toonFeatures.limited_use_base_limit);
+					}
+					else if(toonFeatures.limited_use_ability_modifier == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+						toonFeatures.total_uses = parseFloat(toon.wisdom_modifier) + parseFloat(toonFeatures.limited_use_base_limit);
+					}
+					else if(toonFeatures.limited_use_ability_modifier == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+						toonFeatures.total_uses = parseFloat(toon.charisma_modifier) + parseFloat(toonFeatures.limited_use_base_limit);
+					}
+
+					if(toonFeatures.total_uses < parseFloat(toonFeatures.limited_use_base_limit) || toonFeatures.total_uses <= 0){
+						toonFeatures.total_uses = (parseFloat(toonFeatures.limited_use_base_limit) > 0?parseFloat(toonFeatures.limited_use_base_limit):1);
+					}
+					toonFeatures.update();
+				}
+			}
+			
+			var race = new GlideRecord('x_262366_wld_bldr_race');
+			race.addQuery('sys_id', toon.race);
+			race.query();
+			if(race.next()){
+				if(race.u_1st_level_cantrip){
+					toon.cantrips += (toon.cantrips == ''?'':',') + race.u_1st_level_cantrip;
+					var spellCastingAbility = race.race_spellcasting_ability;
+					var toonSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+					toonSpell.initialize();
+					toonSpell.character = toonId;
+					toonSpell.spell = race.u_1st_level_cantrip;
+					toonSpell.spellcasting_ability = spellCastingAbility;
+
+					var spellCastMod = 0;
+
+					if(spellCastingAbility == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+						spellCastMod = toon.intelligence_modifier;
+					}
+					else if(spellCastingAbility == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+						spellCastMod = toon.wisdom_modifier;
+					}
+					else if(spellCastingAbility == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+						spellCastMod = toon.charisma_modifier;
+					}
+
+					toonSpell.save_dc = 10 + parseFloat(spellCastMod);
+					toonSpell.attack_modifier = 2 + parseFloat(spellCastMod);
+					toonSpell.prepared = true;
+					toonSpell.always_prepared = true;
+					toonSpell.insert();
+				}
+			}
+			
+			if(toon.subrace){
+				var subrace = new GlideRecord('x_262366_wld_bldr_subrace');
+				subrace.addQuery('sys_id', toon.subrace);
+				subrace.query();
+				if(subrace.next()){
+					if(subrace.u_1st_level_cantrip){
+						toon.cantrips += (toon.cantrips == ''?'':',') + subrace.u_1st_level_cantrip;
+						var spellCastingAbility2 = subrace.subrace_spellcasting_ability;
+						var toonSpell2 = new GlideRecord('x_262366_wld_bldr_character_spell');
+						toonSpell2.initialize();
+						toonSpell2.character = toonId;
+						toonSpell2.spell = subrace.u_1st_level_cantrip;
+						toonSpell2.spellcasting_ability = spellCastingAbility2;
+
+						var spellCastMod2 = 0;
+
+						if(spellCastingAbility2 == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+							spellCastMod2 = toon.intelligence_modifier;
+						}
+						else if(spellCastingAbility2 == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+							spellCastMod2 = toon.wisdom_modifier;
+						}
+						else if(spellCastingAbility2 == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+							spellCastMod2 = toon.charisma_modifier;
+						}
+
+						toonSpell2.save_dc = 10 + parseFloat(spellCastMod2);
+						toonSpell2.attack_modifier = 2 + parseFloat(spellCastMod2);
+						toonSpell2.prepared = true;
+						toonSpell2.always_prepared = true;
+						toonSpell2.insert();
+					}
+					
+					if(subrace.breath_attack){
+						var breath = new GlideRecord('x_262366_wld_bldr_character_feature');
+						breath.initialize();
+						breath.total_uses = 1;
+						breath.uses = 0;
+						breath.refresh = '4d279cefdb13730049ac7e7dbf961922'; //short rest
+						
+						breath.character = toon.sys_id;
+						breath.source = subrace.name;
+						breath.feature = subrace.breath_attack.name + '\n' + subrace.breath_attack.damage_type.getDisplayValue() + '\n' + subrace.breath_attack.shape.getDisplayValue() + '\n' + subrace.breath_attack.saving_throw.getDisplayValue() + ' saving throw';
+						breath.name = 'Breath Weapon';
+						breath.active = 'true';
+						breath.action = true;
+						breath.insert();
+					}
+				}
+			}
+			
+			var alwaysPreparedSpells = '';
+			if(toon.subclass){
+				var subclass = new GlideRecord('x_262366_wld_bldr_subclass');
+				subclass.addQuery('sys_id', toon.subclass);
+				subclass.query();
+				if(subclass.next()){
+					if(subclass.automatic_cantrip){
+						toon.cantrips += (toon.cantrips == ''?'':',') + subclass.automatic_cantrip;
+						var spellCastingAbility3 = toon.u_class.spellcasting_ability;
+						var toonSpell3 = new GlideRecord('x_262366_wld_bldr_character_spell');
+						toonSpell3.initialize();
+						toonSpell3.character = toonId;
+						toonSpell3.spell = subclass.automatic_cantrip;
+						toonSpell3.spellcasting_ability = spellCastingAbility3;
+
+						var spellCastMod3 = 0;
+
+						if(spellCastingAbility3 == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+							spellCastMod3 = toon.intelligence_modifier;
+						}
+						else if(spellCastingAbility3 == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+							spellCastMod3 = toon.wisdom_modifier;
+						}
+						else if(spellCastingAbility3 == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+							spellCastMod3 = toon.charisma_modifier;
+						}
+
+						toonSpell3.save_dc = 10 + parseFloat(spellCastMod3);
+						toonSpell3.attack_modifier = 2 + parseFloat(spellCastMod3);
+						toonSpell3.prepared = true;
+						toonSpell3.always_prepared = true;
+						toonSpell3.insert();
+					}
+					
+					
+					
+					var castType = subclass.u_class.subclass_expanded_spell_type;
+					if(castType && castType == 'Always Prepared'){
+						//create always prepared spells
+						var spells2 = new GlideRecord('x_262366_wld_bldr_spell');
+						spells2.addQuery('level', '95a41e81db5c230049ac7e7dbf961939'); //1st level
+						spells2.addQuery('expanded_for_subclass', 'CONTAINS', subclass.sys_id);
+						spells2.query();
+						var spellCastingAbility4 = subclass.u_class.spellcasting_ability;
+						while(spells2.next()){
+							var toonSpell4 = new GlideRecord('x_262366_wld_bldr_character_spell');
+							toonSpell4.initialize();
+							toonSpell4.character = toonId;
+							toonSpell4.spell = spells2.sys_id;
+							toonSpell4.spellcasting_ability = spellCastingAbility4;
+
+							var spellCastMod4 = 0;
+
+							if(spellCastingAbility4 == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+								spellCastMod4 = toon.intelligence_modifier;
+							}
+							else if(spellCastingAbility4 == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+								spellCastMod4 = toon.wisdom_modifier;
+							}
+							else if(spellCastingAbility4 == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+								spellCastMod4 = toon.charisma_modifier;
+							}
+
+							toonSpell4.save_dc = 10 + parseFloat(spellCastMod4);
+							toonSpell4.attack_modifier = 2 + parseFloat(spellCastMod4);
+							toonSpell4.prepared = true;
+							toonSpell4.always_prepared = true;
+							toonSpell4.insert();
+							
+							toon.spells += (toon.spells == ''?'':',') + spells2.sys_id;
+							
+							if(alwaysPreparedSpells != ''){
+								alwaysPreparedSpells += ',';
+							}
+							alwaysPreparedSpells += spells2.sys_id;
+						}
+					}
+				}
+			}
+			
+			//get list of spells to select to prepare
+			//return the HTML and the count of how many to pick
+			//also return which ones will be automatically learned eg alwaysPreparedSpells
+			var prepareSpellsHTML = '';
+			var alreadyPreparedHTML = '';
+			var prepareCount = 0;
+			if(toon.u_class.spellcasting_level == 1 && toon.u_class.spellcasting_type == 'Prepare'){
+				//determine number to prepare = (Math.floor(toon.level*toon.class.preparedSpellModifier) + spellcasting mod) => Minimum 1
+				var spellCastingAbility5 = toon.u_class.spellcasting_ability;
+				
+				var spellCastMod5 = 0;
+				if(spellCastingAbility5 == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+					spellCastMod5 = toon.intelligence_modifier;
+				}
+				else if(spellCastingAbility5 == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+					spellCastMod5 = toon.wisdom_modifier;
+				}
+				else if(spellCastingAbility5 == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+					spellCastMod5 = toon.charisma_modifier;
+				}
+				
+				//regardless of modifier, value will always be 1
+				prepareCount = 1 + parseFloat(spellCastMod5);
+				if(prepareCount <= 0){
+					prepareCount = 1;
+				}
+				
+				var alwaysPrepared = alwaysPreparedSpells.split(',');
+				var spells3 = new GlideRecord('x_262366_wld_bldr_spell');
+				spells3.addQuery('level', '95a41e81db5c230049ac7e7dbf961939'); //1st level
+				spells3.addQuery('classes', 'CONTAINS', toon.u_class);
+				spells3.orderBy('name');
+				spells3.query();
+				while(spells3.next()){
+					var alreadyPrepared = 'no';
+					for(var k = 0; k < alwaysPrepared.length; ++k){
+						if(spells3.sys_id == alwaysPrepared[k]){
+							alreadyPrepared = 'yes';
+							if(alreadyPreparedHTML == ''){
+								alreadyPreparedHTML += '<p>You will learn these by default:</p>';
+							}
+							alreadyPreparedHTML += '<p>' + spells3.name + '</p>';
+						}
+					}
+					
+					if(alreadyPrepared == 'no'){
+						prepareSpellsHTML += "<a id='" + spells3.sys_id + "' href='#' onclick='spellChosen(\"" + spells3.sys_id + "\")'>" + spells3.name + "</a>";
+					}
+				}
+			}
+			
+			response.setAttribute('prepareSpellsHTML', prepareSpellsHTML);
+			response.setAttribute('alreadyPreparedHTML', alreadyPreparedHTML);
+			response.setAttribute('prepareCount', prepareCount);
+			
+			toon.update();
+		}
+		
+	},
+	
+	setBackground: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var backgroundId = this.getParameter('sysparm_background_id');
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		
+		var response = this.newItem('equipmentData');
+		
+		if(toon.next()){
+			toon.background = backgroundId;
+			
+			var backgroundEquipmentHTML = '';
+			var backgroundEquipmentCount = 0;
+			
+			var back = new GlideRecord('x_262366_wld_bldr_backgrounds');
+			back.addQuery('sys_id', backgroundId);
+			back.query();
+			if(back.next()){
+				toon.gold = back.starting_gold;
+				if(back.starting_equipment && back.starting_equipment != ''){
+					var equipment = back.starting_equipment.split(',');
+					for(var eq = 0; eq < equipment.length; ++eq){
+						this._createOwnedItem(equipment[eq], toonId, 1);
+					}
+					
+				}
+				if(back.starting_equipment_count > 0){
+					var equipOptions = back.starting_equipment_options.split(',');
+					var equipOptionNames = back.starting_equipment_options.getDisplayValue().split(',');
+					for(var eo = 0; eo < equipOptions.length; ++eo){
+						backgroundEquipmentHTML += "<a href='#' onclick='backgroundEquipmentSelected(\"" + equipOptions[eo] + "\")'>" + equipOptionNames[eo] + "</a>";
+					}
+					
+					backgroundEquipmentCount = back.starting_equipment_count;
+				}
+			}
+			response.setAttribute('backgroundEquipmentHTML', backgroundEquipmentHTML);
+			response.setAttribute('backgroundEquipmentCount', backgroundEquipmentCount);
+			
+			
+			var classGR = new GlideRecord('x_262366_wld_bldr_class');
+			classGR.addQuery('sys_id', toon.u_class);
+			classGR.query();
+			if(classGR.next()){
+
+				var equipmentHTML = '';
+				var weaponsHTML = '';
+				//get equipment options
+				var equipmentChoices = classGR.equipment_groups;
+				for(var j = 1; j < parseFloat(equipmentChoices) + 1; ++j){
+					equipmentHTML += '<div hidden="true" id="equipment' + j + '">';
+					weaponsHTML += '<div hidden="true" id="weapons' + j + '">';
+					var equipmentOption = new GlideRecord('x_262366_wld_bldr_equipment_options');
+					equipmentOption.addQuery('u_class', toon.u_class);
+					equipmentOption.addQuery('group', j);
+					equipmentOption.query();
+					var weaponId = 1;
+					while(equipmentOption.next()){
+
+						var proficient = 'yes';
+						if(equipmentOption.proficiency_required){
+							if(!this._checkProficiency(equipmentOption.item_1, toon.armor_proficiencies, toon.simple_proficiency, toon.martial_proficiency, toon.weapon_proficiencies)){
+								proficient = 'no';
+							}
+						}
+
+						var itemListId = '';
+						var itemListName = '';
+						var itemListCount = '';
+						var weaponSelectName = '';
+
+						if(equipmentOption.item_1){
+							if(itemListId != ''){
+								itemListId += ',';
+							}
+							if(itemListName != ''){
+								itemListName += ':';
+							}
+							if(itemListCount != ''){
+								itemListCount += ',';
+							}
+							itemListId += equipmentOption.item_1;
+							itemListName += equipmentOption.item_1.getDisplayValue();
+							itemListCount += equipmentOption.item_1_count;
+
+							if(equipmentOption.item_2){
+								if(itemListId != ''){
+									itemListId += ',';
+								}
+								if(itemListName != ''){
+									itemListName += ':';
+								}
+								if(itemListCount != ''){
+									itemListCount += ',';
+								}
+								itemListId += equipmentOption.item_2;
+								itemListName += equipmentOption.item_2.getDisplayValue();
+								itemListCount += equipmentOption.item_2_count;
+
+								if(equipmentOption.item_3){
+									if(itemListId != ''){
+										itemListId += ',';
+									}
+									if(itemListName != ''){
+										itemListName += ':';
+									}
+									if(itemListCount != ''){
+										itemListCount += ',';
+									}
+									itemListId += equipmentOption.item_3;
+									itemListName += equipmentOption.item_3.getDisplayValue();
+									itemListCount += equipmentOption.item_3_count;
+								}
+							}
+						}
+
+						if(equipmentOption.weapon_choice_count && parseFloat(equipmentOption.weapon_choice_count) > 0){
+							weaponsHTML += '<div hidden="true" id="weapons' + j + weaponId + '">';
+							var weapons = new GlideRecord('x_262366_wld_bldr_item');
+							weapons.addQuery('item_type', 'Weapon');
+							weapons.addEncodedQuery('magic_bonusISEMPTY');
+							if(equipmentOption.weapon_type_skill == 'Martial' || equipmentOption.weapon_type_skill == 'Simple'){
+								weapons.addQuery('weapon_type_skill', equipmentOption.weapon_type_skill);
+								weaponSelectName += equipmentOption.weapon_type_skill + ' ';
+							}
+							if(equipmentOption.weapon_type_range == 'Melee' || equipmentOption.weapon_type_range == 'Ranged'){
+								weapons.addQuery('weapon_type_range', equipmentOption.weapon_type_range);
+								weaponSelectName += equipmentOption.weapon_type_range + ' ';
+							}
+							weaponSelectName += 'Weapons (' + equipmentOption.weapon_choice_count + ')';
+							weapons.query();
+							while(weapons.next()){
+								weaponsHTML += "<a href='#' onclick='specificEquipmentSelected(\"" + weapons.sys_id + "\",\"" + equipmentOption.weapon_choice_count + "\",\"" + j + "\")'>" + weapons.name + "</a>";
+
+							}
+							if(itemListId != ''){
+								itemListId += ',';
+							}
+							itemListId += 'specific';
+							if(itemListCount != ''){
+								itemListCount += ',';
+							}
+							itemListCount += weaponId;
+							weaponsHTML += '</div>';
+						}
+						else if(equipmentOption.item_type){
+							weaponsHTML += '<div hidden="true" id="weapons' + j + weaponId + '">';
+							weaponSelectName += equipmentOption.item_type + '(1)';
+							var items = new GlideRecord('x_262366_wld_bldr_item');
+							items.addQuery('item_type', equipmentOption.item_type);
+							items.addEncodedQuery('magic_bonusISEMPTY');
+							items.query();
+							while(items.next()){
+								weaponsHTML += "<a href='#' onclick='specificEquipmentSelected(\"" + items.sys_id + "\",\"1\",\"" + j + "\")'>" + items.name + "</a>";
+							}
+							if(itemListId != ''){
+								itemListId += ',';
+							}
+							itemListId += 'specific';
+							if(itemListCount != ''){
+								itemListCount += ',';
+							}
+							itemListCount += weaponId;
+							weaponsHTML += '</div>';
+						}
+
+						var equipmentName = '';
+						//loop through Item list id
+						if(itemListName != ''){
+							var itemNames = itemListName.split(':');
+							var itemCounts = itemListCount.split(',');
+							
+							for(var jj = 0; jj < itemNames.length; ++jj){
+								if(equipmentName != ''){
+									equipmentName += ', ';
+								}
+								equipmentName += itemNames[jj] + ' (' + itemCounts[jj] + ')';
+							}
+						}
+						
+						if(weaponSelectName != ''){
+							if(equipmentName != ''){
+								equipmentName += ', ';
+							}
+							equipmentName += weaponSelectName;
+						}
+
+						if(proficient == 'yes'){
+							equipmentHTML += "<a href='#' onclick='equipmentSelected(\"" + itemListId + "\",\"" + itemListCount + "\",\"" + j + "\")'>" + equipmentName + "</a>";
+						}
+						else{
+							equipmentHTML += "<a href='#' class='notProficient'>" + equipmentName + " *Not Proficient*</a>";
+						}
+						
+
+
+						++weaponId;
+					}
+					equipmentHTML += '</div>';
+					weaponsHTML += '</div>';
+
+				}
+				
+				response.setAttribute('equipmentHTML', equipmentHTML);
+				response.setAttribute('weaponsHTML', weaponsHTML);
+				response.setAttribute('equipmentChoices', equipmentChoices);
+
+				//create records for all Group 0 equipment
+				var guarenteedEquipment = new GlideRecord('x_262366_wld_bldr_equipment_options');
+				guarenteedEquipment.addQuery('u_class', toon.u_class);
+				guarenteedEquipment.addQuery('group', 0);
+				guarenteedEquipment.query();
+				while(guarenteedEquipment.next()){
+					//create Owned Item record
+					if(guarenteedEquipment.item_1){
+						this._createOwnedItem(guarenteedEquipment.item_1,toonId,guarenteedEquipment.item_1_count);
+					}
+
+					if(guarenteedEquipment.item_2){
+						this._createOwnedItem(guarenteedEquipment.item_2,toonId,guarenteedEquipment.item_2_count);
+					}
+
+					if(guarenteedEquipment.item_3){
+						this._createOwnedItem(guarenteedEquipment.item_3,toonId,guarenteedEquipment.item_3_count);
+					}
+				}
+			}
+
+			toon.update();
+		}
+	},
+	
+	setTools: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var toolString = this.getParameter('sysparm_tools');
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.tool_proficiencies += (toon.tool_proficiencies != ''?',':'') + toolString;
+			toon.update();
+		}
+	},
+	
+	setSubRaceCantrip: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var cantrip = this.getParameter('sysparm_subrace_cantrip');
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.cantrips += (toon.cantrips == ''?'':',') + cantrip;
+			
+			var spellCastingAbility = toon.subrace.subrace_spellcasting_ability;
+			
+			var toonSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+			toonSpell.initialize();
+			toonSpell.character = toonId;
+			toonSpell.spell = cantrip;
+			toonSpell.spellcasting_ability = spellCastingAbility;
+
+			var spellCastMod = 0;
+
+			if(spellCastingAbility == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+				spellCastMod = toon.intelligence_modifier;
+			}
+			else if(spellCastingAbility == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+				spellCastMod = toon.wisdom_modifier;
+			}
+			else if(spellCastingAbility == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+				spellCastMod = toon.charisma_modifier;
+			}
+
+			toonSpell.save_dc = 10 + parseFloat(spellCastMod);
+			toonSpell.attack_modifier = 2 + parseFloat(spellCastMod);
+			toonSpell.prepared = true;
+			toonSpell.always_prepared = true;
+			toonSpell.insert();
+			
+			toon.update();
+		}
+	},
+	
+	setSubclassCantrip: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var cantrip = this.getParameter('sysparm_subclass_cantrip');
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.cantrips += (toon.cantrips == ''?'':',') + cantrip;
+			
+			var spellCastingAbility = toon.u_class.spellcasting_ability;
+			
+			var toonSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+			toonSpell.initialize();
+			toonSpell.character = toonId;
+			toonSpell.spell = cantrip;
+			toonSpell.spellcasting_ability = spellCastingAbility;
+
+			var spellCastMod = 0;
+
+			if(spellCastingAbility == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+				spellCastMod = toon.intelligence_modifier;
+			}
+			else if(spellCastingAbility == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+				spellCastMod = toon.wisdom_modifier;
+			}
+			else if(spellCastingAbility == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+				spellCastMod = toon.charisma_modifier;
+			}
+
+			toonSpell.save_dc = 10 + parseFloat(spellCastMod);
+			toonSpell.attack_modifier = 2 + parseFloat(spellCastMod);
+			toonSpell.prepared = true;
+			toonSpell.always_prepared = true;
+			toonSpell.insert();
+			
+			toon.update();
+		}
+	},
+	
+	setCantrips: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var cantripString = this.getParameter('sysparm_cantrips');
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.cantrips += (toon.cantrips != ''?',':'') + cantripString;
+			
+			var spellCastingAbility = toon.u_class.spellcasting_ability;
+			
+			var cantrips = cantripString.split(',');
+			for(var i = 0; i < cantrips.length; ++i){
+				
+				var toonSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+				toonSpell.initialize();
+				toonSpell.character = toonId;
+				toonSpell.spell = cantrips[i];
+				toonSpell.spellcasting_ability = spellCastingAbility;
+				
+				var spellCastMod = 0;
+				
+				if(spellCastingAbility == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+					spellCastMod = toon.intelligence_modifier;
+				}
+				else if(spellCastingAbility == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+					spellCastMod = toon.wisdom_modifier;
+				}
+				else if(spellCastingAbility == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+					spellCastMod = toon.charisma_modifier;
+				}
+				
+				toonSpell.save_dc = 10 + parseFloat(spellCastMod);
+				toonSpell.attack_modifier = 2 + parseFloat(spellCastMod);
+				toonSpell.prepared = true;
+				toonSpell.insert();
+			}
+			toon.update();
+		}
+	},
+	
+	setSpells: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var spellString = this.getParameter('sysparm_spells');
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.spells += (toon.spells == ''?'':',') + spellString;
+			
+			var response = this.newItem('spellbookData');
+			
+			var spellCastingAbility = toon.u_class.spellcasting_ability;
+			var spellCastingType = toon.u_class.spellcasting_type;
+			var spellbookHTML = '';
+			var spellbookPreparedCount = 1 + parseFloat(toon.intelligence_modifier);
+			if(spellbookPreparedCount <= 0){
+				spellbookPreparedCount = 1;
+			}
+			else if(spellbookPreparedCount > 6){
+				spellbookPreparedCount = 6;
+			}
+				
+			var spells = new GlideRecord('x_262366_wld_bldr_spell');
+			spells.addQuery('sys_id', 'IN', spellString);
+			spells.orderBy('name');
+			spells.query();
+			while(spells.next()){	
+				
+				var toonSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+				toonSpell.initialize();
+				toonSpell.character = toonId;
+				toonSpell.spell = spells.sys_id;
+				toonSpell.spellcasting_ability = spellCastingAbility;
+				
+				var spellCastMod = 0;
+				
+				if(spellCastingAbility == 'ee28f67edb04a30049ac7e7dbf9619f5'){ //int
+					spellCastMod = toon.intelligence_modifier;
+				}
+				else if(spellCastingAbility == 'e438f67edb04a30049ac7e7dbf96194b'){ //wis
+					spellCastMod = toon.wisdom_modifier;
+				}
+				else if(spellCastingAbility == '0638f67edb04a30049ac7e7dbf9619a1'){ //cha
+					spellCastMod = toon.charisma_modifier;
+				}
+				
+				toonSpell.save_dc = 10 + parseFloat(spellCastMod);
+				toonSpell.attack_modifier = 2 + parseFloat(spellCastMod);
+				if(spellCastingType == 'Spellbook'){
+					toonSpell.spellbook = true;
+					spellbookHTML += "<a id='" + spells.sys_id + "sb' href='#' onclick='prepareSpell(\"" + spells.sys_id + "\")'>" + spells.name + "</a>";
+					if(spellbookPreparedCount == 6){ //wizards only learn 6 spells at level 1. thus they're all prepared anyway
+						toonSpell.prepared = true;
+					}
+				}
+				else{
+					toonSpell.prepared = true;
+				}
+				toonSpell.insert();
+			}
+			if(spellbookPreparedCount == 6){ //wizards only learn 6 spells at level 1. no need to select them
+				spellbookHTML = '';
+			}
+			
+			response.setAttribute('spellbookHTML', spellbookHTML);
+			response.setAttribute('spellbookPreparedCount', spellbookPreparedCount);
+			toon.update();
+		}
+	},
+	
+	setEquipment: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var equipmentId = this.getParameter('sysparm_equipment_id');
+		var equipmentCount = this.getParameter('sysparm_equipment_count');
+		
+		this._createOwnedItem(equipmentId,toonId,equipmentCount);
+	},
+	
+	setSkills: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var skillString = this.getParameter('sysparm_skills');
+		var skill2xString = this.getParameter('sysparm_skills2x');
+		var expertise = this.getParameter('sysparm_expertise');
+		
+		var response = this.newItem('expertiseData');
+		var expertiseHTML = '';
+		
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){			
+			//remove doubled skills from regular skill string
+			var skills = '';
+			var skill1 = skillString.split(',');
+			var skill2 = skill2xString.split(',');
+			
+			
+			for(var i = 0; i < skill1.length; ++i){
+				var skillDoubled = 'no';
+				for(var j = 0; j < skill2.length; ++j){
+					if(skill1[i] == skill2[j]){
+						skillDoubled = 'yes';
+					}
+				}
+				
+				if(skillDoubled == 'no'){
+					if(skills != ''){
+						skills += ',';
+					}
+					skills += skill1[i];
+				}
+			}
+			
+			toon.skill_proficiencies = skills;
+			toon.doubled_skill_proficiencies = skill2xString;
+			
+			if(expertise && expertise != ''){
+				var skillGR = new GlideRecord('x_262366_wld_bldr_skills');
+				skillGR.addQuery('sys_id', 'IN', skills);
+				skillGR.orderBy('name');
+				skillGR.query();
+				while(skillGR.next()){
+					expertiseHTML += "<a href='#' id='" + skillGR.sys_id + "ex' onclick='expertiseChosen(\"" + skillGR.sys_id + "\")'>" + skillGR.name + "</a>";
+				}
+				if(expertise == 'Rogue'){
+					expertiseHTML += "<a href='#' id='2f80e4122f830010a1fc808cf699b68bex' onclick='expertiseChosen(\"2f80e4122f830010a1fc808cf699b68b\")'>Thieves' tools</a>";
+				}
+			}
+			
+			response.setAttribute('expertiseHTML', expertiseHTML);
+			
+			toon.update();
+		}
+	},
+	
+	setLanguages: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var languageString = this.getParameter('sysparm_languages');
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.languages = languageString;
+			toon.update();
+		}
+	},
+	
+	prepareSpellbookSpell: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var spellId = this.getParameter('sysparm_spellbook_spell_id');
+		var toonSpell = new GlideRecord('x_262366_wld_bldr_character_spell');
+		toonSpell.addQuery('character', toonId);
+		toonSpell.addQuery('spell', spellId);
+		toonSpell.query();
+		if(toonSpell.next()){
+			toonSpell.prepared = true;
+			toonSpell.update();
+		}
+	},
+	
+	setExpertiseSkill: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var expertiseId = this.getParameter('sysparm_expertise_id');
+		
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			if(expertiseId == '2f80e4122f830010a1fc808cf699b68b'){ //theives tools
+				var oldToolProf = toon.tool_proficiencies;
+				
+				oldToolProf = oldToolProf.replace(expertiseId + ',', '');
+				oldToolProf = oldToolProf.replace(',' + expertiseId, '');
+				oldToolProf = oldToolProf.replace(expertiseId, '');
+				
+				toon.tool_proficiencies = oldToolProf;
+				
+				toon.doubled_tool_proficiencies = expertiseId;
+			}
+			else{
+				//remove from toon.skill_proficiencies, add to toon.doubled_skill_proficiencies
+				var oldSkillProf = toon.skill_proficiencies;
+				
+				oldSkillProf = oldSkillProf.replace(expertiseId + ',', '');
+				oldSkillProf = oldSkillProf.replace(',' + expertiseId, '');
+				oldSkillProf = oldSkillProf.replace(expertiseId, '');
+				
+				toon.skill_proficiencies = oldSkillProf;
+				
+				toon.doubled_skill_proficiencies += (toon.doubled_skill_proficiencies == ''?'':',') + expertiseId;
+			}
+			toon.update();
+		}
+	},
+	
+	setToonName: function(){
+		var toonId = this.getParameter('sysparm_toon_id');
+		var toonName = this.getParameter('sysparm_toon_name');
+		var toon = new GlideRecord('x_262366_wld_bldr_character');
+		toon.addQuery('sys_id', toonId);
+		toon.query();
+		if(toon.next()){
+			toon.name = toonName;
+			
+			var util = new global.ArrayUtil();
+			
+			if(toon.armor_proficiencies && toon.armor_proficiencies != ''){
+				var armorArray = toon.armor_proficiencies.split(',');
+				if(armorArray.length > 0){
+					toon.armor_proficiencies = util.unique(armorArray).join(',');
+				}
+			}
+			
+			if(toon.weapon_proficiencies && toon.weapon_proficiencies != ''){
+				var weaponArray = toon.weapon_proficiencies.split(',');
+				if(weaponArray.length > 0){
+					toon.weapon_proficiencies = util.unique(weaponArray).join(',');
+				}
+			}
+			
+			toon.update();
+		}
+	},
+	
+	
+	
+	_createOwnedItem: function(equipmentId, toonId, count){
+		var equipment = new GlideRecord('x_262366_wld_bldr_owned_item');
+		equipment.addQuery('character', toonId);
+		equipment.addQuery('item', equipmentId);
+		equipment.query();
+		if(equipment.next()){
+			equipment.count = parseFloat(equipment.count) + parseFloat(count);
+			equipment.update();
+		}
+		else{
+			var ownedItem = new GlideRecord('x_262366_wld_bldr_owned_item');
+			ownedItem.initialize();
+			ownedItem.character = toonId;
+			ownedItem.item = equipmentId;
+			ownedItem.count = count;
+			ownedItem.insert();
+		}
+	},
+	
+	_checkProficiency: function(equipment, armor, simple, martial, weapon){
+		var items = new GlideRecord('x_262366_wld_bldr_item');
+		items.addQuery('sys_id', equipment);
+		items.query();
+		if(items.next()){
+			if(items.item_type == 'Armor'){
+				if(armor.indexOf(items.armor_type) != -1){
+					return true;
+				}
+			}
+			else if(items.item_type == 'Weapon'){
+				if(simple && items.weapon_type_skill == 'Simple'){
+					return true;
+				}
+				if(martial && items.weapon_type_skill == 'Martial'){
+					return true;
+				}
+				if(weapon && weapon.indexOf(equipment) != -1){
+					return true;
+				}
+			}
+		}
+		return false;
+	},
+
+	type: 'CreateACharacterFast'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-01-23 20:39:33</sys_created_on>
+        <sys_id>313b41d5dbeac01049ac7e7dbf961919</sys_id>
+        <sys_mod_count>167</sys_mod_count>
+        <sys_name>CreateACharacterFast</sys_name>
+        <sys_package display_value="World Builder" source="x_262366_wld_bldr">b3fcc508dbf3130049ac7e7dbf96195b</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="World Builder">b3fcc508dbf3130049ac7e7dbf96195b</sys_scope>
+        <sys_update_name>sys_script_include_313b41d5dbeac01049ac7e7dbf961919</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-12-23 02:36:31</sys_updated_on>
+    </sys_script_include>
+</record_update>

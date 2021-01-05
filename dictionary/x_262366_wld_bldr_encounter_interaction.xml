@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Encounter Interaction" max_length="40" name="x_262366_wld_bldr_encounter_interaction" type="collection">
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Condition Applied" max_length="1024" name="condition_applied" reference="x_262366_wld_bldr_status_condition" type="glide_list"/>
+        <element label="Damage Dealt" max_length="40" name="damage_dealt" type="integer"/>
+        <element label="Encounter" max_length="32" name="encounter" reference="x_262366_wld_bldr_encounter" type="reference"/>
+        <element label="Fatal" max_length="40" name="fatal" type="boolean"/>
+        <element label="HP Restored" max_length="40" name="hp_restored" type="integer"/>
+        <element label="Source" max_length="32" name="source" reference="x_262366_wld_bldr_encountered_creature" type="reference"/>
+        <element label="Target" max_length="32" name="target" reference="x_262366_wld_bldr_encountered_creature" type="reference"/>
+        <index name="index">
+            <element name="encounter"/>
+        </index>
+        <index name="index2">
+            <element name="source"/>
+        </index>
+        <index name="index3">
+            <element name="target"/>
+        </index>
+    </element>
+</database>

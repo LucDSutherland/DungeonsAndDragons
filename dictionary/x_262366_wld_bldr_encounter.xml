@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Encounter" max_length="40" name="x_262366_wld_bldr_encounter" type="collection">
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Add Animal Companions" max_length="1024" name="add_animal_companions" reference="x_262366_wld_bldr_animal_companion" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Add Characters" max_length="1024" name="add_characters" reference="x_262366_wld_bldr_character" type="glide_list"/>
+        <element label="Add New Creatures" max_length="32" name="add_creature" reference="x_262366_wld_bldr_creature_compendium" type="reference"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Add Creatures" max_length="1024" name="add_creatures" reference="x_262366_wld_bldr_creatures" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Add New Creatures Widget" max_length="1024" name="add_new_creatures_widget" reference="x_262366_wld_bldr_creature_compendium" type="glide_list"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Add Parties" max_length="1024" name="add_parties" reference="x_262366_wld_bldr_party" type="glide_list"/>
+        <element label="Creature Count" max_length="40" name="creature_count" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Description" max_length="4000" name="description" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" max_length="100" name="name" type="string"/>
+        <index name="index">
+            <element name="add_creature"/>
+        </index>
+    </element>
+</database>
